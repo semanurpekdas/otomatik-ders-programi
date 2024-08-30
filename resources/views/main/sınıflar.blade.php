@@ -42,7 +42,7 @@
                                     <a href="#" class="btn btn-danger">Sil</a>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> 
                         <tr>
                             <th scope="row">3</th>
                             <td>İlahiyat Lab 1</td>
