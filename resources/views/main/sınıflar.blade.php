@@ -70,7 +70,7 @@
             </div>
         </div>
     </div>
-
+ 
     <style>
         #sınıftab {
             margin-top: -80px; /* Yukarıya çekmek için negatif margin */
