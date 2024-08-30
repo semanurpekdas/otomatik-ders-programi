@@ -1,0 +1,23 @@
+// Bootstrap'in varsayılan değişkenlerini özelleştirmeden önce yükleyin
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+// Renk değişkenlerini özelleştirin
+$theme-colors: (
+  "primary": #034f84,
+  "secondary": #9c27b0,
+  "success": #4caf50,
+  "info": #00bcd4,
+  "warning": #ff9800,
+  "danger": #f44336,
+  "light": #f8f9fa, // Bootstrap'in varsayılan light rengi
+  "dark": #343a40,   // Bootstrap'in varsayılan dark rengi
+  "white": #fff,   // Bootstrap'in varsayılan dark rengi
+  "black": #000000   // Bootstrap'in varsayılan dark rengi
+);
+
+// Bootstrap'in geri kalanını yükleyin
+@import "bootstrap/scss/bootstrap";
+
+// Bootstrap Icons'u dahil edin (eğer kullanıyorsanız)
+@import "bootstrap-icons/font/bootstrap-icons";
