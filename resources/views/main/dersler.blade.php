@@ -18,6 +18,7 @@
                             <th scope="col"><b>Ders İsmi</b></th>
                             <th scope="col"><b>Alan Kişi Sayısı</b></th>
                             <th scope="col"><b>Ders Hocası</b></th>
+                            <th scope="col"><b>Kaç Ders</b></th>
                             <th scope="col"><b>İşlemler</b></th>
                         </tr>
                     </thead>
@@ -27,6 +28,7 @@
                             <td>Veri Tabanı Uygulamaları</td>
                             <td>56</td>
                             <td>Hakan KÖR</td>
+                            <td>4</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
                                     <a href="#" class="btn btn-primary me-2 ">Düzenle</a>
@@ -39,6 +41,7 @@
                             <td>Web Tasarım</td>
                             <td>42</td>
                             <td>Hakan KÖR</td>
+                            <td>3</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
                                     <a href="#" class="btn btn-primary me-2 ">Düzenle</a>
@@ -51,6 +54,7 @@
                             <td>Yapay Sinir Ağları</td>
                             <td>51</td>
                             <td>Ömer Faruk Akmeşe</td>
+                            <td>2</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
                                     <a href="#" class="btn btn-primary me-2 ">Düzenle</a>
