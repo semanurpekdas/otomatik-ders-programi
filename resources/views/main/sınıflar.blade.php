@@ -1,13 +1,13 @@
 @extends('layout')
 
-@section('title', 'Sınıflar')
+@section('title', 'Salonlar')
 
 @section('content')
     <div class="px-5 mt-5 pt-4">
         <div class="bg-white border shadow p-3 pt-5">
             <div class="d-flex justify-content-center" >
                 <div class="d-flex justify-content-center bg-primary rounded w-75 text-white py-3" id="sınıftab">
-                    <h2>Sınıflar</h2>
+                    <h2>Salonlar</h2>
                 </div>
             </div>
             <div class=" mt-5">
@@ -15,7 +15,8 @@
                     <thead>
                         <tr>
                             <th scope="col"><b>#</b></th>
-                            <th scope="col"><b>Sınıf İsmi</b></th>
+                            <th scope="col"><b>Salon İsmi</b></th>
+                            <th scope="col"><b>Fakülte</b></th>
                             <th scope="col"><b>Kişi Sayısı</b></th>
                             <th scope="col"><b>İşlemler</b></th>
                         </tr>
@@ -24,6 +25,7 @@
                         <tr>
                             <th scope="row">1</th>
                             <td>206</td>
+                            <td>Mühendislik Fakültesi</td>
                             <td>56</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
@@ -35,6 +37,7 @@
                         <tr>
                             <th scope="row">2</th>
                             <td>207</td>
+                            <td>Mühendislik Fakültesi</td>
                             <td>56</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
@@ -46,6 +49,7 @@
                         <tr>
                             <th scope="row">3</th>
                             <td>İlahiyat Lab 1</td>
+                            <td>İlahiyat Fakültesi</td>
                             <td>40</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
@@ -57,6 +61,7 @@
                         <tr>
                             <th scope="row">4</th>
                             <td>İlahiyat Lab 2</td>
+                            <td>İlahiyat Fakültesi</td>
                             <td>40</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
@@ -70,6 +75,7 @@
             </div>
         </div>
     </div>
+    
  
     <style>
         #sınıftab {

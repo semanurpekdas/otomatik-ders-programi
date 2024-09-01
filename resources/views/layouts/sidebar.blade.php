@@ -190,7 +190,7 @@
     <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('classes') ? 'active primary-active-overlay bg-primary' : '' }} d-flex align-items-center" href="{{ route('classes') }}">
             <i class="bi bi-house-check"></i>
-            <span class="ms-3 d-none d-md-inline">Sınıflar</span>
+            <span class="ms-3 d-none d-md-inline">Salonlar</span>
         </a>
     </li>
 
@@ -203,7 +203,7 @@
         <li class="nav-item">
             <a class="nav-link d-flex align-items-center" href="#">
                 <i class="bi bi-people"></i>
-                <span class="ms-3 d-none d-md-inline">Hocalar</span>
+                <span class="ms-3 d-none d-md-inline">Akademisyen</span>
             </a>
         </li>
         <li class="nav-item">

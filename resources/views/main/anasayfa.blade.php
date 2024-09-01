@@ -12,7 +12,7 @@
                     <div class="card" style="width: 100%; position: relative;">
                         <img src="{{ asset('images/sınıf.jpg') }}" class="card-img-top" alt="sınıf">
                         <div class="card-img-overlay d-flex align-items-center justify-content-center primary-overlay">
-                            <h5 class="card-title text-white"><i class="bi bi-house-check"></i> Sınıflar</h5>
+                            <h5 class="card-title text-white"><i class="bi bi-house-check"></i> Salonlar</h5>
                         </div>
                     </div>
                 </a>
@@ -34,7 +34,7 @@
                     <div class="card" style="width: 100%; position: relative;">
                         <img src="{{ asset('images/hocalar.jpg') }}" class="card-img-top" alt="sınıf">
                         <div class="card-img-overlay d-flex align-items-center justify-content-center success-overlay">
-                            <h5 class="card-title text-white"><i class="bi bi-people"></i> Hocalar</h5>
+                            <h5 class="card-title text-white"><i class="bi bi-people"></i> Akademisyen</h5>
                         </div>
                     </div>
                 </a>

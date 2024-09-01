@@ -18,7 +18,7 @@
                             <th scope="col"><b>Ders İsmi</b></th>
                             <th scope="col"><b>Alan Kişi Sayısı</b></th>
                             <th scope="col"><b>Ders Hocası</b></th>
-                            <th scope="col"><b>Kaç Ders</b></th>
+                            <th scope="col"><b>Ders Sayısı</b></th>
                             <th scope="col"><b>İşlemler</b></th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                             <th scope="row">3</th>
                             <td>Yapay Sinir Ağları</td>
                             <td>51</td>
-                            <td>Ömer Faruk Akmeşe</td>
+                            <td>Ali Kahraman</td>
                             <td>2</td>
                             <td>
                                 <div class="d-flex justify-content-start text-white">
