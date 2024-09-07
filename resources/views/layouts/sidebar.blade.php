@@ -173,7 +173,7 @@
 </style>
 
 <div class="col-2 sidebar">
-    <div class="text-center profile-section d-flex align-items-center justify-content-center">
+    <div class="text-center profile-section d-flex align-items-center justify-content-center px-2">
         <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class="rounded-circle shadow">
         <div class="d-flex flex-column">
             <h4 class="ms-3 d-none d-md-block pt-3">Bilal Çağrı ALĞAN</h4> <!-- Yalnızca orta boyut ve üzeri ekranlarda görünür -->

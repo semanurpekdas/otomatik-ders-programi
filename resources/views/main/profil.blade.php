@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-center" >
                     <div class="d-flex justify-content-center w-75 py-3" id="sınıftab">
                         <!-- yuvarlak img resmi yap -->
-                        <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class=" btn rounded-circle border shadow p-0" data-bs-toggle="modal" data-bs-target="#profilefoto" width="250" height="250" id="profileimg">
+                        <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class=" btn rounded-circle border shadow p-0" data-bs-toggle="modal" data-bs-target="#profilefoto" width="200" height="200" id="profileimg">
                     </div>
                 </div>
                 <div class="text-center card bg-primary text-white">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-md-8 d-flex align-items-center border-start ">
                         <div class="card-body">
-                            <h5 class="card-title text-center"><b>Hitit Üniversitesi</b></h5>
+                            <h6 class="card-title text-center"><b>Hitit Üniversitesi</b></h6>
                             <p class="card-text text-center"><b>Bilgisayar Mühendisliği</b></p>
                         </div>
                     </div>

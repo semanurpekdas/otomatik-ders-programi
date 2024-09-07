@@ -4,6 +4,39 @@
 
 @section('content')
     <div class="px-5 mt-5 pt-4">
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Sınıf Ekle</button>
+            <!-- sınıf ekleme modal -->
+            <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="sınıfEkleModalLabel">Sınıf Ekle</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                
+                                <label for="createsınıfAdı" class="form-label">Sınıf Adı</label>
+                                <div class="mb-3 px-1">
+                                    <input type="text" class="form-control" id="createsınıfAdı">
+                                </div>
+                                <label for="createfakulte" class="form-label">Fakülte</label>
+                                <div class="mb-3 px-1">
+                                    <input type="text" class="form-control" id="createfakulte">
+                                </div>
+                                <label for="createkapasite" class="form-label">Kapasite</label>
+                                <div class="mb-3 px-1">
+                                    <input type="text" class="form-control" id="createkapasite">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Ekle</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="bg-white border shadow p-3 pt-5">
             <div class="d-flex justify-content-center" >
                 <div class="d-flex justify-content-center bg-primary rounded w-75 text-white py-3" id="sınıftab">
@@ -86,5 +119,48 @@
         table {
             font-size: 1.2rem;
         } 
+
+        form i{
+            font-size: 2rem;
+        }
+
+        form .mb-3{
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        form .mb-3:hover{
+            border: 1px solid  #034f84;
+            border-radius: 10px;
+            border-left: 7px solid #034f84;
+        }
+
+        .form-control {
+            font-size: 1.3rem;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            letter-spacing: 0.1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .form-select {
+            font-size: 1.3rem;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            letter-spacing: 0.1rem;
+        }
+
+        .form-select:focus {
+            outline: none;
+            box-shadow: none;
+        }
     </style>
+       
 @endsection

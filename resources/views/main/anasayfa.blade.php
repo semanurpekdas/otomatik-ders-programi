@@ -130,7 +130,7 @@
 
     .card-title {
         z-index: 2; /* Yazı üstte kalması için */
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     .card:hover {
