@@ -11,59 +11,111 @@
                 </div>
             </div>
             <div class=" mt-3">
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Ders Ekle</button>
-                    <!-- sınıf ekleme modal -->
-                    <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="sınıfEkleModalLabel">Sınıf Ekle</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <label for="createsınıfAdı" class="form-label">Ders Adı</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createsınıfAdı">
-                                        </div>
-                                        <label for="createfakulte" class="form-label">Alan Kişi Sayısı</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createfakulte">
-                                        </div>
-                                        <label for="createkapasite" class="form-label">Ders Hocası</label>
-                                        <div class="mb-3 px-1">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Ders Hocasını Seçiniz</option>
-                                                <option value="1">Hakan KÖR</option>
-                                                <option value="2">Ali KAHRAMAN</option>
-                                            </select>
-                                        </div>
-                                        <label for="createkapasite" class="form-label">Ders Sayısı</label>
-                                        <div class="mb-3 px-1">
-                                            <select class="form-select">
-                                                <option selected>Ders Sayısı</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
-                                        </div>
-                                        <label for="createkapasite" class="form-label">Ders Kaça Bölünsün</label>
-                                        <div class="mb-3 px-1">
-                                            <select class="form-select">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
-                                        </div>
-                                        <label for="createkapasite" class="form-label">Ders Rengi</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="color" class="form-control form-control-color w-100" id="exampleColorInput" value="#563d7c" title="Choose your color">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Ekle</button>
-                                    </form>
+                <div class="d-flex justify-content-between my-3">
+                    <div>
+                        <button class="btn btn-warning text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasRightLabel">Ders Filtreleme</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <form>
+                                    <label for="createkapasite" class="form-label">Ders İsmine Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Ders Seçiniz</option>
+                                            <option value="1">Veri Tabanı Uygulamaları</option>
+                                            <option value="2">Web Tasarım</option>
+                                            <option value="2">Yapay Sinir Ağları</option>
+                                        </select>
+                                    </div>
+                                    <label for="createkapasite" class="form-label">Ders Hocasına Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Ders Hocasını Seçiniz</option>
+                                            <option value="1">Hakan KÖR</option>
+                                            <option value="2">Ali KAHRAMAN</option>
+                                        </select>
+                                    </div>
+                                    <label for="createkapasite" class="form-label">Ders Sayısına Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select">
+                                            <option selected>Ders Sayısı</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>
+                                    <label for="createkapasite" class="form-label">Ders Kaça Bölünsün</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning text-white w-100">Filtrele</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Ders Ekle</button>
+                        <!-- sınıf ekleme modal -->
+                        <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sınıfEkleModalLabel">Sınıf Ekle</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <label for="createsınıfAdı" class="form-label">Ders Adı</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createsınıfAdı">
+                                            </div>
+                                            <label for="createfakulte" class="form-label">Alan Kişi Sayısı</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createfakulte">
+                                            </div>
+                                            <label for="createkapasite" class="form-label">Ders Hocası</label>
+                                            <div class="mb-3 px-1">
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected>Ders Hocasını Seçiniz</option>
+                                                    <option value="1">Hakan KÖR</option>
+                                                    <option value="2">Ali KAHRAMAN</option>
+                                                </select>
+                                            </div>
+                                            <label for="createkapasite" class="form-label">Ders Sayısı</label>
+                                            <div class="mb-3 px-1">
+                                                <select class="form-select">
+                                                    <option selected>Ders Sayısı</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                            <label for="createkapasite" class="form-label">Ders Kaça Bölünsün</label>
+                                            <div class="mb-3 px-1">
+                                                <select class="form-select">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                            <label for="createkapasite" class="form-label">Ders Rengi</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="color" class="form-control form-control-color w-100" id="exampleColorInput" value="#563d7c" title="Choose your color">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Ekle</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

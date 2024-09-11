@@ -201,7 +201,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="#">
+            <a class="nav-link d-flex align-items-center {{ request()->routeIs('akademisyenler') ? 'active success-active-overlay bg-success' : '' }}" href="{{ route('akademisyenler') }}">
                 <i class="bi bi-people"></i>
                 <span class="ms-3 d-none d-md-inline">Akademisyen</span>
             </a>
