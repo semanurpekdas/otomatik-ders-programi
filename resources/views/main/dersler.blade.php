@@ -48,15 +48,6 @@
                                             <option value="4">4</option>
                                         </select>
                                     </div>
-                                    <label for="createkapasite" class="form-label">Ders Kaça Bölünsün</label>
-                                    <div class="mb-3 px-1">
-                                        <select class="form-select">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
-                                    </div>
                                     <button type="submit" class="btn btn-warning text-white w-100">Filtrele</button>
                                 </form>
                             </div>

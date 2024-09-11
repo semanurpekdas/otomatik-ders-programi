@@ -11,40 +11,85 @@
                 </div>
             </div>
             <div class=" mt-3">
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Akademisyen Ekle</button>
-                    <!-- sınıf ekleme modal -->
-                    <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="sınıfEkleModalLabel">Akademisyen Ekle</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <label for="createsınıfAdı" class="form-label">İsim</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createsınıfAdı">
-                                        </div>
-                                        <label for="createfakulte" class="form-label">Soyisim</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createfakulte">
-                                        </div>
-                                        <label for="createfakulte" class="form-label">Kısa Kod</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createfakulte">
-                                        </div>
-                                        <label for="createfakulte" class="form-label">E-Posta</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createfakulte">
-                                        </div>
-                                        <label for="createfakulte" class="form-label">Telefon</label>
-                                        <div class="mb-3 px-1">
-                                            <input type="text" class="form-control" id="createfakulte">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Ekle</button>
-                                    </form>
+                <div class="d-flex justify-content-between my-3">
+                    <div>
+                        <button class="btn btn-warning text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasRightLabel">Akademisyen Filtreleme</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <form>
+                                    <label for="createkapasite" class="form-label">Fakülteye Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Fakülte Seçiniz</option>
+                                            <option value="1">İlahiyat Fakültesi</option>
+                                            <option value="2">Mühendislik Fakültesi</option>
+                                        </select>
+                                    </div>
+                                    <label for="createkapasite" class="form-label">Bölüme Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Bölüm Seçiniz</option>
+                                            <option value="1">Bilgisayar Mühendisliği</option>
+                                            <option value="1">Elektrik Elektronik Mühendisliği</option>
+                                            <option value="2">Bilgisayar Programcılığı</option>
+                                        </select>
+                                    </div>
+                                    <label for="createkapasite" class="form-label">Cinsiyete Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select">
+                                            <option selected>Cinsiyet Seçiniz</option>
+                                            <option value="1">Erkek</option>
+                                            <option value="2">Kadın</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning text-white w-100">Filtrele</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Akademisyen Ekle</button>
+                        <!-- sınıf ekleme modal -->
+                        <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sınıfEkleModalLabel">Akademisyen Ekle</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <label for="createİsim" class="form-label">İsim</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createİsim">
+                                            </div>
+                                            <label for="createSoyisim" class="form-label">Soyisim</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createSoyisim">
+                                            </div>
+                                            <label for="createKısa" class="form-label">Kısa Kod</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createKısa">
+                                            </div>
+                                            <label for="createKısa" class="form-label">Bölüm</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createKısa">
+                                            </div>
+                                            <label for="createEposta" class="form-label">E-Posta (Zorunlu Değil)</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createEposta">
+                                            </div>
+                                            <label for="createtelefon" class="form-label">Telefon (Zorunlu Değil)</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="text" class="form-control" id="createtelefon">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Ekle</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,6 +102,7 @@
                             <th scope="col"><b>İsmi</b></th>
                             <th scope="col"><b>Soyisim</b></th>
                             <th scope="col"><b>Kısa Kod</b></th>
+                            <th scope="col"><b>Bölüm</b></th>
                             <th scope="col"><b>E-posta</b></th>
                             <th scope="col"><b>Telefon</b></th>
                             <th scope="col"><b>İşlemler</b></th>
@@ -68,6 +114,7 @@
                             <td>Hakan</td>
                             <td>KÖR</td>
                             <td>HK</td>
+                            <td>Bilgisayar Müh.</td>
                             <td>hakankör@hitit.edu.tr</td>
                             <td>0545 987 52 52</td>
                             <td>
@@ -82,6 +129,7 @@
                             <td>Ömer Faruk</td>
                             <td>Akmeşe</td>
                             <td>OFA</td>
+                            <td>Bilgisayar Müh.</td>
                             <td>omerfarukakmese@hitit.edu.tr</td>
                             <td>0531 543 23 52</td>
                             <td>
@@ -100,7 +148,7 @@
     <style>
         #sınıftab {
             margin-top: -80px; /* Yukarıya çekmek için negatif margin */
-            box-shadow: 0 4px 15px rgba(0, 172, 193, 0.5);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.5);
         }
 
         table {

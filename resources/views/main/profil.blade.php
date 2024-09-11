@@ -97,58 +97,6 @@
 </div>
 
 
-
-    <div class="col-12 px-5">
-        <div class="card mt-5">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title">Sınıflar</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Sınıf Kodu</th>
-                            <th scope="col">Sınıf Adı</th>
-                            <th scope="col">Öğretmen</th>
-                            <th scope="col">Dersler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>BLM101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Doç. Dr. Ahmet Yıldırım</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>BLM102</td>
-                            <td>Veri Yapıları ve Algoritmalar</td>
-                            <td>Doç. Dr. Ahmet Yıldırım</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>BLM103</td>
-                            <td>Veritabanı Yönetim Sistemleri</td>
-                            <td>Doç. Dr. Ahmet Yıldırım</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>BLM104</td>
-                            <td>Web Programlama</td>
-                            <td>Doç. Dr. Ahmet Yıldırım</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>BLM105</td>
-                            <td>İşletim Sistemleri</td>
-                            <td>Doç. Dr. Ahmet Yıldırım</td>
-                            <td>2</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
     
     <!-- Profil FotoğrafıModal -->
     <div class="modal fade" id="profilefoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
