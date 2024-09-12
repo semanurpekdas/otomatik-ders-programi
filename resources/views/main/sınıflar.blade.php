@@ -59,7 +59,11 @@
                                             <div class="mb-3 px-1">
                                                 <input type="text" class="form-control" id="createkapasite">
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Ekle</button>
+                                            <label for="exampleColorInput" class="form-label">Ders Rengi</label>
+                                            <div class="mb-3 px-1">
+                                                <input type="color" class="form-control form-control-color w-100" id="exampleColorInput" value="#563d7c" title="Choose your color">
+                                            </div>
+                                            <button type="submit" class="btn btn-success text-white w-100 mt-3">Ekle</button>
                                         </form>
                                     </div>
                                 </div>

@@ -3,101 +3,100 @@
 @section('title', 'Sınıflar')
 
 @section('content')
-<div class="d-flex pe-5">
-    <div class="col-4">
-        <div class="px-5 mt-5 pt-4 ">
-            <div class="bg-white border p-3 pt-5 primary-active-overlay">
-                <div class="d-flex justify-content-center" >
-                    <div class="d-flex justify-content-center w-75 py-3" id="sınıftab">
-                        <!-- yuvarlak img resmi yap -->
-                        <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class=" btn rounded-circle border shadow p-0" data-bs-toggle="modal" data-bs-target="#profilefoto" width="200" height="200" id="profileimg">
+    <div class="d-flex pe-5">
+        <div class="col-4">
+            <div class="px-5 mt-5 pt-4 ">
+                <div class="bg-white border p-3 pt-5 primary-active-overlay">
+                    <div class="d-flex justify-content-center" >
+                        <div class="d-flex justify-content-center w-75 py-3" id="sınıftab">
+                            <!-- yuvarlak img resmi yap -->
+                            <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class=" btn rounded-circle border shadow p-0" data-bs-toggle="modal" data-bs-target="#profilefoto" width="200" height="200" id="profileimg">
+                        </div>
+                    </div>
+                    <div class="text-center card bg-primary text-white">
+                        <h5 class="card-title mt-3">Öğrenci</h5>
+                        <h4 class="card-title">Bilal Çağrı Alğan</h4>
+                        <p class="card-text mt-3"></p>
                     </div>
                 </div>
-                <div class="text-center card bg-primary text-white">
-                    <h5 class="card-title mt-3">Öğrenci</h5>
-                    <h4 class="card-title">Bilal Çağrı Alğan</h4>
-                    <p class="card-text mt-3"></p>
-                </div>
-            </div>
-            <div class="card mb-3 mt-4 p-3 secondary-active-overlay">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                    <img src="{{ asset('images/hitit-logo.png') }}" class="img-fluid rounded-start" alt="Profile Image">
-                    </div>
-                    <div class="col-md-8 d-flex align-items-center border-start ">
-                        <div class="card-body">
-                            <h6 class="card-title text-center"><b>Hitit Üniversitesi</b></h6>
-                            <p class="card-text text-center"><b>Bilgisayar Mühendisliği</b></p>
+                <div class="card mb-3 mt-4 p-3 secondary-active-overlay">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ asset('images/hitit-logo.png') }}" class="img-fluid rounded-start" alt="Profile Image">
+                        </div>
+                        <div class="col-md-8 d-flex align-items-center border-start ">
+                            <div class="card-body">
+                                <h6 class="card-title text-center"><b>Hitit Üniversitesi</b></h6>
+                                <p class="card-text text-center"><b>Bilgisayar Mühendisliği</b></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-8 mt-4">
-        <div class="card mt-5 p-3 success-active-overlay w-100">
-            <h3 class="card-title my-4 text-center text-success"><b>Profil Bilgileri</b></h3>
-            <form>
-                <div class="d-flex pe-3 mb-2">
-                    <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
-                        <i class="bi bi-person me-3"></i>
-                        <input type="type" class="form-control" id="exampleInputPassword1" placeholder="İsim" value="Bilal Çağrı">
+        
+        <div class="col-8 mt-4">
+            <div class="card mt-5 p-3 success-active-overlay w-100">
+                <h3 class="card-title my-4 text-center text-success"><b>Profil Bilgileri</b></h3>
+                <form>
+                    <div class="d-flex pe-3 mb-2">
+                        <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
+                            <i class="bi bi-person me-3"></i>
+                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="İsim" value="Bilal Çağrı">
+                        </div>
+                        <div class="mb-3 d-flex ps-3 col-6">
+                            <i class="bi bi-person me-3"></i>
+                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Soyisim" Value="ALĞAN">
+                        </div>
                     </div>
-                    <div class="mb-3 d-flex ps-3 col-6">
-                        <i class="bi bi-person me-3"></i>
-                        <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Soyisim" Value="ALĞAN">
+                    <div class="d-flex pe-3 mb-2">
+                        <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
+                            <i class="bi bi-envelope-at me-3"></i>
+                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="E-posta" Value="bilalcagrialgan@gmail.com">
+                        </div>
+                        <div class="mb-3 d-flex ps-3 col-6">
+                        <i class="bi bi-phone me-3"></i>
+                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Telefon" Value="0545 873 3317">
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex pe-3 mb-2">
-                    <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
-                        <i class="bi bi-envelope-at me-3"></i>
-                        <input type="type" class="form-control" id="exampleInputPassword1" placeholder="E-posta" Value="bilalcagrialgan@gmail.com">
+                    <div class="d-flex pe-3 mb-2">
+                        <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
+                            <i class="bi bi-lock me-3"></i>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre">
+                        </div>
+                        <div class="mb-3 d-flex ps-3 col-6">
+                            <i class="bi bi-lock me-3"></i>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre Tekrar">
+                        </div>
                     </div>
-                    <div class="mb-3 d-flex ps-3 col-6">
-                    <i class="bi bi-phone me-3"></i>
-                        <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Telefon" Value="0545 873 3317">
+                    <div class="d-flex pe-3 mb-2">
+                        <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
+                            <i class="bi bi-houses me-3"></i>
+                            <input type="type" class="form-control" list="datalistOptions" id="exampleInputPassword1" placeholder="Üniversite" Value="Hitit Üniversitesi">
+                        </div>
+                        <div class="mb-3 d-flex ps-3 col-6">
+                            <i class="bi bi-backpack me-3"></i>
+                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Telefon" Value="Bilgisayar Mühendisliği">
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex pe-3 mb-2">
-                    <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
-                        <i class="bi bi-lock me-3"></i>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre">
+                    <div class="d-flex pe-3 mb-2">
+                        <div class="mb-3 d-flex ps-3 col-12 d-flex align-items-center">
+                            <i class="bi bi-person-workspace me-3"></i>
+                            <select class="form-select" aria-label="Default select example">
+                                <option value="1" selected>Öğrenci</option>
+                                <option value="2">Arş. Gör.</option>
+                                <option value="3">Dr. Öğr.</option>
+                                <option value="3">Doç. Dr.</option>
+                                <option value="3">Prof. Dr.</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-3 d-flex ps-3 col-6">
-                        <i class="bi bi-lock me-3"></i>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre Tekrar">
-                    </div>
-                </div>
-                <div class="d-flex pe-3 mb-2">
-                    <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
-                        <i class="bi bi-houses me-3"></i>
-                        <input type="type" class="form-control" list="datalistOptions" id="exampleInputPassword1" placeholder="Üniversite" Value="Hitit Üniversitesi">
-                    </div>
-                    <div class="mb-3 d-flex ps-3 col-6">
-                        <i class="bi bi-backpack me-3"></i>
-                        <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Telefon" Value="Bilgisayar Mühendisliği">
-                    </div>
-                </div>
-                <div class="d-flex pe-3 mb-2">
-                    <div class="mb-3 d-flex ps-3 col-12 d-flex align-items-center">
-                        <i class="bi bi-person-workspace me-3"></i>
-                        <select class="form-select" aria-label="Default select example">
-                            <option value="1" selected>Öğrenci</option>
-                            <option value="2">Arş. Gör.</option>
-                            <option value="3">Dr. Öğr.</option>
-                            <option value="3">Doç. Dr.</option>
-                            <option value="3">Prof. Dr.</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success w-100 text-white">Kaydet</button>
-            </form>
+                    <button type="submit" class="btn btn-success w-100 text-white">Kaydet</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-
-    
     <!-- Profil FotoğrafıModal -->
     <div class="modal fade" id="profilefoto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -291,7 +290,6 @@
         <option value="Yozgat Bozok Üniversitesi">
         <option value="Zonguldak Bülent Ecevit Üniversitesi">
     </datalist>
-
 
     <style>
         #profileimg {
