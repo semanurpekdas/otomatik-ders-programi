@@ -27,23 +27,25 @@
         }
     </style>
 
-<nav class="navbar navbar-expand-lg navbar-light w-100">
-    <div class="container-fluid">
-        <!-- Sol Taraftaki Yatay Fotoğraf -->
-        <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/logo.jpg') }}" class="object-fit-cover border rounded" alt="Logo" height="94">
-        </a>
+    <nav class="navbar navbar-expand-lg navbar-light w-100">
+        <div class="container-fluid">
+            <!-- Sol Taraftaki Yatay Fotoğraf -->
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('images/logo.jpg') }}" class="object-fit-cover border rounded" alt="Logo" height="94">
+            </a>
 
-        <!-- Sağ Taraftaki Dropdown -->
-        <div class="dropdown ms-auto">
-            <button class="btn btn-warning dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class="rounded-circle object-fit-cover " width="40" height="40">
-                <span class="ms-2">Bilal Çağrı ALĞAN</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person me-2"></i> Profile</a></li>
-                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
-            </ul>
+            <!-- Sağ Taraftaki Dropdown -->
+            <div class="dropdown ms-auto">
+                <button class="btn btn-warning dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class="rounded-circle object-fit-cover " width="40" height="40">
+                    <span class="ms-2">Bilal Çağrı ALĞAN</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{{ route('admin.university') }}"><i class="bi bi-person-vcard me-2"></i> Admin Universiteler</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.fakulteler') }}"><i class="bi bi-person-vcard me-2"></i> Admin Fakülteler</a></li>
+                    <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person me-2"></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>

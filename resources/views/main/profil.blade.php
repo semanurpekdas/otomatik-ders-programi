@@ -34,7 +34,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="col-8 mt-4">
             <div class="card mt-5 p-3 success-active-overlay w-100">
                 <h3 class="card-title my-4 text-center text-success"><b>Profil Bilgileri</b></h3>
