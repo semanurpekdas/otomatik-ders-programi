@@ -43,4 +43,10 @@ class User extends Authenticatable implements MustVerifyEmail // Bu kısmı gün
     {
         return $this->belongsTo(Bolum::class, 'bolum_id');
     }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\CustomPasswordResetNotification($token, $this->email));
+    }
+
 }

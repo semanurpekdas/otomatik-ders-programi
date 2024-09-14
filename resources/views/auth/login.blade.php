@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,7 +160,7 @@
                 </form>
                 <div class="mt-3 d-flex justify-content-between align-items-center">
                     <a href="{{ route('register') }}" class="btn btn-success text-white">Kayıt Ol</a>
-                    <a href="{{ route('password.request') }}">Şifremi Unuttum</a>
+                    <a href="{{ route('password.request') }}">Şifremi Unuttum</a>  
                 </div>
             </div>
         </div>
