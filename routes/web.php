@@ -20,6 +20,13 @@ Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->name('ak
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Auth::routes(['reset' => true]);  // Parola sıfırlama işlemleri için rotaları aktif eder.
+
+
+
 
 // Admin Paneli
     // Universiteler

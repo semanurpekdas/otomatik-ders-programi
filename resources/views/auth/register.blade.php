@@ -111,7 +111,16 @@
 
             <!-- Form kısmı -->
             <div class="card-right">
-                <h3 class="mb-4 text-center">Kayıt Ol</h3>
+                <h3 class="mb-4 text-center text-primary">Kayıt Ol</h3>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="d-flex pe-3 mb-2">
@@ -170,7 +179,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary w-100 mb-4">Kayıt Ol</button>
-                    <a href="" class="btn btn-secondary">Zaten Hesabım Var</a>
+                    <a href="{{ route('login') }}" class="btn btn-secondary">Zaten Hesabım Var</a>
                 </form>
             </div>
         </div>

@@ -32,10 +32,20 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+        // Validasyon işlemi
         $this->validator($request->all())->validate();
 
-        // Event ile kullanıcıyı kaydet
-        event(new Registered($user = $this->create($request->all())));
+        // Üniversiteyi bulma işlemi
+        $universiteAdi = mb_convert_case($request->input('universite_adi'), MB_CASE_TITLE, "UTF-8");
+        $universite = Universite::where('isim', $universiteAdi)->first();
+
+        // Eğer üniversite bulunamazsa hata mesajıyla geri yönlendirme
+        if (!$universite) {
+            return redirect()->back()->withInput()->withErrors(['universite_adi' => 'Üniversite bulunamadı.']);
+        }
+
+        // Kullanıcıyı oluşturma işlemi
+        event(new Registered($user = $this->create($request->all(), $universite->id)));
 
         // Kullanıcıyı giriş yapmış olarak oturum aç
         auth()->login($user);
@@ -66,18 +76,13 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
+     * @param  int  $uniId
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data, $uniId)
     {
         // Benzersiz GUID oluşturma
         $guid = Str::uuid();
-
-        // Üniversite adını düzenleme
-        $universiteAdi = mb_convert_case($data['universite_adi'], MB_CASE_TITLE, "UTF-8");
-
-        // Üniversiteyi veritabanından bulma
-        $universite = Universite::where('isim', $universiteAdi)->first();
 
         // Profil resmi işlemi
         $profilImgPath = null;
@@ -86,6 +91,7 @@ class RegisterController extends Controller
             $profilImgPath = $data['profilimg']->storeAs('images/profiller', $randomFileName, 'public'); // Dosyayı kaydet
         }
 
+        // Kullanıcıyı veritabanına ekleme
         return User::create([
             'guid' => $guid,
             'isim' => $data['isim'],
@@ -93,7 +99,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'telefon' => $data['telefon'],
             'password' => Hash::make($data['password']),
-            'uni_id' => $universite ? $universite->id : null, // Üniversite ID'si
+            'uni_id' => $uniId, // Üniversite ID'si
             'bolum_id' => 1, // Bölüm ID'si varsayılan olarak 1
             'unvan' => $data['unvan'],
             'profilimg_path' => $profilImgPath, // Resmin kaydedilen yolunu veritabanına kaydet
