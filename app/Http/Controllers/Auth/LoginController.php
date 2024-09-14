@@ -1,47 +1,60 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
     protected $redirectTo = '/';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
 
-    public function showLoginForm()
+    public function login(Request $request)
     {
-        return view('auth.login');
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return back()->withErrors(['email' => 'Bu e-posta adresi bulunamadı.']);
+        }
+    
+        if (!$user->hasVerifiedEmail()) {
+            return back()->with('verification_error', 'E-posta adresiniz doğrulanmamış. Lütfen e-postanızı kontrol edin.');
+        }
+    
+        if (Hash::check($request->password, $user->password)) {
+            if ($this->attemptLogin($request)) {
+                return $this->sendLoginResponse($request);
+            }
+        }
+    
+        return $this->sendFailedLoginResponse($request);
     }
 
-    // Logout metodunu override ediyoruz
     public function logout(Request $request)
     {
-        $this->guard()->logout();
-
+        // Oturumu kapatıyoruz
+        Auth::logout();
+    
+        // Session'ı geçersiz hale getiriyoruz
         $request->session()->invalidate();
-
+    
+        // Yeni bir session token oluşturuyoruz
         $request->session()->regenerateToken();
-
-        return redirect('/login');  // Logout sonrası login sayfasına yönlendirme
+    
+        // Kullanıcıyı login sayfasına yönlendiriyoruz
+        return redirect()->route('login')->with('success', 'Başarıyla çıkış yaptınız.');
     }
+    
 }
+    

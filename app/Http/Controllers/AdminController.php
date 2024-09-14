@@ -48,12 +48,12 @@ class AdminController extends Controller
         if ($request->hasFile('universite_logo')) {
             $file = $request->file('universite_logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('images', $fileName, 'public');
+            $filePath = $file->storeAs('images', $fileName, 'public'); // 'public' diskini kullan
     
             // Veritabanına kayıt
             Universite::create([
-                'isim' => $universiteAdi, // Düzenlenmiş üniversite adı (Türkçe karakterlerle)
-                'img_yolu' => 'storage/' . $filePath, // Dosyanın yolu
+                'isim' => $universiteAdi,
+                'img_yolu' => $filePath, // Dosyanın yolu sadece 'images/dosya_adı'
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -63,6 +63,7 @@ class AdminController extends Controller
     
         return redirect()->back()->with('error', 'Bir hata oluştu, lütfen tekrar deneyin.');
     }
+    
     
     public function deleteUniversity($id)
     {

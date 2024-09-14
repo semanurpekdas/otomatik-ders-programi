@@ -16,37 +16,37 @@ class UniversitelerSeeder extends Seeder
         DB::table('universiteler')->insert([
             [
                 'isim' => 'Hitit Üniversitesi',
-                'img_yolu' => 'storage/images/1726177859_hitit-logo.png',
+                'img_yolu' => 'images/1726297001_1726296296_hitit-logo.png',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'isim' => 'Hacettepe Üniversitesi',
-                'img_yolu' => 'storage/images/1726189951_113082.png',
+                'img_yolu' => 'images/1726297030_1726189951_113082.png',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'isim' => 'Orta Doğu Teknik Üniversitesi',
-                'img_yolu' => 'storage/images/1726189993_122571.png',
+                'img_yolu' => 'images/1726297052_1726189993_122571.png',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'isim' => 'Yıldız Teknik Üniversitesi',
-                'img_yolu' => 'storage/images/1726190025_126982.png',
+                'img_yolu' => 'images/1726297065_1726190025_126982.png',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'isim' => 'Tokat Gaziosmanpaşa Üniversitesi',
-                'img_yolu' => 'storage/images/1726190068_367245.png',
+                'img_yolu' => 'images/1726297081_1726190068_367245.png',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'isim' => 'Amasya Üniversitesi',
-                'img_yolu' => 'storage/images/1726190123_102198.png',
+                'img_yolu' => 'images/1726297096_1726190123_102198.png',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

@@ -101,15 +101,46 @@
             <!-- Form kısmı -->
             <div class="card-right">
                 <h3 class="mb-4 text-center text-primary">Giriş Yap</h3>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                {{-- Doğrulama e-postası başarıyla gönderildiyse --}}
+                @if (session('resent'))
+                    <div class="alert alert-success" role="alert">
+                        Yeni doğrulama e-postası gönderildi.
                     </div>
                 @endif
+
+                {{-- E-posta doğrulandıysa --}}
+                @if (session('verified'))
+                    <div class="alert alert-success">
+                        {{ session('verified') }}
+                    </div>
+                @endif
+
+                {{-- Eğer doğrulama yapılmamışsa, özel hata ve form --}}
+                @if (session('verification_error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('verification_error') }}
+                        <br>
+                        Eğer e-posta doğrulama ile ilgili sorun yaşıyorsanız, doğrulama e-postasını tekrar göndermek için aşağıdaki butona tıklayın.
+                        <form method="POST" action="{{ route('verification.resend') }}" style="display: inline;">
+                            @csrf
+                            <input type="text" id="hiddenEmail" name="email" value="{{ old('email', request('email')) }}">
+                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">buraya tıklayarak</button>
+                        </form>
+                    </div>
+                @endif
+
+                {{-- Diğer hatalar, örneğin yanlış e-posta veya şifre --}}
+                @if ($errors->has('email') || $errors->has('password'))
+                    <div class="alert alert-danger" role="alert">
+                        @if ($errors->has('email'))
+                            {{ $errors->first('email') }}
+                        @endif
+                        @if ($errors->has('password'))
+                            {{ $errors->first('password') }}
+                        @endif
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3 d-flex ps-3 d-flex align-items-center pe-2">
@@ -182,15 +213,18 @@
             });
         });
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Hatalar varsa 3 saniye sonra gizle
-            const alertDiv = document.querySelector('.alert.alert-danger');
-            if (alertDiv) {
-                setTimeout(function () {
-                    alertDiv.style.display = 'none';
-                }, 3000); // 3000 ms = 3 saniye
-            }
+            // E-posta input ve hidden input elemanlarını seçiyoruz
+            const emailInput = document.getElementById('email');
+            const hiddenEmailInput = document.getElementById('hiddenEmail');
+
+            // E-posta input alanında her değişiklik olduğunda çalışacak bir event listener ekliyoruz
+            emailInput.addEventListener('input', function () {
+                // E-posta inputundaki değeri hidden input'a yazdırıyoruz
+                hiddenEmailInput.value = emailInput.value;
+            });
         });
     </script>
 

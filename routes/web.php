@@ -8,8 +8,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkademisyenController; 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
+
 
 Route::get('/sınıflar', [ClassesController::class, 'index'])->name('classes');
 Route::get('/dersler', [LessonController::class, 'index'])->name('lessons');
@@ -24,6 +26,24 @@ Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLog
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 Auth::routes(['reset' => true]);  // Parola sıfırlama işlemleri için rotaları aktif eder.
+Auth::routes(['verify' => true]);
+
+
+// Mail işlemleri
+Route::get('/email/verify', [VerificationController::class, 'notice'])
+    ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])  // Sadece 'signed' ve 'throttle' middleware'leri kullanılıyor
+    ->name('verification.verify');
+
+Route::post('/email/verification-notification', [VerificationController::class, 'resend'])
+    ->middleware(['throttle:6,1'])
+    ->name('verification.send');
+
+Route::post('/email/resend', [VerificationController::class, 'resend'])
+    ->name('verification.resend');
+
 
 
 

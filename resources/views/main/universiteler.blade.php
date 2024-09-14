@@ -84,88 +84,84 @@
                     </thead>
                     <tbody>
                         @foreach($universiteler as $index => $universite)
-                        <tr>
-                            <th scope="row">{{ $universiteler->firstItem() + $index }}</th>
-                            <td>
-                                <img src="{{ asset($universite->img_yolu) }}" alt="{{ $universite->isim }} Logosu" class="img-fluid" style="width: 50px; height: 50px;">
-                            </td>
-                            <td>{{ $universite->isim }}</td>
-                            <td>{{ $universite->img_yolu }}</td>
-                            <td>
-                                <div class="d-flex justify-content-start text-white">
-                                    <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#update{{ $universite->id }}">
-                                        Düzenle
-                                    </button>
-                                    <!-- Universite Güncelle Modal -->
-                                    <div class="modal fade text-dark" id="update{{ $universite->id }}" tabindex="-1" aria-labelledby="updateModalLabel{{ $universite->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="updateModalLabel{{ $universite->id }}">Üniversite Güncelle</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="{{ route('admin.updateUniversity', $universite->id) }}" method="POST" enctype="multipart/form-data">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <label for="updatesınıfAdı" class="form-label">Üniversite Adı</label>
-                                                        <div class="mb-3 px-1">
-                                                            <input type="text" class="form-control" name="universite_adi" id="updatesınıfAdı" list="universiteler" value="{{ $universite->isim }}" required>
-                                                        </div>
-                                                        <div class="mb-4">
-                                                            <label for="profileImageInput{{ $universite->id }}" class="form-label">Logo Yükleyin</label>
-                                                            <input class="form-control" type="file" name="universite_logo" id="profileImageInput{{ $universite->id }}" accept="image/*">
-                                                        </div>
-                                                        <div class="d-flex flex-column align-items-center">
-                                                        <img id="uploadedImagePreview{{ $universite->id }}" src="{{ asset($universite->img_yolu) }}" alt="Yüklenen Fotoğraf" class="img-fluid rounded-circle mb-4" style="width: 150px; height: 150px; object-fit: cover; display: none;">
+                            <tr>
+                                <th scope="row">{{ $universiteler->firstItem() + $index }}</th>
+                                <td>
+                                    <img src="{{ asset('storage/' . $universite->img_yolu) }}" alt="{{ $universite->isim }} Logosu" class="img-fluid" style="width: 50px; height: 50px;">
+                                </td>
+                                <td>{{ $universite->isim }}</td>
+                                <td>{{ $universite->img_yolu }}</td>
+                                <td>
+                                    <div class="d-flex justify-content-start text-white">
+                                        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#update{{ $universite->id }}">
+                                            Düzenle
+                                        </button>
 
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary">Güncelle</button>
-                                                    </form>
+                                        <!-- Universite Güncelle Modal -->
+                                        <div class="modal fade text-dark" id="update{{ $universite->id }}" tabindex="-1" aria-labelledby="updateModalLabel{{ $universite->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="updateModalLabel{{ $universite->id }}">Üniversite Güncelle</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('admin.updateUniversity', $universite->id) }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <label for="updatesınıfAdı" class="form-label">Üniversite Adı</label>
+                                                            <div class="mb-3 px-1">
+                                                                <input type="text" class="form-control" name="universite_adi" id="updatesınıfAdı" list="universiteler" value="{{ $universite->isim }}" required>
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="profileImageInput{{ $universite->id }}" class="form-label">Logo Yükleyin</label>
+                                                                <input class="form-control" type="file" name="universite_logo" id="profileImageInput{{ $universite->id }}" accept="image/*">
+                                                            </div>
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <img id="uploadedImagePreview{{ $universite->id }}" src="{{ asset('storage/' . $universite->img_yolu) }}" alt="Yüklenen Fotoğraf" class="img-fluid rounded-circle mb-4" style="width: 150px; height: 150px; object-fit: cover;">
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Güncelle</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $universite->id }}">
+                                            Sil
+                                        </button>
+                                        <!-- Universite Sil Modal -->
+                                        <div class="modal fade text-dark" id="deleteModal{{ $universite->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $universite->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel{{ $universite->id }}">Üniversite Sil</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('admin.deleteUniversity', $universite->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <label for="deletesınıfAdı" class="form-label">Üniversite Adı</label>
+                                                            <div class="mb-3 px-1">
+                                                                <input type="text" class="form-control" id="deletesınıfAdı" value="{{ $universite->isim }}" disabled>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-danger">Sil</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
-                                    <button type="button" class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $universite->id }}">
-                                        Sil
-                                    </button>
-                                    <!-- Universite Sil Modal -->
-                                    <div class="modal fade text-dark" id="deleteModal{{ $universite->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $universite->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel{{ $universite->id }}">Üniversite Sil</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="{{ route('admin.deleteUniversity', $universite->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <label for="deletesınıfAdı" class="form-label">Üniversite Adı</label>
-                                                        <div class="mb-3 px-1">
-                                                            <input type="text" class="form-control" id="deletesınıfAdı" value="{{ $universite->isim }}" disabled>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-danger">Sil</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @endforeach
                         @if($universiteler->isEmpty())
-                        <tr>
-                            <td colspan="5" class="text-center">Üniversite Bulunamadı</td>
-                        </tr>
+                            <tr>
+                                <td colspan="5" class="text-center">Üniversite Bulunamadı</td>
+                            </tr>
                         @endif
-                        
                     </tbody>
-
-
                 </table>
 
                 <nav class="d-flex justify-content-center">
