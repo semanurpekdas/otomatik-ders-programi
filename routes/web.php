@@ -7,6 +7,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkademisyenController; 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -14,6 +15,10 @@ Route::get('/sınıflar', [ClassesController::class, 'index'])->name('classes');
 Route::get('/dersler', [LessonController::class, 'index'])->name('lessons');
 Route::get('/profil', [ProfileController::class, 'index'])->name('profile');
 Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->name('akademisyenler');
+
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 
 
 // Admin Paneli
@@ -28,7 +33,5 @@ Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->name('ak
     Route::post('/admin/fakulteler/ekle', [AdminController::class, 'addFakulte'])->name('admin.addFakulte');
     Route::put('/admin/fakulteler/update/{id}', [AdminController::class, 'updateFakulte'])->name('admin.updateFakulte');
     Route::delete('/admin/fakulteler/delete/{id}', [AdminController::class, 'deleteFakulte'])->name('admin.deleteFakulte');
-
-
 
 

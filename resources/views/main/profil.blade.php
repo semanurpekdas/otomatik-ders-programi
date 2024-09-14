@@ -47,7 +47,7 @@
                             <i class="bi bi-person me-3"></i>
                             <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Soyisim" Value="ALĞAN">
                         </div>
-                    </div>
+                    </div> 
                     <div class="d-flex pe-3 mb-2">
                         <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
                             <i class="bi bi-envelope-at me-3"></i>
