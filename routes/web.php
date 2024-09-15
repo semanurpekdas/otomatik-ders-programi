@@ -12,11 +12,17 @@ use App\Http\Controllers\Auth\VerificationController;
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
+// Sınıflar sayfası (Sadece oturum açmış kişiler erişebilir)
+Route::get('/sınıflar', [ClassesController::class, 'index'])->middleware(['auth'])->name('classes');
 
-Route::get('/sınıflar', [ClassesController::class, 'index'])->name('classes');
-Route::get('/dersler', [LessonController::class, 'index'])->name('lessons');
-Route::get('/profil', [ProfileController::class, 'index'])->name('profile');
-Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->name('akademisyenler');
+// Dersler sayfası (Sadece oturum açmış kişiler erişebilir)
+Route::get('/dersler', [LessonController::class, 'index'])->middleware(['auth'])->name('lessons');
+
+// Profil sayfası (Sadece oturum açmış kişiler erişebilir)
+Route::get('/profil', [ProfileController::class, 'index'])->middleware(['auth'])->name('profile');
+
+// Akademisyenler sayfası (Sadece oturum açmış kişiler erişebilir)
+Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->middleware(['auth'])->name('akademisyenler');
 
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -60,5 +66,13 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])
     Route::post('/admin/fakulteler/ekle', [AdminController::class, 'addFakulte'])->name('admin.addFakulte');
     Route::put('/admin/fakulteler/update/{id}', [AdminController::class, 'updateFakulte'])->name('admin.updateFakulte');
     Route::delete('/admin/fakulteler/delete/{id}', [AdminController::class, 'deleteFakulte'])->name('admin.deleteFakulte');
+
+    // Bolumler
+    Route::get('/admin/bolumler', [AdminController::class, 'bolumler'])->name('admin.bolumler');
+    Route::post('/admin/bolumler/ekle', [AdminController::class, 'addBolum'])->name('admin.addBolum');
+    Route::put('/admin/bolumler/update/{id}', [AdminController::class, 'updateBolum'])->name('admin.updateBolum');
+    Route::delete('/admin/bolumler/delete/{id}', [AdminController::class, 'deleteBolum'])->name('admin.deleteBolum');
+
+
 
 

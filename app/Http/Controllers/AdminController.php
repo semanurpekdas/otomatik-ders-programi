@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Universite; // Universiteler tablosu için model
 use App\Models\Fakulte; // Universiteler tablosu için model
 use Illuminate\Support\Facades\Storage; // Dosya depolama işlemleri için
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+        // Oturum açmış kullanıcının bilgilerini alıyoruz
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user(); // Kullanıcı bilgisi
+            return $next($request);
+        });
+    }
+
     public function university(Request $request)
     {
         // Query oluşturma
@@ -159,9 +171,6 @@ class AdminController extends Controller
         return view('main.fakulteler', compact('fakulteler', 'universiteler'));
     }
     
-    
-    
-
     public function addFakulte(Request $request)
     {
         // Validasyon
@@ -230,9 +239,136 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Fakülte başarıyla silindi.');
     }
 
+    public function bolumler(Request $request)
+    {
+        // Sorguyu oluşturuyoruz
+        $query = \App\Models\Bolum::with('fakulte.universite');
+        
+        // Bölüm adına göre arama
+        if ($request->filled('bolum_adi')) {
+            $query->where('bolum_isim', 'LIKE', '%' . mb_convert_case($request->input('bolum_adi'), MB_CASE_TITLE, "UTF-8") . '%');
+        }
+        
+        // Fakülte adına göre arama
+        if ($request->filled('fakulte_adi')) {
+            $query->whereHas('fakulte', function ($q) use ($request) {
+                $q->where('fakulte_isim', 'LIKE', '%' . mb_convert_case($request->input('fakulte_adi'), MB_CASE_TITLE, "UTF-8") . '%');
+            });
+        }
+        
+        // Üniversite adına göre arama
+        if ($request->filled('universite_adi')) {
+            $query->whereHas('fakulte.universite', function ($q) use ($request) {
+                $q->where('isim', 'LIKE', '%' . mb_convert_case($request->input('universite_adi'), MB_CASE_TITLE, "UTF-8") . '%');
+            });
+        }
+        
+        // Bölüm ismine göre sıralama
+        if ($request->filled('fakulte_order')) {
+            $query->orderBy('bolum_isim', $request->input('fakulte_order'));
+        }
+        
+        // Sonuçları paginate ediyoruz (sayfa başına 5 kayıt)
+        $bolumler = $query->paginate(5)->appends([
+            'bolum_adi' => $request->input('bolum_adi'),
+            'fakulte_adi' => $request->input('fakulte_adi'),
+            'universite_adi' => $request->input('universite_adi'),
+            'fakulte_order' => $request->input('fakulte_order')
+        ]);
+    
+        // Üniversitelerin ve fakültelerin listesini hazırlıyoruz
+        $fakulteler = \App\Models\Fakulte::select('fakulte_isim')->distinct()->get(); // Tekil fakülte isimleri
+        $fakulteler2 = \App\Models\Fakulte::with('universite')->get(); // Fakülte ve üniversite isimlerini birlikte gönderiyoruz
+        $universiteler = \App\Models\Universite::select('isim')->distinct()->get(); // Tekil üniversite isimleri
+    
+        return view('main.bolumler', compact('bolumler', 'fakulteler', 'fakulteler2', 'universiteler'));
+    }
+    
+    public function addBolum(Request $request)
+    {
+        // Validasyon
+        $request->validate([
+            'universite_adi' => 'required|string|max:255',
+            'fakulte_adi' => 'required|string|max:255',
+            'bolum_adi' => 'required|string|max:255',
+        ]);
+
+        // Üniversite adını düzgün şekilde düzenleyelim
+        $universiteAdi = mb_convert_case($request->input('universite_adi'), MB_CASE_TITLE, "UTF-8");
+        $fakulteAdi = mb_convert_case($request->input('fakulte_adi'), MB_CASE_TITLE, "UTF-8");
+        $bolumAdi = mb_convert_case($request->input('bolum_adi'), MB_CASE_TITLE, "UTF-8");
+
+        // Üniversiteyi bulma
+        $universite = \App\Models\Universite::where('isim', $universiteAdi)->first();
+        if (!$universite) {
+            return redirect()->back()->with('error', 'Üniversite bulunamadı.');
+        }
+
+        // Fakülteyi bulma
+        $fakulte = \App\Models\Fakulte::where('fakulte_isim', $fakulteAdi)
+                                    ->where('uni_id', $universite->id)
+                                    ->first();
+        if (!$fakulte) {
+            return redirect()->back()->with('error', 'Bu üniversiteye ait fakülte bulunamadı.');
+        }
+
+        // Bölümü ekleme
+        \App\Models\Bolum::create([
+            'bolum_isim' => $bolumAdi,
+            'fakulte_id' => $fakulte->id,
+            'uni_id' => $universite->id, 
+        ]);
+
+        return redirect()->back()->with('success', 'Bölüm başarıyla eklendi!');
+    }
+
+    public function updateBolum(Request $request, $id)
+    {
+        // Validasyon
+        $request->validate([
+            'universite_adi' => 'required|string|max:255',
+            'fakulte_adi' => 'required|string|max:255',
+            'bolum_adi' => 'required|string|max:255',
+        ]);
+
+        // Üniversite ve fakülte adlarını düzgün formatta düzenleme
+        $universiteAdi = mb_convert_case($request->input('universite_adi'), MB_CASE_TITLE, "UTF-8");
+        $fakulteAdi = mb_convert_case($request->input('fakulte_adi'), MB_CASE_TITLE, "UTF-8");
+        $bolumAdi = mb_convert_case($request->input('bolum_adi'), MB_CASE_TITLE, "UTF-8");
+
+        // Üniversiteyi bulma
+        $universite = \App\Models\Universite::where('isim', $universiteAdi)->first();
+        if (!$universite) {
+            return redirect()->back()->with('error', 'Üniversite bulunamadı.');
+        }
+
+        // Fakülteyi bulma
+        $fakulte = \App\Models\Fakulte::where('fakulte_isim', $fakulteAdi)
+                                    ->where('uni_id', $universite->id)
+                                    ->first();
+        if (!$fakulte) {
+            return redirect()->back()->with('error', 'Bu üniversiteye ait fakülte bulunamadı.');
+        }
+
+        // Bölümü güncelleme
+        $bolum = \App\Models\Bolum::findOrFail($id);
+        $bolum->update([
+            'bolum_isim' => $bolumAdi,
+            'fakulte_id' => $fakulte->id,
+            'uni_id' => $universite->id,
+        ]);
+
+        return redirect()->back()->with('success', 'Bölüm başarıyla güncellendi!');
+    }
+
+    public function deleteBolum($id)
+    {
+        $bolum = \App\Models\Bolum::findOrFail($id);
+        $bolum->delete();
+
+        return redirect()->back()->with('success', 'Bölüm başarıyla silindi!');
+    }
 
 
-
-
-
+    
 }

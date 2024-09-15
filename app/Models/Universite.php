@@ -14,4 +14,9 @@ class Universite extends Model
     protected $fillable = [
         'isim', 'img_yolu', 'created_at', 'updated_at'
     ];
+
+    public function fakulteler()
+    {
+        return $this->hasMany(Fakulte::class, 'uni_id');
+    }
 }

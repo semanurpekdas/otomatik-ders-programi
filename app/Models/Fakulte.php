@@ -14,8 +14,13 @@ class Fakulte extends Model
     protected $fillable = ['fakulte_isim', 'uni_id']; // Doldurulabilir alanlar
 
     // Üniversite ile ilişki (Many to One)
-    public function universite()
+     public function universite()
     {
-        return $this->belongsTo(Universite::class, 'uni_id', 'id');
+        return $this->belongsTo(Universite::class, 'uni_id');
+    }
+    
+    public function bolumler()
+    {
+        return $this->hasMany(Bolum::class, 'fakulte_id');
     }
 }
