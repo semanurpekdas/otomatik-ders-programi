@@ -286,24 +286,24 @@
 
         // Alert mesajlarını gizlemek için
         document.addEventListener('DOMContentLoaded', function() {
-        // Başarı veya hata alertleri için DOM elementlerini seç
-        const alertSuccess = document.querySelector('.alert-success');
-        const alertError = document.querySelector('.alert-danger');
+            // Başarı veya hata alertleri için DOM elementlerini seç
+            const alertSuccess = document.querySelector('.alert-success');
+            const alertError = document.querySelector('.alert-danger');
 
-        // Eğer başarı mesajı varsa 3 saniye sonra gizle
-        if (alertSuccess) {
-            setTimeout(() => {
-                alertSuccess.style.display = 'none';
-            }, 3000); // 3000 milisaniye (3 saniye)
-        }
+            // Eğer başarı mesajı varsa 3 saniye sonra gizle
+            if (alertSuccess) {
+                setTimeout(() => {
+                    alertSuccess.style.display = 'none';
+                }, 3000); // 3000 milisaniye (3 saniye)
+            }
 
-        // Eğer hata mesajı varsa 3 saniye sonra gizle
-        if (alertError) {
-            setTimeout(() => {
-                alertError.style.display = 'none';
-            }, 3000); // 3000 milisaniye (3 saniye)
-        }
-    });
+            // Eğer hata mesajı varsa 3 saniye sonra gizle
+            if (alertError) {
+                setTimeout(() => {
+                    alertError.style.display = 'none';
+                }, 3000); // 3000 milisaniye (3 saniye)
+            }
+        });
     </script>
 
 

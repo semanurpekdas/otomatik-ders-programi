@@ -13,7 +13,8 @@ class HomeController extends Controller
     {
         // Oturum açmış kullanıcının bilgilerini alıyoruz
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::user(); // Kullanıcı bilgisi
+            $this->user = Auth::user(); // Oturum açmış kullanıcıyı al
+            view()->share('user', $this->user); // Kullanıcı bilgilerini tüm view'lere paylaş
             return $next($request);
         });
     }

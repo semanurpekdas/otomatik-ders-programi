@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Sınıflar')
+@section('title', 'Profil')
 
 @section('content')
     <div class="d-flex pe-5">
@@ -10,83 +10,112 @@
                     <div class="d-flex justify-content-center" >
                         <div class="d-flex justify-content-center w-75 py-3" id="sınıftab">
                             <!-- yuvarlak img resmi yap -->
-                            <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class=" btn rounded-circle border shadow p-0" data-bs-toggle="modal" data-bs-target="#profilefoto" width="200" height="200" id="profileimg">
+                            <img src="{{ asset('storage/' . $user->profilimg_path) }}" alt="Profil Fotoğrafı" class=" btn rounded-circle border shadow p-0" data-bs-toggle="modal" data-bs-target="#profilefoto" width="200" height="200" id="profileimg">
                         </div>
                     </div>
                     <div class="text-center card bg-primary text-white">
-                        <h5 class="card-title mt-3">Öğrenci</h5>
-                        <h4 class="card-title">Bilal Çağrı Alğan</h4>
+                        <h5 class="card-title mt-3">{{ $user->unvan }}</h5>
+                        <h4 class="card-title">{{ $user->isim }} {{ $user->soyisim }}</h4>
                         <p class="card-text mt-3"></p>
                     </div>
                 </div>
                 <div class="card mb-3 mt-4 p-3 secondary-active-overlay">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{{ asset('images/hitit-logo.png') }}" class="img-fluid rounded-start" alt="Profile Image">
+                            <img src="{{ asset('storage/' . $universite->img_yolu) }}" class="img-fluid rounded-start" alt="University Image">
                         </div>
-                        <div class="col-md-8 d-flex align-items-center border-start ">
+                        <div class="col-md-8 d-flex align-items-center border-start">
                             <div class="card-body">
-                                <h6 class="card-title text-center"><b>Hitit Üniversitesi</b></h6>
-                                <p class="card-text text-center"><b>Bilgisayar Mühendisliği</b></p>
+                                <h6 class="card-title text-center"><b>{{ $universite->isim }}</b></h6>
+                                <p class="card-text text-center"><b>{{ $bolum->bolum_isim }}</b></p>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="col-8 mt-4">
             <div class="card mt-5 p-3 success-active-overlay w-100">
                 <h3 class="card-title my-4 text-center text-success"><b>Profil Bilgileri</b></h3>
-                <form>
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <form action="{{ route('profile.update') }}" method="POST">
+                    @csrf
                     <div class="d-flex pe-3 mb-2">
                         <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
                             <i class="bi bi-person me-3"></i>
-                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="İsim" value="Bilal Çağrı">
+                            <input type="text" class="form-control" id="isim" name="isim" placeholder="İsim" value="{{ $user->isim }}">
                         </div>
-                        <div class="mb-3 d-flex ps-3 col-6">
+                        <div class="mb-3 d-flex ps-3 col-6 align-items-center">
                             <i class="bi bi-person me-3"></i>
-                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Soyisim" Value="ALĞAN">
+                            <input type="text" class="form-control" id="soyisim" name="soyisim" placeholder="Soyisim" value="{{ $user->soyisim }}">
                         </div>
                     </div> 
                     <div class="d-flex pe-3 mb-2">
-                        <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
+                        <div class="mb-3 me-3 d-flex ps-3 col-6 align-items-center">
                             <i class="bi bi-envelope-at me-3"></i>
-                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="E-posta" Value="bilalcagrialgan@gmail.com">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="E-posta" value="{{ $user->email }}">
                         </div>
-                        <div class="mb-3 d-flex ps-3 col-6">
-                        <i class="bi bi-phone me-3"></i>
-                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Telefon" Value="0545 873 3317">
+                        <div class="mb-3 d-flex ps-3 col-6 align-items-center">
+                            <i class="bi bi-phone me-3"></i>
+                            <input type="text" class="form-control" id="telefon" name="telefon" placeholder="Telefon" value="{{ $user->telefon }}">
                         </div>
                     </div>
                     <div class="d-flex pe-3 mb-2">
                         <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
                             <i class="bi bi-lock me-3"></i>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Şifre">
                         </div>
-                        <div class="mb-3 d-flex ps-3 col-6">
+                        <div class="mb-3 d-flex ps-3 col-6 align-items-center">
                             <i class="bi bi-lock me-3"></i>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre Tekrar">
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Şifre Tekrar">
                         </div>
                     </div>
                     <div class="d-flex pe-3 mb-2">
                         <div class="mb-3 me-3 d-flex ps-3 col-6 d-flex align-items-center">
                             <i class="bi bi-houses me-3"></i>
-                            <input type="type" class="form-control" list="datalistOptions" id="exampleInputPassword1" placeholder="Üniversite" Value="Hitit Üniversitesi">
+                            <input type="text" class="form-control" list="universitelerList" id="universite" name="universite" placeholder="Üniversite" value="{{ $user->universite->isim }}">
+                            <datalist id="universitelerList">
+                                @foreach($universiteler as $universite)
+                                    <option value="{{ $universite->isim }}">
+                                @endforeach
+                            </datalist>
                         </div>
-                        <div class="mb-3 d-flex ps-3 col-6">
+                    
+                        <!-- Bölüm seçimi için datalist -->
+                        <div class="mb-3 d-flex ps-3 col-6 align-items-center">
                             <i class="bi bi-backpack me-3"></i>
-                            <input type="type" class="form-control" id="exampleInputPassword1" placeholder="Telefon" Value="Bilgisayar Mühendisliği">
+                            <input type="text" class="form-control" list="bolumlerList" id="bolum" name="bolum" placeholder="Bölüm" value="{{ $user->bolum->bolum_isim }}">
+                            <datalist id="bolumlerList">
+                                @foreach($bolumler as $bolum)
+                                    <option value="{{ $bolum->bolum_isim }} ({{ $bolum->fakulte->universite->isim }})">
+                                @endforeach
+                            </datalist>
                         </div>
                     </div>
                     <div class="d-flex pe-3 mb-2">
                         <div class="mb-3 d-flex ps-3 col-12 d-flex align-items-center">
                             <i class="bi bi-person-workspace me-3"></i>
-                            <select class="form-select" aria-label="Default select example">
-                                <option value="1" selected>Öğrenci</option>
-                                <option value="2">Arş. Gör.</option>
-                                <option value="3">Dr. Öğr.</option>
-                                <option value="3">Doç. Dr.</option>
-                                <option value="3">Prof. Dr.</option>
+                            <select class="form-select" aria-label="Unvan seç" name="unvan">
+                                <option value="Öğrenci" {{ $user->unvan == 'Öğrenci' ? 'selected' : '' }}>Öğrenci</option>
+                                <option value="Arş. Gör." {{ $user->unvan == 'Arş. Gör.' ? 'selected' : '' }}>Arş. Gör.</option>
+                                <option value="Dr. Öğr." {{ $user->unvan == 'Dr. Öğr.' ? 'selected' : '' }}>Dr. Öğr.</option>
+                                <option value="Doç. Dr." {{ $user->unvan == 'Doç. Dr.' ? 'selected' : '' }}>Doç. Dr.</option>
+                                <option value="Prof. Dr." {{ $user->unvan == 'Prof. Dr.' ? 'selected' : '' }}>Prof. Dr.</option>
                             </select>
                         </div>
                     </div>
@@ -104,22 +133,23 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Profil Fotoğrafını Yükle</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form id="imageUploadForm">
+                <form id="imageUploadForm" action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
                         <div class="mb-4">
                             <label for="profileImageInput" class="form-label">Yeni Fotoğraf Yükleyin</label>
-                            <input class="form-control" type="file" id="profileImageInput" accept="image/*">
+                            <input class="form-control" type="file" name="profilimg" id="profileImageInput" accept="image/*">
                         </div>
                         <div class="d-flex flex-column align-items-center">
                             <img id="uploadedImagePreview" src="" alt="Yüklenen Fotoğraf" class="img-fluid rounded-circle mb-4" style="width: 150px; height: 150px; object-fit: cover; display: none;">
                             <span id="fileName" class="text-muted"></span>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -349,6 +379,8 @@
             outline: none;
             box-shadow: none;
         }
+
+        
     </style>
 
     <script>
@@ -374,5 +406,58 @@
             }
         });
 
+        document.getElementById('bolum').addEventListener('input', function () {
+            var bolumInput = document.getElementById('bolum');
+            var bolumValue = bolumInput.value;
+
+            // Parantez içindeki üniversite adını anlık olarak silmek için regex kullanıyoruz
+            bolumValue = bolumValue.replace(/\s*\(.*?\)\s*/g, '');
+            bolumInput.value = bolumValue; // Bölüm adını güncelliyoruz
+        });
+
+        // Alert mesajlarını gizlemek için
+        document.addEventListener('DOMContentLoaded', function() {
+            // Başarı veya hata alertleri için DOM elementlerini seç
+            const alertSuccess = document.querySelector('.alert-success');
+            const alertError = document.querySelector('.alert-danger');
+
+            // Eğer başarı mesajı varsa 3 saniye sonra gizle
+            if (alertSuccess) {
+                setTimeout(() => {
+                    alertSuccess.style.display = 'none';
+                }, 3000); // 3000 milisaniye (3 saniye)
+            }
+
+            // Eğer hata mesajı varsa 3 saniye sonra gizle
+            if (alertError) {
+                setTimeout(() => {
+                    alertError.style.display = 'none';
+                }, 3000); // 3000 milisaniye (3 saniye)
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tüm mb-3 sınıfına sahip divleri seç
+            const formGroups = document.querySelectorAll('.mb-3');
+
+            formGroups.forEach(function (div) {
+                // İçindeki input elemanına odaklanıldığında div'e stil ekle
+                const input = div.querySelector('.form-control');
+                
+                if (input) {
+                    input.addEventListener('focus', function () {
+                        div.style.border = '1px solid #034f84';
+                        div.style.borderRadius = '10px';
+                        div.style.borderLeft = '7px solid #034f84';
+                    });
+
+                    // Blur (odak dışı) olduğunda div'in stilini kaldır
+                    input.addEventListener('blur', function () {
+                        div.style.border = '1px solid rgba(0, 0, 0, 0.2)';
+                        div.style.borderRadius = '10px';
+                    });
+                }
+            });
+        });
     </script>
 @endsection

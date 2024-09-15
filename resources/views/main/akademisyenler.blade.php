@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Dersler')
+@section('title', 'Akademisyenler')
 
 @section('content')
     <div class="px-5 mt-5 pt-4">

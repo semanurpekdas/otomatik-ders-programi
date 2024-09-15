@@ -174,12 +174,13 @@
 
 <div class="col-2 sidebar">
     <div class="text-center profile-section d-flex align-items-center justify-content-center px-2">
-        <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class="rounded-circle shadow">
+        <img src="{{ asset('storage/' . $user->profilimg_path) }}" alt="Profil Fotoğrafı" class="rounded-circle shadow">
         <div class="d-flex flex-column">
-            <h4 class="ms-3 d-none d-md-block pt-3">Bilal Çağrı ALĞAN</h4> <!-- Yalnızca orta boyut ve üzeri ekranlarda görünür -->
-            <h5 class="text-warning mt-2"><b>Öğrenci</b></h5>
-        </div>
+            <h4 class="ms-3 d-none d-md-block pt-3">{{ $user->isim }} {{ $user->soyisim }}</h4> <!-- Yalnızca orta boyut ve üzeri ekranlarda görünür -->
+            <h5 class="text-warning mt-2"><b>{{ $user->unvan }}</b></h5>
+        </div> 
     </div>
+
     <ul class="nav flex-column">
     <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('home') ? 'active info-active-overlay bg-info' : '' }}  d-flex align-items-center" href="{{ route('home') }}">

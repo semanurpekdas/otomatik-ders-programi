@@ -37,8 +37,8 @@
             <!-- Sağ Taraftaki Dropdown -->
             <div class="dropdown ms-auto">
                 <button class="btn btn-warning dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ asset('images/profil.jpg') }}" alt="Profil Fotoğrafı" class="rounded-circle object-fit-cover " width="40" height="40">
-                    <span class="ms-2">Bilal Çağrı ALĞAN</span>
+                    <img src="{{ asset('storage/' . $user->profilimg_path) }}" alt="Profil Fotoğrafı" class="rounded-circle object-fit-cover " width="40" height="40">
+                    <span class="ms-2">{{ $user->isim }} {{ $user->soyisim }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="{{ route('admin.university') }}"><i class="bi bi-person-vcard me-2"></i> Admin Universiteler</a></li>

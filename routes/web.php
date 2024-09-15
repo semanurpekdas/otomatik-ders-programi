@@ -20,6 +20,10 @@ Route::get('/dersler', [LessonController::class, 'index'])->middleware(['auth'])
 
 // Profil sayfası (Sadece oturum açmış kişiler erişebilir)
 Route::get('/profil', [ProfileController::class, 'index'])->middleware(['auth'])->name('profile');
+Route::post('/profil/fotograf', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
+Route::post('/profil/update', [ProfileController::class, 'update'])->name('profile.update');
+
+
 
 // Akademisyenler sayfası (Sadece oturum açmış kişiler erişebilir)
 Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->middleware(['auth'])->name('akademisyenler');
