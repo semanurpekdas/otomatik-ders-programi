@@ -77,6 +77,11 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])
     Route::put('/admin/bolumler/update/{id}', [AdminController::class, 'updateBolum'])->name('admin.updateBolum');
     Route::delete('/admin/bolumler/delete/{id}', [AdminController::class, 'deleteBolum'])->name('admin.deleteBolum');
 
+    //Roller
+    Route::get('/admin/roller', [AdminController::class, 'roller'])->name('admin.roller');
+    Route::post('/admin/role/add', [AdminController::class, 'addRole'])->name('admin.addRole');
+    Route::put('/admin/role/update/{id}', [AdminController::class, 'updateRole'])->name('admin.updateRole');
+    Route::delete('/admin/role/delete/{id}', [AdminController::class, 'deleteRole'])->name('admin.deleteRole');
 
 
 

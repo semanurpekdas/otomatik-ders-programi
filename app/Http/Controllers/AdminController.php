@@ -7,6 +7,7 @@ use App\Models\Universite; // Universiteler tablosu için model
 use App\Models\Fakulte; // Universiteler tablosu için model
 use Illuminate\Support\Facades\Storage; // Dosya depolama işlemleri için
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 
 class AdminController extends Controller
 {
@@ -43,7 +44,7 @@ class AdminController extends Controller
             'order' => $request->input('order'),
         ]); // Sayfa başına 5 sonuç örnek
         
-        return view('main.universiteler', compact('universiteler'));
+        return view('admin.universiteler', compact('universiteler'));
     }
 
     public function addUniversity(Request $request)
@@ -76,7 +77,6 @@ class AdminController extends Controller
     
         return redirect()->back()->with('error', 'Bir hata oluştu, lütfen tekrar deneyin.');
     }
-    
     
     public function deleteUniversity($id)
     {
@@ -132,6 +132,7 @@ class AdminController extends Controller
     }
 
 
+
     // Fakülteler
     public function fakulteler(Request $request)
     {
@@ -169,7 +170,7 @@ class AdminController extends Controller
         $universiteler = Universite::select('id', 'isim')->get();
     
         // Verileri view'e gönderiyoruz
-        return view('main.fakulteler', compact('fakulteler', 'universiteler'));
+        return view('admin.fakulteler', compact('fakulteler', 'universiteler'));
     }
     
     public function addFakulte(Request $request)
@@ -240,6 +241,9 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Fakülte başarıyla silindi.');
     }
 
+
+
+    //Bölümler
     public function bolumler(Request $request)
     {
         // Sorguyu oluşturuyoruz
@@ -282,7 +286,7 @@ class AdminController extends Controller
         $fakulteler2 = \App\Models\Fakulte::with('universite')->get(); // Fakülte ve üniversite isimlerini birlikte gönderiyoruz
         $universiteler = \App\Models\Universite::select('isim')->distinct()->get(); // Tekil üniversite isimleri
     
-        return view('main.bolumler', compact('bolumler', 'fakulteler', 'fakulteler2', 'universiteler'));
+        return view('admin.bolumler', compact('bolumler', 'fakulteler', 'fakulteler2', 'universiteler'));
     }
     
     public function addBolum(Request $request)
@@ -371,5 +375,87 @@ class AdminController extends Controller
     }
 
 
+    //Roller
+    public function roller(Request $request)
+    {
+        // Rol adı ve yetki filtreleme işlemleri
+        $query = Role::query();
+    
+        // Rol adına göre filtreleme
+        if ($request->has('rol_adi') && $request->rol_adi != '') {
+            $query->where('isim', 'like', '%' . $request->rol_adi . '%');
+        }
+    
+        // Yetkilere göre filtreleme
+        $permissions = ['universite', 'fakulte', 'bolum', 'dersprogramı', 'dersler', 'salonlar', 'user', 'role', 'ayar', 'akademisyen'];
+        foreach ($permissions as $permission) {
+            if ($request->has($permission)) {
+                $query->where($permission, 1);
+            }
+        }
+    
+        // 5 kayıt olacak şekilde pagination yapıyoruz
+        $roles = $query->paginate(5);
+    
+        // Rolleri 'admin.roller' blade sayfasına gönderiyoruz
+        return view('admin.roller', compact('roles'));
+    }
+    
+
+    public function addRole(Request $request)
+    {
+        // Yeni rolü oluşturuyoruz
+        $role = new Role();
+        $role->isim = $request->input('rol_adi');
+        
+        // Yetkiler kontrol ediliyor ve atanıyor
+        $role->universite = $request->has('universite') ? 1 : 0;
+        $role->fakulte = $request->has('fakulte') ? 1 : 0;
+        $role->bolum = $request->has('bolum') ? 1 : 0;
+        $role->dersprogramı = $request->has('dersprogramı') ? 1 : 0;
+        $role->dersler = $request->has('dersler') ? 1 : 0;
+        $role->salonlar = $request->has('salonlar') ? 1 : 0;
+        $role->user = $request->has('user') ? 1 : 0;
+        $role->role = $request->has('role') ? 1 : 0;
+        $role->ayar = $request->has('ayar') ? 1 : 0;
+        $role->akademisyen = $request->has('akademisyen') ? 1 : 0;
+
+        // Rolü kaydediyoruz
+        $role->save();
+
+        // Başarıyla ekleme sonrası geri dönüyoruz
+        return redirect()->route('admin.roller')->with('success', 'Rol başarıyla eklendi!');
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+        $role = Role::findOrFail($id);
+        $role->isim = $request->input('rol_adi');
+        
+        // Yetkileri güncelleme
+        $role->universite = $request->has('universite') ? 1 : 0;
+        $role->fakulte = $request->has('fakulte') ? 1 : 0;
+        $role->bolum = $request->has('bolum') ? 1 : 0;
+        $role->dersprogramı = $request->has('dersprogramı') ? 1 : 0;
+        $role->dersler = $request->has('dersler') ? 1 : 0;
+        $role->salonlar = $request->has('salonlar') ? 1 : 0;
+        $role->user = $request->has('user') ? 1 : 0;
+        $role->role = $request->has('role') ? 1 : 0;
+        $role->ayar = $request->has('ayar') ? 1 : 0;
+        $role->akademisyen = $request->has('akademisyen') ? 1 : 0;
+
+        $role->save();
+
+        return redirect()->route('admin.roller')->with('success', 'Rol başarıyla güncellendi!');
+    }
+
+    // Rol Silme
+    public function deleteRole($id)
+    {
+        $role = Role::findOrFail($id);
+        $role->delete();
+
+        return redirect()->route('admin.roller')->with('success', 'Rol başarıyla silindi!');
+    }
     
 }
