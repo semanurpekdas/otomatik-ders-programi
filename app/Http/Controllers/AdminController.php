@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Universite; // Universiteler tablosu için model
 use App\Models\Fakulte; // Universiteler tablosu için model
+use App\Models\Bolum;
 use Illuminate\Support\Facades\Storage; // Dosya depolama işlemleri için
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use App\Models\UserRole;
 
 class AdminController extends Controller
 {
@@ -449,7 +454,6 @@ class AdminController extends Controller
         return redirect()->route('admin.roller')->with('success', 'Rol başarıyla güncellendi!');
     }
 
-    // Rol Silme
     public function deleteRole($id)
     {
         $role = Role::findOrFail($id);
@@ -457,5 +461,226 @@ class AdminController extends Controller
 
         return redirect()->route('admin.roller')->with('success', 'Rol başarıyla silindi!');
     }
+
+
+    // Kullanıcılar
+    public function users(Request $request)
+    {
+        // Kullanıcı sorgusunu oluşturuyoruz
+        $query = \App\Models\User::with('universite', 'bolum');
+    
+        // İsim Soyisim arama
+        if ($request->filled('isim')) {
+            $query->whereRaw('CONCAT(isim, " ", soyisim) LIKE ?', ['%' . mb_convert_case($request->input('isim'), MB_CASE_TITLE, "UTF-8") . '%']);
+        }
+    
+        // E-mail arama
+        if ($request->filled('email')) {
+            $query->where('email', 'LIKE', '%' . $request->input('email') . '%');
+        }
+    
+        // Üniversite adına göre arama
+        if ($request->filled('universite')) {
+            $query->whereHas('universite', function ($q) use ($request) {
+                $q->where('isim', 'LIKE', '%' . mb_convert_case($request->input('universite'), MB_CASE_TITLE, "UTF-8") . '%');
+            });
+        }
+    
+        // Bölüm adına göre arama
+        if ($request->filled('bolum')) {
+            $query->whereHas('bolum', function ($q) use ($request) {
+                $q->where('bolum_isim', 'LIKE', '%' . mb_convert_case($request->input('bolum'), MB_CASE_TITLE, "UTF-8") . '%');
+            });
+        }
+    
+        // Unvan'a göre arama
+        if ($request->filled('unvan')) {
+            $query->where('unvan', $request->input('unvan'));
+        }
+    
+        // Sonuçları paginate ediyoruz (sayfa başına 5 kayıt)
+        $kullanıcılar = $query->paginate(5)->appends($request->all());
+    
+        // Benzersiz üniversite ve bölüm isimlerini alıyoruz
+        $universiteler = \App\Models\Universite::select('isim')->distinct()->get();
+        $bolumler = \App\Models\Bolum::select('bolum_isim')->distinct()->get();
+    
+        return view('admin.users', compact('kullanıcılar', 'universiteler', 'bolumler'));
+    }
+    
+
+    public function userscreate()
+    {
+        // Rolleri ve üniversiteleri çekiyoruz
+        $roles = \App\Models\Role::all();
+        $universiteler = \App\Models\Universite::select('id', 'isim')->get();
+        $bolumler = \App\Models\Bolum::with('universite')->get();
+    
+        return view('admin.userscreate', compact('roles', 'universiteler', 'bolumler'));
+    }
+
+    public function adduser(Request $request)
+    {
+        // Oturum açmış olan admin kullanıcısını geçici olarak alıyoruz
+        $currentUser = Auth::user();
+    
+        // Validasyon işlemi
+        $this->validate($request, [
+            'isim' => ['required', 'string', 'max:255'],
+            'soyisim' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'telefon' => ['required', 'string', 'max:15'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'universite_adi' => ['required', 'string'],
+            'bolum' => ['required', 'string'],
+            'unvan' => ['required', 'string'],
+        ]);
+    
+        // Üniversiteyi bulma
+        $universiteAdi = mb_convert_case($request->input('universite_adi'), MB_CASE_TITLE, "UTF-8");
+        $universite = Universite::where('isim', $universiteAdi)->first();
+    
+        if (!$universite) {
+            return redirect()->back()->withInput()->withErrors(['universite_adi' => 'Üniversite bulunamadı.']);
+        }
+    
+        // Bölümü bulma
+        $bolumAdi = mb_convert_case($request->input('bolum'), MB_CASE_TITLE, "UTF-8");
+        $bolum = Bolum::where('bolum_isim', $bolumAdi)->where('uni_id', $universite->id)->first();
+    
+        if (!$bolum) {
+            return redirect()->back()->withInput()->withErrors(['bolum' => 'Üniversitede bölüm bulunamadı.']);
+        }
+    
+        // Profil resmi yükleme
+        $profilimgPath = null;
+        if ($request->hasFile('profilimg')) {
+            $profilimg = $request->file('profilimg');
+            $profilimgPath = $profilimg->storeAs('images/profiller', time() . '_' . $profilimg->getClientOriginalName(), 'public');
+        }
+    
+        // Kullanıcı oluşturma
+        $user = User::create([
+            'guid' => Str::uuid(),
+            'isim' => $request->input('isim'),
+            'soyisim' => $request->input('soyisim'),
+            'email' => $request->input('email'),
+            'telefon' => $request->input('telefon'),
+            'password' => Hash::make($request->input('password')),
+            'uni_id' => $universite->id,
+            'bolum_id' => $bolum->id,
+            'unvan' => $request->input('unvan'),
+            'profilimg_path' => $profilimgPath,
+        ]);
+    
+        // Kullanıcının emailini doğrulanmış olarak işaretliyoruz
+        $user->markEmailAsVerified();
+    
+        // Seçilen roller varsa user_role tablosuna kaydet
+        if ($request->has('roles')) {
+            foreach ($request->input('roles') as $role_id) {
+                \App\Models\UserRole::create([
+                    'user_id' => $user->id,
+                    'role_id' => $role_id,
+                ]);
+            }
+        }
+    
+        // Yeni kullanıcıyı oluşturduktan sonra oturumu kapat
+        Auth::logout();
+    
+        // Eski admin kullanıcısı ile tekrar oturum aç
+        Auth::login($currentUser);
+    
+        return redirect()->route('admin.users')->with('success', 'Kullanıcı başarıyla oluşturuldu ve oturum admin ile devam ediyor.');
+    }
+
+    public function editUser($guid)
+    {
+        // Kullanıcıyı buluyoruz
+        $kullanici = User::where('guid', $guid)->with('roles')->firstOrFail();
+
+        // Rolleri ve üniversiteleri alıyoruz
+        $roles = \App\Models\Role::all();
+        $universiteler = \App\Models\Universite::select('id', 'isim')->get();
+        $bolumler = \App\Models\Bolum::with('universite')->get();
+
+        return view('admin.usersedit', compact('kullanici', 'roles', 'universiteler', 'bolumler'));
+    }
+
+    public function updateUser(Request $request, $guid)
+    {
+        // Kullanıcıyı buluyoruz
+        $user = User::where('guid', $guid)->firstOrFail();
+
+        // Validasyon işlemi
+        $this->validate($request, [
+            'isim' => ['required', 'string', 'max:255'],
+            'soyisim' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id], // Kendi e-posta adresini doğrula
+            'telefon' => ['required', 'string', 'max:15'],
+            'universite_adi' => ['required', 'string'],
+            'bolum' => ['required', 'string'],
+            'unvan' => ['required', 'string'],
+        ]);
+
+        // Üniversiteyi bulma
+        $universiteAdi = mb_convert_case($request->input('universite_adi'), MB_CASE_TITLE, "UTF-8");
+        $universite = Universite::where('isim', $universiteAdi)->first();
+
+        if (!$universite) {
+            return redirect()->back()->withInput()->withErrors(['universite_adi' => 'Üniversite bulunamadı.']);
+        }
+
+        // Bölümü bulma
+        $bolumAdi = mb_convert_case($request->input('bolum'), MB_CASE_TITLE, "UTF-8");
+        $bolum = Bolum::where('bolum_isim', $bolumAdi)->where('uni_id', $universite->id)->first();
+
+        if (!$bolum) {
+            return redirect()->back()->withInput()->withErrors(['bolum' => 'Üniversitede bölüm bulunamadı.']);
+        }
+
+        // Profil resmi yükleme
+        if ($request->hasFile('profilimg')) {
+            // Eski resmi sil
+            if ($user->profilimg_path) {
+                Storage::disk('public')->delete($user->profilimg_path);
+            }
+
+            // Yeni resmi yükle
+            $profilimg = $request->file('profilimg');
+            $profilimgPath = $profilimg->storeAs('images/profiller', time() . '_' . $profilimg->getClientOriginalName(), 'public');
+            $user->profilimg_path = $profilimgPath;
+        }
+
+        // Kullanıcıyı güncelle
+        $user->update([
+            'isim' => $request->input('isim'),
+            'soyisim' => $request->input('soyisim'),
+            'email' => $request->input('email'),
+            'telefon' => $request->input('telefon'),
+            'uni_id' => $universite->id,
+            'bolum_id' => $bolum->id,
+            'unvan' => $request->input('unvan'),
+        ]);
+
+        // Roller güncelleniyor
+        if ($request->has('roles')) {
+            // Mevcut roller siliniyor
+            \App\Models\UserRole::where('user_id', $user->id)->delete();
+
+            // Yeni roller ekleniyor
+            foreach ($request->input('roles') as $role_id) {
+                \App\Models\UserRole::create([
+                    'user_id' => $user->id,
+                    'role_id' => $role_id,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.users')->with('success', 'Kullanıcı başarıyla güncellendi.');
+    }
+
     
 }
+ 

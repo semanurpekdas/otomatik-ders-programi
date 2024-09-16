@@ -17,4 +17,10 @@ class Bolum extends Model
     {
         return $this->belongsTo(Fakulte::class, 'fakulte_id');
     }
+    
+    // Universite ile ilişki tanımlıyoruz
+    public function universite()
+    {
+        return $this->belongsTo(Universite::class, 'uni_id');
+    }
 }

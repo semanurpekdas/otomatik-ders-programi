@@ -59,6 +59,7 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])
 
 
 // Admin Paneli
+Route::middleware('auth')->group(function () {
     // Universiteler
     Route::get('/admin/universiteler', [AdminController::class, 'university'])->name('admin.university');
     Route::post('/admin/university/add', [AdminController::class, 'addUniversity'])->name('admin.addUniversity');
@@ -77,11 +78,22 @@ Route::post('/email/resend', [VerificationController::class, 'resend'])
     Route::put('/admin/bolumler/update/{id}', [AdminController::class, 'updateBolum'])->name('admin.updateBolum');
     Route::delete('/admin/bolumler/delete/{id}', [AdminController::class, 'deleteBolum'])->name('admin.deleteBolum');
 
-    //Roller
+    // Roller
     Route::get('/admin/roller', [AdminController::class, 'roller'])->name('admin.roller');
     Route::post('/admin/role/add', [AdminController::class, 'addRole'])->name('admin.addRole');
     Route::put('/admin/role/update/{id}', [AdminController::class, 'updateRole'])->name('admin.updateRole');
     Route::delete('/admin/role/delete/{id}', [AdminController::class, 'deleteRole'])->name('admin.deleteRole');
+
+    // Kullanıcılar 
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/users/create', [AdminController::class, 'userscreate'])->name('admin.userscreate');
+    Route::post('/admin/users/add', [AdminController::class, 'adduser'])->name('admin.adduser');
+    Route::get('/admin/users/edit/{guid}', [AdminController::class, 'editUser'])->name('admin.editUser');
+    Route::post('/admin/users/update/{guid}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+
+});
+
+
 
 
 

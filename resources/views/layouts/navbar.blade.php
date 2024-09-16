@@ -44,6 +44,7 @@
                     <li><a class="dropdown-item" href="{{ route('admin.university') }}"><i class="bi bi-person-vcard me-2"></i> Admin Universiteler</a></li>
                     <li><a class="dropdown-item" href="{{ route('admin.fakulteler') }}"><i class="bi bi-person-vcard me-2"></i> Admin Fakülteler</a></li>
                     <li><a class="dropdown-item" href="{{ route('admin.bolumler') }}"><i class="bi bi-person-vcard me-2"></i> Admin Bölümler</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.users') }}"><i class="bi bi-person-vcard me-2"></i> Admin Kullanıcılar</a></li>
                     <li><a class="dropdown-item" href="{{ route('admin.roller') }}"><i class="bi bi-person-vcard me-2"></i> Admin Roller</a></li>
                     <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person me-2"></i> Profile</a></li>
                     <li>
