@@ -461,6 +461,22 @@ class AdminController extends Controller
         return redirect()->route('admin.roller')->with('success', 'Rol başarıyla silindi!');
     }
 
+    public function userRole(Request $request)
+    {
+        // Rolleri çekiyoruz
+        $roles = \App\Models\Role::all();
+    
+        // Seçilen role göre kullanıcıları filtreliyoruz
+        $selectedRoleId = $request->query('role_id', $roles->first()->id); // Varsayılan olarak ilk rol seçiliyor
+        $kullanıcılar = \App\Models\User::whereHas('roles', function ($query) use ($selectedRoleId) {
+            $query->where('roles.id', $selectedRoleId);
+        })->with('universite', 'bolum')->paginate(7);
+    
+        return view('admin.userRole', compact('roles', 'kullanıcılar', 'selectedRoleId'));
+    }
+    
+
+
 
     // Kullanıcılar
     public function users(Request $request)
@@ -678,6 +694,26 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users')->with('success', 'Kullanıcı başarıyla güncellendi.');
     }
+
+    public function deleteUser($guid)
+    {
+        // Kullanıcıyı bul
+        $user = User::where('guid', $guid)->first();
+
+        // Eğer kullanıcı bulunamazsa hata dön
+        if (!$user) {
+            return redirect()->route('admin.users')->with('error', 'Kullanıcı bulunamadı.');
+        }
+
+        // Kullanıcının rol ilişkilerini (user_role tablosu) sil
+        $user->roles()->detach();
+
+        // Kullanıcıyı sil
+        $user->delete();
+
+        return redirect()->route('admin.users')->with('success', 'Kullanıcı başarıyla silindi.');
+    }
+
 
     
 }

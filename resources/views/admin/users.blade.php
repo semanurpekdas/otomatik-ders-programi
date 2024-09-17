@@ -13,7 +13,7 @@
             <div class="mt-3">
                 <div class="d-flex justify-content-between my-3">
                     <div>
-                        <button class="btn btn-warning text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
+                        <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">
                                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Kullanıcı Filtreleme</h5>
@@ -72,7 +72,8 @@
                         </div>
                     </div>
                     <div>
-                        <a href="{{ route('admin.userscreate') }}" class="btn btn-success text-white">Kullanıcı Ekle</a>
+                        <a href="{{ route('admin.userRole') }}" class="btn btn-dark dark-active-overlay text-white">Kullanıcı Rolleri</a>
+                        <a href="{{ route('admin.userscreate') }}" class="btn btn-success success-active-overlay text-white">Kullanıcı Ekle</a>
                     </div>
                 </div>
                 @if(session('success'))
@@ -126,11 +127,30 @@
                                     <a href="{{ route('admin.editUser', $kullanıcı->guid) }}" class="btn btn-primary me-2">
                                         Düzenle
                                     </a>
-
-                                    <!-- Sil Butonu -->
-                                    <button type="button" class="btn btn-danger text-white">
-                                        Sil
+                                    <button type="button" class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $kullanıcı->guid }}">
+                                            Sil
                                     </button>
+                                    <!-- Rol Sil Modal -->
+                                    <div class="modal fade text-dark" id="deleteModal-{{ $kullanıcı->guid }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel">Kullanıcı Sil</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('admin.deleteUser', $kullanıcı->guid) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <div class="alert alert-warning">
+                                                            <b>{{ $kullanıcı->isim }} {{ $kullanıcı->soyisim }}</b> kullanıcıyı silmek istediğinize emin misiniz? <b>( Rolleri de silinecektir! )</b>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-danger text-white">Sil</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

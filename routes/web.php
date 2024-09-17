@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/role/add', [AdminController::class, 'addRole'])->name('admin.addRole');
     Route::put('/admin/role/update/{id}', [AdminController::class, 'updateRole'])->name('admin.updateRole');
     Route::delete('/admin/role/delete/{id}', [AdminController::class, 'deleteRole'])->name('admin.deleteRole');
+    Route::get('/admin/role/users', [AdminController::class, 'userRole'])->name('admin.userRole');
 
     // Kullanıcılar 
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
@@ -90,6 +91,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/users/add', [AdminController::class, 'adduser'])->name('admin.adduser');
     Route::get('/admin/users/edit/{guid}', [AdminController::class, 'editUser'])->name('admin.editUser');
     Route::post('/admin/users/update/{guid}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+    Route::delete('/admin/users/delete/{guid}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+
 
 });
 

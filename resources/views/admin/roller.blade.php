@@ -48,6 +48,7 @@
                         </div>
                     </div>
                     <div>
+                        <a href="{{ route('admin.userRole') }}" class="btn btn-dark dark-active-overlay text-white">Kullanıcı Rolleri</a>
                         <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#roleklemodal">Rol Ekle</button>
                         <div class="modal fade" id="roleklemodal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog">
