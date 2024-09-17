@@ -3,12 +3,15 @@
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     }
     .sidebar {
-        height: 100vh;
+        
         background: url('{{ asset("images/sidebar-1.jpg") }}') no-repeat center center;
         background-size: cover;
         position: relative;
         color: white;
         padding-top: 20px;
+        min-height: 100vh; /* Yüksekliği en az ekranın tamamı olacak şekilde ayarla */
+        height: auto; /* İçerik fazla olduğunda otomatik olarak genişlesin */
+        overflow: hidden; /* Taşmayı engelle */
     }
     .sidebar::before {
         content: '';
@@ -97,6 +100,11 @@
         margin-left: 10px;
     }
 
+    a{
+        text-decoration: none;
+        color: white;
+    }
+    
     /* Responsive ayarlar */
     @media (max-width: 768px) {
         .sidebar {
@@ -173,13 +181,15 @@
 </style>
 
 <div class="col-2 sidebar">
-    <div class="text-center profile-section d-flex align-items-center justify-content-center px-2">
-        <img src="{{ asset('storage/' . $user->profilimg_path) }}" alt="Profil Fotoğrafı" class="rounded-circle shadow">
-        <div class="d-flex flex-column">
-            <h4 class="ms-3 d-none d-md-block pt-3">{{ $user->isim }} {{ $user->soyisim }}</h4> <!-- Yalnızca orta boyut ve üzeri ekranlarda görünür -->
-            <h5 class="text-warning mt-2"><b>{{ $user->unvan }}</b></h5>
-        </div> 
-    </div>
+    <a href="{{ route('profile') }}">
+        <div class="text-center profile-section d-flex align-items-center justify-content-center px-2">
+            <img src="{{ asset('storage/' . $user->profilimg_path) }}" alt="Profil Fotoğrafı" class="rounded-circle shadow">
+            <div class="d-flex flex-column">
+                <h4 class="ms-3 d-none d-md-block pt-3">{{ $user->isim }} {{ $user->soyisim }}</h4> <!-- Yalnızca orta boyut ve üzeri ekranlarda görünür -->
+                <h5 class="text-warning mt-2"><b>{{ $user->unvan }}</b></h5>
+            </div> 
+        </div>
+    </a>
 
     <ul class="nav flex-column">
     <li class="nav-item">

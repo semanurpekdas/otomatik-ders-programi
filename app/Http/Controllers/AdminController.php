@@ -406,7 +406,6 @@ class AdminController extends Controller
         return view('admin.roller', compact('roles'));
     }
     
-
     public function addRole(Request $request)
     {
         // Yeni rolü oluşturuyoruz
@@ -507,7 +506,6 @@ class AdminController extends Controller
     
         return view('admin.users', compact('kullanıcılar', 'universiteler', 'bolumler'));
     }
-    
 
     public function userscreate()
     {

@@ -15,11 +15,13 @@
                 background-size: cover;
             }
 
-            #altbolum{
+            #altbolum {
                 background-color: rgba(0, 0, 0, 0.9);
-                height: 100vh;
-
+                min-height: 100vh; /* Yüksekliği en az ekranın tamamı olacak şekilde ayarla */
+                height: auto; /* İçerik fazla olduğunda otomatik olarak genişlesin */
+                overflow: hidden; /* Taşmayı engelle */
             }
+            
             .row{
                 padding-right: 0px !important;
                 padding-left: 0px !important;

@@ -30,7 +30,7 @@
     <nav class="navbar navbar-expand-lg navbar-light w-100">
         <div class="container-fluid">
             <!-- Sol Taraftaki Yatay Fotoğraf -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('images/logo.jpg') }}" class="object-fit-cover border rounded" alt="Logo" height="94">
             </a>
 
