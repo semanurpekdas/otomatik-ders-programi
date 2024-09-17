@@ -199,7 +199,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('classes') ? 'active primary-active-overlay bg-primary' : '' }} d-flex align-items-center" href="{{ route('classes') }}">
+        <a class="nav-link {{ request()->routeIs('sınıflar.index') ? 'active primary-active-overlay bg-primary' : '' }} d-flex align-items-center" href="{{ route('sınıflar.index') }}">
             <i class="bi bi-house-check"></i>
             <span class="ms-3 d-none d-md-inline">Salonlar</span>
         </a>

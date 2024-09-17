@@ -2,18 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\SınıflarController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkademisyenController; 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Auth\VerificationController; 
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
 // Sınıflar sayfası (Sadece oturum açmış kişiler erişebilir)
-Route::get('/sınıflar', [ClassesController::class, 'index'])->middleware(['auth'])->name('classes');
+Route::get('/sınıflar', [SınıflarController::class, 'index'])->middleware(['auth'])->name('sınıflar.index');
+Route::post('/sınıflar/ekle', [SınıflarController::class, 'store'])->middleware(['auth'])->name('sınıflar.store');
+Route::put('/sınıflar/update/{id}', [SınıflarController::class, 'updateSalon'])->middleware(['auth'])->name('sınıflar.updateSalon');
+Route::delete('/sınıflar/delete/{id}', [SınıflarController::class, 'deleteSalon'])->middleware(['auth'])->name('sınıflar.deleteSalon');
 
 // Dersler sayfası (Sadece oturum açmış kişiler erişebilir)
 Route::get('/dersler', [LessonController::class, 'index'])->middleware(['auth'])->name('lessons');

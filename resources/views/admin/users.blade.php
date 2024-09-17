@@ -143,7 +143,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <div class="alert alert-warning">
-                                                            <b>{{ $kullanıcı->isim }} {{ $kullanıcı->soyisim }}</b> kullanıcıyı silmek istediğinize emin misiniz? <b>( Rolleri de silinecektir! )</b>
+                                                            <b>{{ $kullanıcı->isim }} {{ $kullanıcı->soyisim }}</b> kullanıcıyı silmek istediğinize emin misiniz? <b>(Rolleri de silinecektir! )</b>
                                                         </div>
                                                         <button type="submit" class="btn btn-danger text-white">Sil</button>
                                                     </form>
