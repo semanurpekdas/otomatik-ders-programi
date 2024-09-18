@@ -13,7 +13,7 @@
             <div class=" mt-3">
                 <div class="d-flex justify-content-between my-3">
                     <div>
-                        <button class="btn btn-warning text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
+                        <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">
                                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Akademisyen Filtreleme</h5>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#akademisyengetir">Akademisyen Getir</button>
+                        <button class="btn btn-secondary text-white secondary-active-overlay" data-bs-toggle="modal" data-bs-target="#akademisyengetir">Akademisyen Getir</button>
                         <div class="modal fade" id="akademisyengetir" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Akademisyen Ekle</button>
+                        <button class="btn btn-success text-white success-active-overlay" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Akademisyen Ekle</button>
                         <!-- Akademisyen ekleme modal -->
                         <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

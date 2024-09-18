@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SınıflarController;
-use App\Http\Controllers\LessonController;
+use App\Http\Controllers\DersController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkademisyenController; 
 use App\Http\Controllers\AdminController;
@@ -19,7 +19,11 @@ Route::put('/sınıflar/update/{id}', [SınıflarController::class, 'updateSalon
 Route::delete('/sınıflar/delete/{id}', [SınıflarController::class, 'deleteSalon'])->middleware(['auth'])->name('sınıflar.deleteSalon');
 
 // Dersler sayfası (Sadece oturum açmış kişiler erişebilir)
-Route::get('/dersler', [LessonController::class, 'index'])->middleware(['auth'])->name('lessons');
+Route::get('/dersler', [DersController::class, 'index'])->middleware(['auth'])->name('dersler');
+Route::post('/dersler/ekle', [DersController::class, 'addDers'])->middleware(['auth'])->name('addDers');
+Route::put('/dersler/update/{id}', [DersController::class, 'update'])->name('updateDers');
+Route::delete('/dersler/delete/{id}', [DersController::class, 'delete'])->name('deleteDers');
+
 
 // Profil sayfası (Sadece oturum açmış kişiler erişebilir)
 Route::get('/profil', [ProfileController::class, 'index'])->middleware(['auth'])->name('profile');

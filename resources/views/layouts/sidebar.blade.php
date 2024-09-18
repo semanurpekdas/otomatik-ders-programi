@@ -206,7 +206,7 @@
     </li>
 
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center {{ request()->routeIs('lessons') ? 'active secondary-active-overlay bg-secondary' : '' }}" href="{{ route('lessons') }}">
+            <a class="nav-link d-flex align-items-center {{ request()->routeIs('dersler') ? 'active secondary-active-overlay bg-secondary' : '' }}" href="{{ route('dersler') }}">
                 <i class="bi bi-book"></i>
                 <span class="ms-3 d-none d-md-inline">Dersler</span>
             </a>
