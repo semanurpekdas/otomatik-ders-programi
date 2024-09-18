@@ -22,17 +22,42 @@ class AkademisyenController extends Controller
         });
     }
 
-    public function index()
+    public function index(Request $request)
     {
         // Kullanıcının bölümü ve fakültesi
         $bolum = Bolum::find($this->user->bolum_id);
         $fakulte = $bolum ? Fakulte::find($bolum->fakulte_id) : null;
     
-        // Akademisyenleri bölüme göre filtrele
-        $akademisyenler = Akademisyen::where('bolum_id', $this->user->bolum_id)->get();
+        // Akademisyenleri bölüme, isme ve e-postaya göre filtreleme
+        $query = Akademisyen::where('fakulte_id', $fakulte->id);
     
-        return view('main.akademisyenler', compact('bolum', 'fakulte', 'akademisyenler'));
+        // Bölüme göre filtreleme
+        if ($request->filled('bolum_id')) {
+            $query->where('bolum_id', $request->input('bolum_id'));
+        }
+    
+        // İsim soyisim filtreleme
+        if ($request->filled('isim')) {
+            $query->where(function($q) use ($request) {
+                $q->where('isim', 'LIKE', '%' . $request->input('isim') . '%')
+                  ->orWhere('soyisim', 'LIKE', '%' . $request->input('isim') . '%');
+            });
+        }
+    
+        // E-posta filtreleme
+        if ($request->filled('email')) {
+            $query->where('email', 'LIKE', '%' . $request->input('email') . '%');
+        }
+    
+        // Akademisyenleri sayfalama ile getir
+        $akademisyenler = $query->paginate(10);
+    
+        // Kullanıcının üniversitesindeki tüm bölümleri al
+        $bolumler = Bolum::where('uni_id', $this->user->uni_id)->get();
+    
+        return view('main.akademisyenler', compact('bolum', 'fakulte', 'akademisyenler', 'bolumler'));
     }
+    
 
     public function createAkademisyen(Request $request)
     {

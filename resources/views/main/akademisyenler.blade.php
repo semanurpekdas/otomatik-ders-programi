@@ -20,31 +20,25 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
-                                <form>
-                                    <label for="createkapasite" class="form-label">Fakülteye Göre</label>
+                                <form method="GET" action="{{ route('akademisyenler') }}">
+                                    <label for="bolum_id" class="form-label">Bölüme Göre</label>
                                     <div class="mb-3 px-1">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Fakülte Seçiniz</option>
-                                            <option value="1">İlahiyat Fakültesi</option>
-                                            <option value="2">Mühendislik Fakültesi</option>
+                                        <select class="form-select" name="bolum_id" aria-label="Bölüm Seçiniz">
+                                            <option value="">Bölüm Seçiniz</option>
+                                            @foreach($bolumler as $bolum2)
+                                                <option value="{{ $bolum2->id }}" {{ request('bolum_id') == $bolum2->id ? 'selected' : '' }}>
+                                                    {{ $bolum2->bolum_isim }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
-                                    <label for="createkapasite" class="form-label">Bölüme Göre</label>
+                                    <label for="isim" class="form-label">İsim Soyisim</label>
                                     <div class="mb-3 px-1">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Bölüm Seçiniz</option>
-                                            <option value="1">Bilgisayar Mühendisliği</option>
-                                            <option value="1">Elektrik Elektronik Mühendisliği</option>
-                                            <option value="2">Bilgisayar Programcılığı</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="isim" id="isim" value="{{ request('isim') }}">
                                     </div>
-                                    <label for="createkapasite" class="form-label">Cinsiyete Göre</label>
+                                    <label for="email" class="form-label">E-posta</label>
                                     <div class="mb-3 px-1">
-                                        <select class="form-select">
-                                            <option selected>Cinsiyet Seçiniz</option>
-                                            <option value="1">Erkek</option>
-                                            <option value="2">Kadın</option>
-                                        </select>
+                                        <input type="email" class="form-control" name="email" id="email" value="{{ request('email') }}">
                                     </div>
                                     <button type="submit" class="btn btn-warning text-white w-100">Filtrele</button>
                                 </form>
@@ -147,6 +141,19 @@
                         </div>
                     </div>
                 </div>
+
+                @if(session('success'))
+                    <div class="alert alert-success text-center">
+                        <b>{{ session('success') }}</b>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger text-center">
+                        <b>{{ session('error') }}</b>
+                    </div>
+                @endif
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -163,7 +170,7 @@
                     <tbody>
                         @forelse($akademisyenler as $akademisyen)
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
+                                <th scope="row">{{ ($akademisyenler->currentPage() - 1) * $akademisyenler->perPage() + $loop->iteration }}</th>
                                 <td>{{ $akademisyen->isim }}</td>
                                 <td>{{ $akademisyen->soyisim }}</td>
                                 <td>{{ $akademisyen->kisa_kod }}</td>
@@ -314,6 +321,10 @@
                         @endforelse
                     </tbody>
                 </table>
+                <!-- Pagination -->
+                <nav class="d-flex justify-content-center">
+                    {{ $akademisyenler->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
+                </nav>
             </div>
         </div>
     </div>
@@ -420,6 +431,27 @@
                     });
                 }
             });
+        });
+
+        // Alert mesajlarını gizlemek için
+        document.addEventListener('DOMContentLoaded', function() {
+            // Başarı veya hata alertleri için DOM elementlerini seç
+            const alertSuccess = document.querySelector('.alert-success');
+            const alertError = document.querySelector('.alert-danger');
+
+            // Eğer başarı mesajı varsa 3 saniye sonra gizle
+            if (alertSuccess) {
+                setTimeout(() => {
+                    alertSuccess.style.display = 'none';
+                }, 4000); // 3000 milisaniye (3 saniye)
+            }
+
+            // Eğer hata mesajı varsa 3 saniye sonra gizle
+            if (alertError) {
+                setTimeout(() => {
+                    alertError.style.display = 'none';
+                }, 4000); // 3000 milisaniye (3 saniye)
+            }
         });
     </script>
 
