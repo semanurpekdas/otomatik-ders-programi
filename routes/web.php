@@ -27,9 +27,11 @@ Route::post('/profil/fotograf', [ProfileController::class, 'updatePhoto'])->name
 Route::post('/profil/update', [ProfileController::class, 'update'])->name('profile.update');
 
 
-
 // Akademisyenler sayfası (Sadece oturum açmış kişiler erişebilir)
 Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->middleware(['auth'])->name('akademisyenler');
+Route::post('/akademisyenler/ekle', [AkademisyenController::class, 'createAkademisyen'])->middleware(['auth'])->name('akademisyenler.store');
+Route::put('/akademisyenler/update/{guid}', [AkademisyenController::class, 'updateAkademisyen'])->middleware(['auth'])->name('akademisyenler.update');
+Route::delete('/akademisyenler/delete/{guid}', [AkademisyenController::class, 'deleteAkademisyen'])->middleware(['auth'])->name('akademisyenler.delete');
 
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

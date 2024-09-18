@@ -13,7 +13,7 @@
                 margin: 0;
                 font-family: "Roboto", "Helvetica", "Arial", sans-serif;
                 background-size: cover;
-            }
+            } 
 
             #altbolum {
                 background-color: rgba(0, 0, 0, 0.9);

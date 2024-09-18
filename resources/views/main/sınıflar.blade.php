@@ -20,7 +20,7 @@
             <div class="mt-3">
                 <div class="d-flex justify-content-between my-3">
                     <div>
-                        <button class="btn btn-warning text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
+                        <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
                         <!-- Salon Filtreleme -->
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">
@@ -28,31 +28,31 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
-                            <form method="GET" action="{{ route('sınıflar.index') }}">
-                                <label for="fakulte" class="form-label">Fakülteye Göre</label>
-                                <div class="mb-3 px-1">
-                                    <select class="form-select" name="fakulte_id" aria-label="Fakülte Seç">
-                                        <option value="">Fakülte Seçiniz</option>
-                                        @foreach($fakulteler as $fakulte)
-                                            <option value="{{ $fakulte->id }}" {{ request('fakulte_id') == $fakulte->id ? 'selected' : '' }}>
-                                                {{ $fakulte->fakulte_isim }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <form method="GET" action="{{ route('sınıflar.index') }}">
+                                    <label for="fakulte" class="form-label">Fakülteye Göre</label>
+                                    <div class="mb-3 px-1">
+                                        <select class="form-select" name="fakulte_id" aria-label="Fakülte Seç">
+                                            <option value="">Fakülte Seçiniz</option>
+                                            @foreach($fakulteler as $fakulte)
+                                                <option value="{{ $fakulte->id }}" {{ request('fakulte_id') == $fakulte->id ? 'selected' : '' }}>
+                                                    {{ $fakulte->fakulte_isim }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                <label for="isim" class="form-label">Salon İsmi</label>
-                                <div class="mb-3 px-1">
-                                    <input name="isim" id="isim" class="form-control" value="{{ request('isim') }}">
-                                </div>
+                                    <label for="isim" class="form-label">Salon İsmi</label>
+                                    <div class="mb-3 px-1">
+                                        <input name="isim" id="isim" class="form-control" value="{{ request('isim') }}">
+                                    </div>
 
-                                <button type="submit" class="btn btn-warning text-white w-100">Filtrele</button>
-                            </form>
+                                    <button type="submit" class="btn btn-warning text-white w-100">Filtrele</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Salon Ekle</button>
+                        <button class="btn btn-success text-white success-active-overlay" data-bs-toggle="modal" data-bs-target="#sınıfEkleModal">Salon Ekle</button>
                         <!-- sınıf ekleme modal -->
                         <div class="modal fade" id="sınıfEkleModal" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
