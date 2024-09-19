@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Akademisyen;
 use App\Models\Bolum;
 use App\Models\Ders;
+use App\Models\Salon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,7 @@ class DersController extends Controller
         // Kullanıcının bölümü ve akademisyenler
         $bolum = Bolum::find($user->bolum_id);
         $akademisyenler = Akademisyen::where('bolum_id', $user->bolum_id)->get();
+        $salonlar = Salon::where('bolum_id', $user->bolum_id)->get();
     
         // Filtreleme işlemi için query oluşturma
         $query = Ders::where('bolum_id', $user->bolum_id);
@@ -64,7 +66,7 @@ class DersController extends Controller
         // Filtrelenmiş dersleri 10'lu sayfalama ile getirme
         $dersler = $query->paginate(10);
     
-        return view('main.dersler', compact('bolum', 'dersler', 'akademisyenler'));
+        return view('main.dersler', compact('bolum', 'dersler', 'akademisyenler','salonlar'));
     }
     
 
@@ -72,7 +74,7 @@ class DersController extends Controller
     {
         // Kullanıcının bölümüne göre ilgili akademisyenleri bulalım
         $akademisyenler = Akademisyen::where('bolum_id', $this->user->bolum_id)->get();
-
+    
         // Form verilerini doğrulayalım
         $request->validate([
             'ders_adi' => 'required|string|max:255',
@@ -85,8 +87,14 @@ class DersController extends Controller
             'secmeli_durumu' => 'required|boolean',
             'hoca_id' => 'required|exists:akademisyenler,id',
             'renk_kodu' => 'required|string|max:7',
+            'uzaktan_egitim' => 'required|boolean', // Yeni alan için doğrulama
+            'salon_id' => 'nullable|array', // Salonlar bir liste olarak gönderileceği için array olarak doğrulanır
+            'salon_id.*' => 'nullable|exists:salonlar,id', // Listedeki her salonun var olup olmadığını kontrol ederiz
         ]);
-
+    
+        // Sinif ID'lerini JSON formatında kaydetmek için
+        $sinifIdJson = json_encode($request->input('salon_id', [])); // Eğer salon seçilmemişse boş bir array döner
+    
         // Yeni dersi ekleyelim
         Ders::create([
             'ders_adi' => $request->input('ders_adi'),
@@ -100,11 +108,13 @@ class DersController extends Controller
             'bolum_id' => $this->user->bolum_id, // Oturum açmış kullanıcının bölümü
             'hoca_id' => $request->input('hoca_id'),
             'renk_kodu' => $request->input('renk_kodu'),
+            'uzaktan_egitim' => $request->input('uzaktan_egitim'), // Yeni alan
+            'sinif_id' => $sinifIdJson, // Sinif (Salon) ID'leri JSON formatında kaydediliyor
         ]);
-
+    
         return redirect()->back()->with('success', 'Ders başarıyla eklendi.');
     }
-
+    
     public function update(Request $request, $id)
     {
         // Güncellenecek dersi buluyoruz
@@ -114,15 +124,19 @@ class DersController extends Controller
         $request->validate([
             'ders_adi' => 'required|string|max:255',
             'kisa_isim' => 'required|string|max:50',
-            'donem' => 'required|in:Güz,Bahar', // Yalnızca Güz veya Bahar dönemi kabul ediliyor
+            'donem' => 'required|in:Güz,Bahar',
             'ders_sayisi' => 'required|integer|min:1',
             'ders_parcasi' => 'required|integer|min:1|max:9',
             'sinif' => 'required|integer|min:1|max:9',
             'alan_kisi_sayisi' => 'required|integer|min:0',
-            'secmeli_durumu' => 'required|boolean', // 0 veya 1 olmalı
-            'hoca_id' => 'required|exists:akademisyenler,id', // Akademisyenlerin var olup olmadığı kontrol ediliyor
-            'renk_kodu' => 'required|string|size:7', // Hex formatında renk
+            'secmeli_durumu' => 'required|boolean',
+            'uzaktan_egitim' => 'required|boolean', // Eklenmiş doğrulama kuralı
+            'hoca_id' => 'required|exists:akademisyenler,id',
+            'renk_kodu' => 'required|string|size:7',
         ]);
+    
+        // Seçilen salonlar (sinif_id) JSON formatına çevrilir
+        $sinif_id = json_encode($request->input('salon_id', []));
     
         // Ders bilgilerini güncelliyoruz
         $ders->update([
@@ -133,12 +147,13 @@ class DersController extends Controller
             'ders_parcasi' => $request->input('ders_parcasi'),
             'sinif' => $request->input('sinif'),
             'alan_kisi_sayisi' => $request->input('alan_kisi_sayisi'),
-            'secmeli_durumu' => $request->input('secmeli_durumu'), // 0: Zorunlu, 1: Seçmeli
+            'secmeli_durumu' => $request->input('secmeli_durumu'),
             'hoca_id' => $request->input('hoca_id'),
             'renk_kodu' => $request->input('renk_kodu'),
+            'uzaktan_egitim' => $request->input('uzaktan_egitim'), // Uzaktan eğitim bilgisi güncelleniyor
+            'sinif_id' => $sinif_id, // Seçilen salonlar (JSON formatında)
         ]);
     
-        // Başarılı güncelleme mesajı ile geri dönüyoruz
         return redirect()->back()->with('success', 'Ders başarıyla güncellendi.');
     }
     

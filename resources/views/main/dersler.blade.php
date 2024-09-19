@@ -129,6 +129,8 @@
                                                 </select>
                                             </div>
 
+
+
                                             <!-- Kaçıncı Sınıf Dersi -->
                                             <label for="createSinif" class="form-label">Kaçıncı Sınıf Dersi</label>
                                             <div class="mb-3 px-1">
@@ -143,7 +145,7 @@
                                             <label for="createAlanKisiSayisi" class="form-label">Alan Kişi Sayısı</label>
                                             <div class="mb-3 px-1">
                                                 <input type="number" class="form-control" name="alan_kisi_sayisi" id="createAlanKisiSayisi" required>
-                                            </div>
+                                            </div> 
 
                                             <!-- Dersin Hocası -->
                                             <label for="createHoca" class="form-label">Dersin Hocası</label>
@@ -156,22 +158,42 @@
                                                 </select>
                                             </div>
 
+                                            <!-- Dinamik Salon Seçimi -->
+                                            <div id="salon-container"></div>
+
                                             <!-- Renk Kodu -->
                                             <label for="createRenkKodu" class="form-label">Ders Rengi</label>
                                             <div class="mb-3 px-1">
                                                 <input type="color" class="form-control form-control-color w-100" name="renk_kodu" id="createRenkKodu" value="#563d7c" required>
                                             </div>
 
-                                            <!-- Seçmeli Durumu -->
-                                            <label for="secmeliDurumu" class="form-label">Seçmeli Durumu</label>
-                                            <div class="mb-4 px-1">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="secmeli_durumu" id="zorunlu" value="0" required>
-                                                    <label class="form-check-label" for="zorunlu">Zorunlu</label>
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <!-- Seçmeli Durumu -->
+                                                    <label for="secmeliDurumu" class="form-label">Seçmeli Durumu</label>
+                                                    <div class="mb-4 px-1">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="secmeli_durumu" id="zorunlu" value="0" required checked>
+                                                            <label class="form-check-label" for="zorunlu">Zorunlu</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="secmeli_durumu" id="secmeli" value="1" required>
+                                                            <label class="form-check-label" for="secmeli">Seçmeli</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="secmeli_durumu" id="secmeli" value="1" required>
-                                                    <label class="form-check-label" for="secmeli">Seçmeli</label>
+                                                <div>
+                                                    <label for="uzaktanEgitim" class="form-label">Online Ders Mi</label>
+                                                    <div class="mb-4 px-1">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="uzaktan_egitim" id="yuzyuze" value="0" required checked>
+                                                            <label class="form-check-label" for="yuzyuze">Yüzyüze</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="uzaktan_egitim" id="online" value="1" required>
+                                                            <label class="form-check-label" for="online">Online</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -272,30 +294,43 @@
                                                         </div>
 
                                                         <!-- Ders Sayısı -->
-                                                        <label for="ders_sayisi" class="form-label">Ders Sayısı</label>
+                                                        <label for="updateDersSayisi" class="form-label">Ders Sayısı</label>
                                                         <div class="mb-3 px-1">
-                                                            <input type="number" class="form-control" name="ders_sayisi" id="ders_sayisi" value="{{ $ders->ders_sayisi }}" required>
+                                                            <select class="form-select" name="ders_sayisi" id="updateDersSayisi" required>
+                                                                <option value="">Ders Sayısı Seçiniz</option>
+                                                                @for($i = 1; $i <= 10; $i++)
+                                                                    <option value="{{ $i }}" {{ $ders->ders_sayisi == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                                                @endfor
+                                                            </select>
                                                         </div>
 
-                                                        <!-- Ders Parçaları -->
-                                                        <label for="ders_parcasi" class="form-label">Ders Kaça Bölünsün</label>
+                                                        <!-- Ders Kaça Bölünsün -->
+                                                        <label for="updateDersParcasi{{ $ders->ders_adi }}" class="form-label">Ders Kaça Bölünsün</label>
                                                         <div class="mb-3 px-1">
-                                                            <input type="number" class="form-control" name="ders_parcasi" id="ders_parcasi" value="{{ $ders->ders_parcasi }}" min="1" max="9" required>
+                                                            <select class="form-select" name="ders_parcasi" id="updateDersParcasi{{ $ders->ders_adi }}" required>
+                                                                <option value="">Kaça Bölünsün</option>
+                                                                @for($i = 1; $i <= 9; $i++)
+                                                                    <option value="{{ $i }}" {{ $ders->ders_parcasi == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                                                @endfor
+                                                            </select>
                                                         </div>
 
-                                                        <!-- Sınıf -->
-                                                        <label for="sinif" class="form-label">Kaçıncı Sınıf Dersi</label>
+                                                        <!-- Kaçıncı Sınıf Dersi -->
+                                                        <label for="updateSinif" class="form-label">Kaçıncı Sınıf Dersi</label>
                                                         <div class="mb-3 px-1">
-                                                            <input type="number" class="form-control" name="sinif" id="sinif" value="{{ $ders->sinif }}" min="1" max="9" required>
+                                                            <select class="form-select" name="sinif" id="updateSinif" required>
+                                                                @for($i = 1; $i <= 9; $i++)
+                                                                    <option value="{{ $i }}" {{ $ders->sinif == $i ? 'selected' : '' }}>{{ $i }}. Sınıf</option>
+                                                                @endfor
+                                                            </select>
                                                         </div>
+
 
                                                         <!-- Alan Kişi Sayısı -->
                                                         <label for="alan_kisi_sayisi" class="form-label">Alan Kişi Sayısı</label>
                                                         <div class="mb-3 px-1">
                                                             <input type="number" class="form-control" name="alan_kisi_sayisi" id="alan_kisi_sayisi" value="{{ $ders->alan_kisi_sayisi }}" required>
                                                         </div>
-
-                                                        
 
                                                         <!-- Dersin Hocası -->
                                                         <label for="hoca_id" class="form-label">Dersin Hocası</label>
@@ -309,22 +344,71 @@
                                                             </select>
                                                         </div>
 
+                                                        <!-- Dinamik Salon Seçimi -->
+                                                        <div id="update-salon-container-{{ $ders->ders_adi }}">
+                                                            @if($ders->sinif_id && is_array(json_decode($ders->sinif_id)))
+                                                                @foreach(json_decode($ders->sinif_id) as $index => $sinif)
+                                                                    <label for="salon_id_{{ $index }}" class="form-label">Dersin {{ $index + 1 }}. Parçası için Salon</label>
+                                                                    <div class="mb-3 px-1">
+                                                                        <select class="form-select" name="salon_id[]" id="salon_id_{{ $index }}">
+                                                                            <option value="" {{ is_null($sinif) ? 'selected' : '' }}>Salon Seçmeyin (Boş)</option>
+                                                                            @foreach($salonlar as $salon)
+                                                                                <option value="{{ $salon->id }}" {{ $sinif == $salon->id ? 'selected' : '' }}>
+                                                                                    {{ $salon->isim }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <!-- Eğer sinif_id yoksa, boş bir seçenek göster -->
+                                                                <label class="form-label">Dersin 1. Parçası için Salon</label>
+                                                                <div class="mb-3 px-1">
+                                                                    <select class="form-select" name="salon_id[]">
+                                                                        <option value="">Salon Seçmeyin (Boş)</option>
+                                                                        @foreach($salonlar as $salon)
+                                                                            <option value="{{ $salon->id }}">{{ $salon->isim }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+
+
+
                                                         <!-- Ders Rengi -->
                                                         <label for="renk_kodu" class="form-label">Ders Rengi</label>
                                                         <div class="mb-3 px-1">
                                                             <input type="color" class="form-control form-control-color w-100" name="renk_kodu" id="renk_kodu" value="{{ $ders->renk_kodu }}" required>
                                                         </div>
 
-                                                        <!-- Seçmeli Durumu -->
-                                                        <label for="secmeli_durumu" class="form-label">Seçmeli Durumu</label>
-                                                        <div class="mb-4 px-1">
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" name="secmeli_durumu" id="zorunlu-{{ $ders->id }}" value="0" {{ $ders->secmeli_durumu == 0 ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="zorunlu-{{ $ders->id }}">Zorunlu</label>
+                                                        <!-- Seçmeli Durumu ve Uzaktan Eğitim -->
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <label for="secmeliDurumu" class="form-label">Seçmeli Durumu</label>
+                                                                <div class="mb-4 px-1">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="secmeli_durumu" id="zorunlu-{{ $ders->id }}" value="0" {{ $ders->secmeli_durumu == 0 ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="zorunlu-{{ $ders->id }}">Zorunlu</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="secmeli_durumu" id="secmeli-{{ $ders->id }}" value="1" {{ $ders->secmeli_durumu == 1 ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="secmeli-{{ $ders->id }}">Seçmeli</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-check form-check-inline">
-                                                                <input class="form-check-input" type="radio" name="secmeli_durumu" id="secmeli-{{ $ders->id }}" value="1" {{ $ders->secmeli_durumu == 1 ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="secmeli-{{ $ders->id }}">Seçmeli</label>
+                                                            <div>
+                                                                <label for="uzaktanEgitim" class="form-label">Online Ders Mi</label>
+                                                                <div class="mb-4 px-1">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="uzaktan_egitim" id="yuzyuze-{{ $ders->id }}" value="0" {{ $ders->uzaktan_egitim == 0 ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="yuzyuze-{{ $ders->id }}">Yüzyüze</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="uzaktan_egitim" id="online-{{ $ders->id }}" value="1" {{ $ders->uzaktan_egitim == 1 ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="online-{{ $ders->id }}">Online</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -335,6 +419,7 @@
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <!-- Sil Modalı -->
                                     <div class="modal fade text-dark" id="deleteModal-{{ $ders->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -484,5 +569,110 @@
             }
         });
     </script>
+    <script>
+        // PHP'deki $salonlar listesini JavaScript'e JSON olarak aktaralım
+        const salonlar = @json($salonlar);
+
+        document.getElementById('createDersParcasi').addEventListener('change', function () {
+            try {
+                const dersParcasi = parseInt(this.value); // Seçilen ders parçası sayısı
+                const salonContainer = document.getElementById('salon-container');
+                salonContainer.innerHTML = ''; // Eski salon seçimlerini temizle
+
+                console.log(`Seçilen ders parçası sayısı: ${dersParcasi}`); // Seçim sayısını kontrol et
+
+                if (dersParcasi > 0) {
+                    for (let i = 1; i <= dersParcasi; i++) {
+                        const div = document.createElement('div');
+                        div.classList.add('mb-3', 'px-1');
+
+                        const label = document.createElement('label');
+                        label.classList.add('form-label');
+                        label.textContent = `Dersin ${i}. Parçası için Salon Seçimi`;
+
+                        const select = document.createElement('select');
+                        select.classList.add('form-select');
+                        select.name = `salon_id[]`; // Array formatında göndermek için
+
+                        // Varsayılan seçenek
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.textContent = 'Salon Seçiniz';
+                        select.appendChild(defaultOption);
+
+                        // Dinamik olarak salonları seçeneklere ekle
+                        salonlar.forEach(function (salon) {
+                            const option = document.createElement('option');
+                            option.value = salon.id;
+                            option.textContent = salon.isim;
+                            select.appendChild(option);
+                        });
+
+                        div.appendChild(label);
+                        div.appendChild(select);
+                        salonContainer.appendChild(div);
+                    }
+                }
+            } catch (error) {
+                console.error('Bir hata oluştu:', error); // Hata çıktısını konsola yaz
+            }
+        });
+    </script>
+
+    
+<script>
+    document.querySelectorAll('[id^="updateDersParcasi"]').forEach(function (selectElement) {
+        selectElement.addEventListener('change', function () {
+            const dersParcasi = parseInt(this.value); // Seçilen ders parçası sayısı
+            const dersAdi = this.id.replace('updateDersParcasi', ''); // Ders adını id'den çıkarıyoruz
+            const salonContainerId = `update-salon-container-${dersAdi}`; // Dinamik salon-container id'si
+            const salonContainer = document.getElementById(salonContainerId);
+            salonContainer.innerHTML = ''; // Eski salon seçimlerini temizle
+
+            console.log(`Seçilen ders parçası sayısı: ${dersParcasi}`); // Seçim sayısını kontrol et
+
+            // Salonlar verisini içeren bir JSON nesnesi (eğer sayfa zaten JSON kullanıyorsa, bu tanımı yapmanıza gerek yok)
+            const localSalonlar = @json($salonlar); // 'salonlar' yerine 'localSalonlar' adı kullanılıyor
+
+            if (dersParcasi > 0) {
+                for (let i = 1; i <= dersParcasi; i++) {
+                    const div = document.createElement('div');
+                    div.classList.add('mb-3', 'px-1');
+
+                    const label = document.createElement('label');
+                    label.classList.add('form-label');
+                    label.textContent = `Dersin ${i}. Parçası için Salon Seçimi`;
+
+                    const select = document.createElement('select');
+                    select.classList.add('form-select');
+                    select.name = `salon_id[]`; // Array formatında göndermek için
+
+                    // Varsayılan seçenek
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = 'Salon Seçiniz';
+                    select.appendChild(defaultOption);
+
+                    // Dinamik olarak salonları seçeneklere ekle
+                    localSalonlar.forEach(function (salon) {
+                        const option = document.createElement('option');
+                        option.value = salon.id;
+                        option.textContent = salon.isim;
+                        select.appendChild(option);
+                    });
+
+                    div.appendChild(label);
+                    div.appendChild(select);
+                    salonContainer.appendChild(div);
+                }
+            }
+        });
+    });
+
+</script>
+
+
+
+
 
 @endsection

@@ -23,15 +23,22 @@ class Ders extends Model
         'bolum_id',
         'hoca_id',
         'renk_kodu',
+        'uzaktan_egitim', // yeni eklenen sütun
+        'sinif_id',       // yeni eklenen sütun
     ];
 
+    // Bölüm ilişkisi
     public function bolum()
     {
         return $this->belongsTo(Bolum::class, 'bolum_id');
     }
 
+    // Akademisyen (dersin hocası) ilişkisi
     public function hoca()
     {
         return $this->belongsTo(Akademisyen::class, 'hoca_id');
     }
+
+    // Sınıf ilişkisi, sinif_id JSON formatında olduğundan burada bir ilişki tanımlamayız.
+    // Ancak eğer bir sınıf modeli olursa ve ID listesi JSON ile tutuluyorsa, bu veriyi ayrı şekilde işleyebilirsiniz.
 }
