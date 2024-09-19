@@ -1,14 +1,14 @@
 @extends('layout')
 
 @section('title', 'Anasayfa')
-
+ 
 @section('content')
 
     <div class="px-5 mt-5">
         <div class="d-flex">
             <!-- Card 1 -->
             <div class="col me-3">
-                <a href="#">
+                <a href="{{ route('sınıflar.index') }}">
                     <div class="card" style="width: 100%; position: relative;">
                         <img src="{{ asset('images/sınıf.jpg') }}" class="card-img-top" alt="sınıf">
                         <div class="card-img-overlay d-flex align-items-center justify-content-center primary-overlay">
@@ -19,7 +19,7 @@
             </div>
             <!-- Card 2 -->
             <div class="col me-3">
-                <a href="#">
+                <a href="{{ route('dersler') }}">
                     <div class="card" style="width: 100%; position: relative;">
                         <img src="{{ asset('images/dersler.jpg') }}" class="card-img-top" alt="sınıf">
                         <div class="card-img-overlay d-flex align-items-center justify-content-center secondary-overlay">
@@ -30,7 +30,7 @@
             </div>
             <!-- Card 3 -->
             <div class="col me-3">
-                <a href="#">
+                <a href="{{ route('akademisyenler') }}">
                     <div class="card" style="width: 100%; position: relative;">
                         <img src="{{ asset('images/hocalar.jpg') }}" class="card-img-top" alt="sınıf">
                         <div class="card-img-overlay d-flex align-items-center justify-content-center success-overlay">
@@ -76,7 +76,6 @@
             </div>
         </div>
     </div>
-
 <style>
     .card {
         transition: box-shadow 0.3s ease, transform 0.3s ease; /* Animasyon ekledik */

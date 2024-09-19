@@ -13,7 +13,7 @@
             <div class=" mt-3">
                 <div class="d-flex justify-content-between my-3">
                     <div>
-                        <button class="btn btn-warning text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
+                        <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">
                                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Ders Filtreleme</h5>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#dersEkleModal">Ders Ekle</button>
+                        <button class="btn btn-success text-white success-active-overlay" data-bs-toggle="modal" data-bs-target="#dersEkleModal">Ders Ekle</button>
                         <!-- Ders Ekle Modal -->
                         <div class="modal fade" id="dersEkleModal" tabindex="-1" aria-labelledby="dersEkleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -374,8 +374,6 @@
                                                             @endif
                                                         </div>
 
-
-
                                                         <!-- Ders Rengi -->
                                                         <label for="renk_kodu" class="form-label">Ders Rengi</label>
                                                         <div class="mb-3 px-1">
@@ -419,7 +417,6 @@
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <!-- Sil Modalı -->
                                     <div class="modal fade text-dark" id="deleteModal-{{ $ders->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -569,6 +566,8 @@
             }
         });
     </script>
+
+    <!-- Create işlemi için salon seçimlerini dinamik olarak oluşturduk -->
     <script>
         // PHP'deki $salonlar listesini JavaScript'e JSON olarak aktaralım
         const salonlar = @json($salonlar);
@@ -619,57 +618,56 @@
         });
     </script>
 
-    
-<script>
-    document.querySelectorAll('[id^="updateDersParcasi"]').forEach(function (selectElement) {
-        selectElement.addEventListener('change', function () {
-            const dersParcasi = parseInt(this.value); // Seçilen ders parçası sayısı
-            const dersAdi = this.id.replace('updateDersParcasi', ''); // Ders adını id'den çıkarıyoruz
-            const salonContainerId = `update-salon-container-${dersAdi}`; // Dinamik salon-container id'si
-            const salonContainer = document.getElementById(salonContainerId);
-            salonContainer.innerHTML = ''; // Eski salon seçimlerini temizle
+    <!-- Güncelleme işlemi için salon seçimlerini dinamik olarak oluşturduk -->
+    <script>
+        document.querySelectorAll('[id^="updateDersParcasi"]').forEach(function (selectElement) {
+            selectElement.addEventListener('change', function () {
+                const dersParcasi = parseInt(this.value); // Seçilen ders parçası sayısı
+                const dersAdi = this.id.replace('updateDersParcasi', ''); // Ders adını id'den çıkarıyoruz
+                const salonContainerId = `update-salon-container-${dersAdi}`; // Dinamik salon-container id'si
+                const salonContainer = document.getElementById(salonContainerId);
+                salonContainer.innerHTML = ''; // Eski salon seçimlerini temizle
 
-            console.log(`Seçilen ders parçası sayısı: ${dersParcasi}`); // Seçim sayısını kontrol et
+                console.log(`Seçilen ders parçası sayısı: ${dersParcasi}`); // Seçim sayısını kontrol et
 
-            // Salonlar verisini içeren bir JSON nesnesi (eğer sayfa zaten JSON kullanıyorsa, bu tanımı yapmanıza gerek yok)
-            const localSalonlar = @json($salonlar); // 'salonlar' yerine 'localSalonlar' adı kullanılıyor
+                // Salonlar verisini içeren bir JSON nesnesi (eğer sayfa zaten JSON kullanıyorsa, bu tanımı yapmanıza gerek yok)
+                const localSalonlar = @json($salonlar); // 'salonlar' yerine 'localSalonlar' adı kullanılıyor
 
-            if (dersParcasi > 0) {
-                for (let i = 1; i <= dersParcasi; i++) {
-                    const div = document.createElement('div');
-                    div.classList.add('mb-3', 'px-1');
+                if (dersParcasi > 0) {
+                    for (let i = 1; i <= dersParcasi; i++) {
+                        const div = document.createElement('div');
+                        div.classList.add('mb-3', 'px-1');
 
-                    const label = document.createElement('label');
-                    label.classList.add('form-label');
-                    label.textContent = `Dersin ${i}. Parçası için Salon Seçimi`;
+                        const label = document.createElement('label');
+                        label.classList.add('form-label');
+                        label.textContent = `Dersin ${i}. Parçası için Salon Seçimi`;
 
-                    const select = document.createElement('select');
-                    select.classList.add('form-select');
-                    select.name = `salon_id[]`; // Array formatında göndermek için
+                        const select = document.createElement('select');
+                        select.classList.add('form-select');
+                        select.name = `salon_id[]`; // Array formatında göndermek için
 
-                    // Varsayılan seçenek
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.textContent = 'Salon Seçiniz';
-                    select.appendChild(defaultOption);
+                        // Varsayılan seçenek
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.textContent = 'Salon Seçiniz';
+                        select.appendChild(defaultOption);
 
-                    // Dinamik olarak salonları seçeneklere ekle
-                    localSalonlar.forEach(function (salon) {
-                        const option = document.createElement('option');
-                        option.value = salon.id;
-                        option.textContent = salon.isim;
-                        select.appendChild(option);
-                    });
+                        // Dinamik olarak salonları seçeneklere ekle
+                        localSalonlar.forEach(function (salon) {
+                            const option = document.createElement('option');
+                            option.value = salon.id;
+                            option.textContent = salon.isim;
+                            select.appendChild(option);
+                        });
 
-                    div.appendChild(label);
-                    div.appendChild(select);
-                    salonContainer.appendChild(div);
+                        div.appendChild(label);
+                        div.appendChild(select);
+                        salonContainer.appendChild(div);
+                    }
                 }
-            }
+            });
         });
-    });
-
-</script>
+    </script>
 
 
 
