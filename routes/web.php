@@ -8,7 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkademisyenController; 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\VerificationController; 
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\AyarlarController; 
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
@@ -37,6 +38,11 @@ Route::post('/akademisyenler/ekle', [AkademisyenController::class, 'createAkadem
 Route::put('/akademisyenler/update/{guid}', [AkademisyenController::class, 'updateAkademisyen'])->middleware(['auth'])->name('akademisyenler.update');
 Route::delete('/akademisyenler/delete/{guid}', [AkademisyenController::class, 'deleteAkademisyen'])->middleware(['auth'])->name('akademisyenler.delete');
 
+// Ayarlar sayfası (Sadece oturum açmış kişiler erişebilir)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/ayarlar', [AyarlarController::class, 'index'])->name('ayarlar');
+    Route::post('/ayarlar', [AyarlarController::class, 'update'])->name('ayarlar.update');
+});
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);

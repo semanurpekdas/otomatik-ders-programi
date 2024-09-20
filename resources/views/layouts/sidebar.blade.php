@@ -230,7 +230,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="#">
+            <a class="nav-link d-flex align-items-center {{ request()->routeIs('ayarlar') ? 'active info-active-overlay bg-info' : '' }}"" href="{{ route('ayarlar') }}">
                 <i class="bi bi-gear"></i>
                 <span class="ms-3 d-none d-md-inline">Ayarlar</span>
             </a>
