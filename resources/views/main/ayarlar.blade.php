@@ -40,7 +40,7 @@
                                         @endfor
                                     </select>
                                 </div>
-                            </div>
+                            </div> 
 
                             <!-- Yıl Dönem -->
                             <div class="col-6">
