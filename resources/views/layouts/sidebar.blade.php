@@ -224,7 +224,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="#">
+            <a class="nav-link d-flex align-items-center {{ request()->routeIs('dersprogrami') ? 'active light-active-overlay bg-dark' : '' }}" href="{{ route('dersprogrami') }}">
                 <i class="bi bi-calendar-check"></i>
                 <span class="ms-3 d-none d-md-inline">Ders Programı</span>
             </a>

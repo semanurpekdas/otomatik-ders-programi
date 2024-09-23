@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AyarlarController; 
+use App\Http\Controllers\DersProgramiController; 
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
@@ -37,6 +38,10 @@ Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->middlewa
 Route::post('/akademisyenler/ekle', [AkademisyenController::class, 'createAkademisyen'])->middleware(['auth'])->name('akademisyenler.store');
 Route::put('/akademisyenler/update/{guid}', [AkademisyenController::class, 'updateAkademisyen'])->middleware(['auth'])->name('akademisyenler.update');
 Route::delete('/akademisyenler/delete/{guid}', [AkademisyenController::class, 'deleteAkademisyen'])->middleware(['auth'])->name('akademisyenler.delete');
+
+Route::get('/dersprogrami', [DersProgramiController::class, 'index'])->middleware(['auth'])->name('dersprogrami');
+Route::post('/ders-programi/store', [DersProgramiController::class, 'store'])->middleware(['auth'])->name('ders_programi.store');
+
 
 // Ayarlar sayfası (Sadece oturum açmış kişiler erişebilir)
 Route::middleware(['auth'])->group(function () {
