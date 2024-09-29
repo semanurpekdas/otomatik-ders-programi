@@ -57,9 +57,6 @@ class SınıflarController extends Controller
         return view('main.sınıflar', compact('salonlar', 'fakulteler', 'bolumler'));
     }
     
-    
-    
-    
 
     public function store(Request $request)
     {

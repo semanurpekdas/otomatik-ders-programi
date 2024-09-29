@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body>
+<body> 
     <div class="container-fluid">
         <div class="row p-0" style="padding:0px !important">
             <!-- Sidebar -->

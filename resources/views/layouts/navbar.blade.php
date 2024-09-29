@@ -1,4 +1,4 @@
-<style>
+    <style>
         .navbar {
             background: url('{{ asset("images/navbar.jpg") }}') no-repeat center center;
             background-size: cover;
