@@ -123,7 +123,7 @@ class AdminController extends Controller
             $filePath = $file->storeAs('images', $fileName, 'public');
 
             // Yeni logo yolunu güncelle
-            $universite->img_yolu = 'storage/' . $filePath;
+            $universite->img_yolu = $filePath;
         }
 
         // Üniversite ismini güncelle

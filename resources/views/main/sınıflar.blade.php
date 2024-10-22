@@ -238,6 +238,8 @@
                     {{ $salonlar->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
                 </nav>
             </div>
+           
+
         </div>
     </div>
     
