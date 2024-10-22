@@ -96,7 +96,7 @@ class AdminController extends Controller
         // Üniversite kaydını sil
         $universite->delete();
 
-        return redirect()->back()->with('success', 'Üniversite başarıyla silindi.');
+        return redirect()->back()->with('success', 'Üniversite başarıyla silindi.'); 
     }
 
     public function updateUniversity(Request $request, $id)
@@ -134,7 +134,7 @@ class AdminController extends Controller
         $universite->save();
 
         return redirect()->back()->with('success', 'Üniversite başarıyla güncellendi.');
-    }
+    } 
 
 
 

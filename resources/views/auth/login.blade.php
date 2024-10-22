@@ -97,7 +97,7 @@
                 <!-- Logo kısmı -->
                 <div class="card-left bg-light border-end"></div>
 
-                <!-- Form kısmı -->
+                <!-- Form kısmı --> 
                 <div class="card-right">
                     <h3 class="mb-4 text-center text-primary">Giriş Yap</h3>
                     {{-- Doğrulama e-postası başarıyla gönderildiyse --}}

@@ -7,7 +7,7 @@ use App\Models\Bolum;
 use App\Models\Fakulte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+ 
 class AkademisyenController extends Controller
 {
     protected $user;
