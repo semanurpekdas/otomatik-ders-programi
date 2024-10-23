@@ -23,7 +23,7 @@ class DersProgramiController extends Controller
         });
     }
 
-    public function index()
+    public function index() 
     {
         // Oturum açmış kullanıcının bolum_id'sini al
         $bolum_id = $this->user->bolum_id;

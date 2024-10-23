@@ -470,11 +470,7 @@
 
     </script>
 
-
-
-
-
-
-
        
 @endsection
+
+
