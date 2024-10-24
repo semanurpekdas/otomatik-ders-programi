@@ -93,9 +93,8 @@ class DersController extends Controller
         // sinif_id değerini JSON formatına çevir
         $sinifIdJson = json_encode($request->input('salon_id', []));
     
-        // ders_sinif değerini JSON formatına çevir, önce array'e çeviriyoruz
-        $dersSinifArray = json_decode($request->input('ders_sinif', '[]'));
-        $dersSinifJson = json_encode($dersSinifArray);
+        // ders_sinif değerini JSON formatına çevir
+        $dersSinifJson = json_encode(json_decode($request->input('ders_sinif', '[]'), true));
     
         // Yeni dersi ekleyelim
         Ders::create([
@@ -111,12 +110,14 @@ class DersController extends Controller
             'hoca_id' => $request->input('hoca_id'),
             'renk_kodu' => $request->input('renk_kodu'),
             'uzaktan_egitim' => $request->input('uzaktan_egitim'),
-            'sinif_id' => $sinifIdJson, // JSON formatında kaydediliyor
-            'ders_sinif' => $dersSinifJson // JSON formatında kaydediliyor
+            'sinif_id' => $sinifIdJson,
+            'ders_sinif' => $dersSinifJson
         ]);
     
         return redirect()->back()->with('success', 'Ders başarıyla eklendi.');
     }
+
+
 
     
     public function update(Request $request, $id)

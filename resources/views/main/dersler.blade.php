@@ -575,6 +575,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const salonlar = @json($salonlar);
 
+            // Dinamik salon seçimleri oluşturma
             document.getElementById('createDersParcasi').addEventListener('change', function () {
                 const dersParcasi = parseInt(this.value);
                 const dersSayisi = parseInt(document.getElementById('createDersSayisi').value);
@@ -618,6 +619,7 @@
                 }
             });
 
+            // Form gönderimi sırasında ders_sinif ve sinif_id verilerini gizli inputlara ekleme
             const form = document.getElementById('derseklemeform');
             form.addEventListener('submit', function (event) {
                 const salonSelects = document.querySelectorAll('select[name="salon_id[]"]');
@@ -639,6 +641,7 @@
                     }
                 });
 
+                // Gizli inputları formda ayarlıyoruz
                 let dersSinifInput = document.querySelector('input[name="ders_sinif"]');
                 if (!dersSinifInput) {
                     dersSinifInput = document.createElement('input');
@@ -648,10 +651,8 @@
                 }
                 dersSinifInput.value = JSON.stringify(dersSinifList);
 
-                // Konsola yazdır (kontrol amaçlı)
+                // Konsola yazdırma (kontrol amaçlı)
                 console.log('Gönderilecek ders_sinif:', dersSinifInput.value);
-
-                // Formu normal şekilde gönder
             });
         });
     </script>
