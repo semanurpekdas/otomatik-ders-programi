@@ -69,13 +69,10 @@ class DersController extends Controller
         return view('main.dersler', compact('bolum', 'dersler', 'akademisyenler','salonlar'));
     }
     
-
+ 
     public function addDers(Request $request)
     {
-        // Kullanıcının bölümüne göre ilgili akademisyenleri bulalım
-        $akademisyenler = Akademisyen::where('bolum_id', $this->user->bolum_id)->get();
-    
-        // Form verilerini doğrulayalım
+        // Gelen verileri doğrula
         $request->validate([
             'ders_adi' => 'required|string|max:255',
             'kisa_isim' => 'required|string|max:255',
@@ -87,13 +84,18 @@ class DersController extends Controller
             'secmeli_durumu' => 'required|boolean',
             'hoca_id' => 'required|exists:akademisyenler,id',
             'renk_kodu' => 'required|string|max:7',
-            'uzaktan_egitim' => 'required|boolean', // Yeni alan için doğrulama
-            'salon_id' => 'nullable|array', // Salonlar bir liste olarak gönderileceği için array olarak doğrulanır
-            'salon_id.*' => 'nullable|exists:salonlar,id', // Listedeki her salonun var olup olmadığını kontrol ederiz
+            'uzaktan_egitim' => 'required|boolean',
+            'salon_id' => 'nullable|array',
+            'salon_id.*' => 'nullable|exists:salonlar,id',
+            'ders_sinif' => 'nullable|string',
         ]);
     
-        // Sinif ID'lerini JSON formatında kaydetmek için
-        $sinifIdJson = json_encode($request->input('salon_id', [])); // Eğer salon seçilmemişse boş bir array döner
+        // sinif_id değerini JSON formatına çevir
+        $sinifIdJson = json_encode($request->input('salon_id', []));
+    
+        // ders_sinif değerini JSON formatına çevir, önce array'e çeviriyoruz
+        $dersSinifArray = json_decode($request->input('ders_sinif', '[]'));
+        $dersSinifJson = json_encode($dersSinifArray);
     
         // Yeni dersi ekleyelim
         Ders::create([
@@ -105,15 +107,17 @@ class DersController extends Controller
             'sinif' => $request->input('sinif'),
             'alan_kisi_sayisi' => $request->input('alan_kisi_sayisi'),
             'secmeli_durumu' => $request->input('secmeli_durumu'),
-            'bolum_id' => $this->user->bolum_id, // Oturum açmış kullanıcının bölümü
+            'bolum_id' => $request->user()->bolum_id,
             'hoca_id' => $request->input('hoca_id'),
             'renk_kodu' => $request->input('renk_kodu'),
-            'uzaktan_egitim' => $request->input('uzaktan_egitim'), // Yeni alan
-            'sinif_id' => $sinifIdJson, // Sinif (Salon) ID'leri JSON formatında kaydediliyor
+            'uzaktan_egitim' => $request->input('uzaktan_egitim'),
+            'sinif_id' => $sinifIdJson, // JSON formatında kaydediliyor
+            'ders_sinif' => $dersSinifJson // JSON formatında kaydediliyor
         ]);
     
         return redirect()->back()->with('success', 'Ders başarıyla eklendi.');
     }
+
     
     public function update(Request $request, $id)
     {

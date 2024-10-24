@@ -82,8 +82,11 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="{{ route('addDers') }}">
+                                        <form method="POST" id="derseklemeform" action="{{ route('addDers') }}">
                                             @csrf
+
+                                            <!-- Gizli alanları ekliyoruz -->
+                                            <input type="hidden" name="ders_sinif" value="">
 
                                             <!-- Ders Adı -->
                                             <label for="createDersAdi" class="form-label">Ders Adı</label>
@@ -569,40 +572,41 @@
 
     <!-- Create işlemi için salon seçimlerini dinamik olarak oluşturduk -->
     <script>
-        // PHP'deki $salonlar listesini JavaScript'e JSON olarak aktaralım
-        const salonlar = @json($salonlar);
+        document.addEventListener('DOMContentLoaded', function () {
+            const salonlar = @json($salonlar);
 
-        document.getElementById('createDersParcasi').addEventListener('change', function () {
-            try {
-                const dersParcasi = parseInt(this.value); // Seçilen ders parçası sayısı
+            document.getElementById('createDersParcasi').addEventListener('change', function () {
+                const dersParcasi = parseInt(this.value);
+                const dersSayisi = parseInt(document.getElementById('createDersSayisi').value);
                 const salonContainer = document.getElementById('salon-container');
-                salonContainer.innerHTML = ''; // Eski salon seçimlerini temizle
+                salonContainer.innerHTML = '';
 
-                console.log(`Seçilen ders parçası sayısı: ${dersParcasi}`); // Seçim sayısını kontrol et
+                if (dersParcasi > 0 && dersSayisi > 0) {
+                    const parcalar = Array(dersParcasi).fill(Math.floor(dersSayisi / dersParcasi));
+                    for (let i = 0; i < dersSayisi % dersParcasi; i++) {
+                        parcalar[i] += 1;
+                    }
 
-                if (dersParcasi > 0) {
-                    for (let i = 1; i <= dersParcasi; i++) {
+                    parcalar.forEach((parca, index) => {
                         const div = document.createElement('div');
                         div.classList.add('mb-3', 'px-1');
 
                         const label = document.createElement('label');
                         label.classList.add('form-label');
-                        label.textContent = `Dersin ${i}. Parçası için Salon Seçimi`;
+                        label.textContent = `${parca} saatlik Dersin ${index + 1}. Parçası için Salon Seçimi`;
 
                         const select = document.createElement('select');
                         select.classList.add('form-select');
-                        select.name = `salon_id[]`; // Array formatında göndermek için
+                        select.name = `salon_id[]`;
 
-                        // Varsayılan seçenek
                         const defaultOption = document.createElement('option');
                         defaultOption.value = '';
                         defaultOption.textContent = 'Salon Seçiniz';
                         select.appendChild(defaultOption);
 
-                        // Dinamik olarak salonları seçeneklere ekle
-                        salonlar.forEach(function (salon) {
+                        salonlar.forEach(salon => {
                             const option = document.createElement('option');
-                            option.value = salon.id;
+                            option.value = salon.id.toString();
                             option.textContent = salon.isim;
                             select.appendChild(option);
                         });
@@ -610,13 +614,54 @@
                         div.appendChild(label);
                         div.appendChild(select);
                         salonContainer.appendChild(div);
-                    }
+                    });
                 }
-            } catch (error) {
-                console.error('Bir hata oluştu:', error); // Hata çıktısını konsola yaz
-            }
+            });
+
+            const form = document.getElementById('derseklemeform');
+            form.addEventListener('submit', function (event) {
+                const salonSelects = document.querySelectorAll('select[name="salon_id[]"]');
+                const sinifIdList = [];
+                const dersSinifList = [];
+
+                const dersParcasi = parseInt(document.getElementById('createDersParcasi').value);
+                const dersSayisi = parseInt(document.getElementById('createDersSayisi').value);
+
+                const parcalar = Array(dersParcasi).fill(Math.floor(dersSayisi / dersParcasi));
+                for (let i = 0; i < dersSayisi % dersParcasi; i++) {
+                    parcalar[i] += 1;
+                }
+
+                salonSelects.forEach((select, index) => {
+                    if (select.value) {
+                        sinifIdList.push(select.value);
+                        dersSinifList.push(parcalar[index].toString());
+                    }
+                });
+
+                let dersSinifInput = document.querySelector('input[name="ders_sinif"]');
+                if (!dersSinifInput) {
+                    dersSinifInput = document.createElement('input');
+                    dersSinifInput.type = 'hidden';
+                    dersSinifInput.name = 'ders_sinif';
+                    form.appendChild(dersSinifInput);
+                }
+                dersSinifInput.value = JSON.stringify(dersSinifList);
+
+                // Konsola yazdır (kontrol amaçlı)
+                console.log('Gönderilecek ders_sinif:', dersSinifInput.value);
+
+                // Formu normal şekilde gönder
+            });
         });
     </script>
+
+
+
+
+
+
+
 
     <!-- Güncelleme işlemi için salon seçimlerini dinamik olarak oluşturduk -->
     <script>
