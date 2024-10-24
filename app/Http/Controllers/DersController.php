@@ -118,32 +118,36 @@ class DersController extends Controller
     }
 
 
-
-    
     public function update(Request $request, $id)
     {
-        // Güncellenecek dersi buluyoruz
-        $ders = Ders::findOrFail($id);
-    
-        // Form verilerinin doğrulanması
+        // Gelen verileri doğrula
         $request->validate([
             'ders_adi' => 'required|string|max:255',
-            'kisa_isim' => 'required|string|max:50',
-            'donem' => 'required|in:Güz,Bahar',
-            'ders_sayisi' => 'required|integer|min:1',
-            'ders_parcasi' => 'required|integer|min:1|max:9',
-            'sinif' => 'required|integer|min:1|max:9',
-            'alan_kisi_sayisi' => 'required|integer|min:0',
+            'kisa_isim' => 'required|string|max:255',
+            'donem' => 'required|string|in:Güz,Bahar',
+            'ders_sayisi' => 'required|integer',
+            'ders_parcasi' => 'required|integer',
+            'sinif' => 'required|integer',
+            'alan_kisi_sayisi' => 'required|integer',
             'secmeli_durumu' => 'required|boolean',
-            'uzaktan_egitim' => 'required|boolean', // Eklenmiş doğrulama kuralı
             'hoca_id' => 'required|exists:akademisyenler,id',
-            'renk_kodu' => 'required|string|size:7',
+            'renk_kodu' => 'required|string|max:7',
+            'uzaktan_egitim' => 'required|boolean',
+            'salon_id' => 'nullable|array',
+            'salon_id.*' => 'nullable|exists:salonlar,id',
+            'ders_sinif' => 'nullable|string',
         ]);
     
-        // Seçilen salonlar (sinif_id) JSON formatına çevrilir
-        $sinif_id = json_encode($request->input('salon_id', []));
+        // Güncellenecek dersi bul
+        $ders = Ders::findOrFail($id);
     
-        // Ders bilgilerini güncelliyoruz
+        // sinif_id değerini JSON formatına çevir
+        $sinifIdJson = json_encode($request->input('salon_id', []));
+    
+        // ders_sinif değerini JSON formatına çevir
+        $dersSinifJson = json_encode(json_decode($request->input('ders_sinif', '[]'), true));
+    
+        // Dersi güncelle
         $ders->update([
             'ders_adi' => $request->input('ders_adi'),
             'kisa_isim' => $request->input('kisa_isim'),
@@ -155,14 +159,14 @@ class DersController extends Controller
             'secmeli_durumu' => $request->input('secmeli_durumu'),
             'hoca_id' => $request->input('hoca_id'),
             'renk_kodu' => $request->input('renk_kodu'),
-            'uzaktan_egitim' => $request->input('uzaktan_egitim'), // Uzaktan eğitim bilgisi güncelleniyor
-            'sinif_id' => $sinif_id, // Seçilen salonlar (JSON formatında)
+            'uzaktan_egitim' => $request->input('uzaktan_egitim'),
+            'sinif_id' => $sinifIdJson,
+            'ders_sinif' => $dersSinifJson,
         ]);
     
         return redirect()->back()->with('success', 'Ders başarıyla güncellendi.');
     }
     
-
     public function delete($id)
     {
         $ders = Ders::findOrFail($id);

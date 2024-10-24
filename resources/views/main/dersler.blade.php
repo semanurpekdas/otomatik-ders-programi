@@ -271,9 +271,13 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form method="POST" action="{{ route('updateDers', $ders->id) }}">
+                                                    <form method="POST" id="updateDersForm-{{ $ders->id }}" action="{{ route('updateDers', $ders->id) }}">
                                                         @csrf
                                                         @method('PUT')
+
+                                                        <!-- Gizli Alan -->
+                                                        <input type="hidden" name="ders_sinif" id="updateDersSinif-{{ $ders->id }}">
+
 
                                                         <!-- Ders Adı -->
                                                         <label for="ders_adi" class="form-label">Ders Adı</label>
@@ -296,11 +300,10 @@
                                                             </select>
                                                         </div>
 
-                                                        <!-- Ders Sayısı -->
-                                                        <label for="updateDersSayisi" class="form-label">Ders Sayısı</label>
+                                                       <!-- Ders Sayısı -->
+                                                        <label for="updateDersSayisi-{{ $ders->id }}" class="form-label">Ders Sayısı</label>
                                                         <div class="mb-3 px-1">
-                                                            <select class="form-select" name="ders_sayisi" id="updateDersSayisi" required>
-                                                                <option value="">Ders Sayısı Seçiniz</option>
+                                                            <select class="form-select" name="ders_sayisi" id="updateDersSayisi-{{ $ders->id }}" required>
                                                                 @for($i = 1; $i <= 10; $i++)
                                                                     <option value="{{ $i }}" {{ $ders->ders_sayisi == $i ? 'selected' : '' }}>{{ $i }}</option>
                                                                 @endfor
@@ -308,10 +311,9 @@
                                                         </div>
 
                                                         <!-- Ders Kaça Bölünsün -->
-                                                        <label for="updateDersParcasi{{ $ders->ders_adi }}" class="form-label">Ders Kaça Bölünsün</label>
+                                                        <label for="updateDersParcasi-{{ $ders->id }}" class="form-label">Ders Kaça Bölünsün</label>
                                                         <div class="mb-3 px-1">
-                                                            <select class="form-select" name="ders_parcasi" id="updateDersParcasi{{ $ders->ders_adi }}" required>
-                                                                <option value="">Kaça Bölünsün</option>
+                                                            <select class="form-select" name="ders_parcasi" id="updateDersParcasi-{{ $ders->id }}" required>
                                                                 @for($i = 1; $i <= 9; $i++)
                                                                     <option value="{{ $i }}" {{ $ders->ders_parcasi == $i ? 'selected' : '' }}>{{ $i }}</option>
                                                                 @endfor
@@ -348,15 +350,21 @@
                                                         </div>
 
                                                         <!-- Dinamik Salon Seçimi -->
-                                                        <div id="update-salon-container-{{ $ders->ders_adi }}">
-                                                            @if($ders->sinif_id && is_array(json_decode($ders->sinif_id)))
-                                                                @foreach(json_decode($ders->sinif_id) as $index => $sinif)
-                                                                    <label for="salon_id_{{ $index }}" class="form-label">Dersin {{ $index + 1 }}. Parçası için Salon</label>
+                                                        <div id="update-salon-container-{{ $ders->id }}">
+                                                            @php
+                                                                $dersSinifList = json_decode($ders->ders_sinif, true);
+                                                                $sinifIdList = json_decode($ders->sinif_id, true);
+                                                            @endphp
+                                                            @if($dersSinifList && $sinifIdList && is_array($dersSinifList) && is_array($sinifIdList))
+                                                                @foreach($dersSinifList as $index => $dersSinif)
+                                                                    <label for="salon_id_{{ $index }}" class="form-label">
+                                                                        {{ $dersSinif }} saatlik ders için Salon Seçimi
+                                                                    </label>
                                                                     <div class="mb-3 px-1">
                                                                         <select class="form-select" name="salon_id[]" id="salon_id_{{ $index }}">
-                                                                            <option value="" {{ is_null($sinif) ? 'selected' : '' }}>Salon Seçmeyin (Boş)</option>
+                                                                            <option value="" {{ is_null($sinifIdList[$index]) ? 'selected' : '' }}>Salon Seçmeyin (Boş)</option>
                                                                             @foreach($salonlar as $salon)
-                                                                                <option value="{{ $salon->id }}" {{ $sinif == $salon->id ? 'selected' : '' }}>
+                                                                                <option value="{{ $salon->id }}" {{ $sinifIdList[$index] == $salon->id ? 'selected' : '' }}>
                                                                                     {{ $salon->isim }}
                                                                                 </option>
                                                                             @endforeach
@@ -364,7 +372,7 @@
                                                                     </div>
                                                                 @endforeach
                                                             @else
-                                                                <!-- Eğer sinif_id yoksa, boş bir seçenek göster -->
+                                                                <!-- Eğer sinif_id ve ders_sinif yoksa, boş bir seçenek göster -->
                                                                 <label class="form-label">Dersin 1. Parçası için Salon</label>
                                                                 <div class="mb-3 px-1">
                                                                     <select class="form-select" name="salon_id[]">
@@ -666,42 +674,44 @@
 
     <!-- Güncelleme işlemi için salon seçimlerini dinamik olarak oluşturduk -->
     <script>
-        document.querySelectorAll('[id^="updateDersParcasi"]').forEach(function (selectElement) {
-            selectElement.addEventListener('change', function () {
-                const dersParcasi = parseInt(this.value); // Seçilen ders parçası sayısı
-                const dersAdi = this.id.replace('updateDersParcasi', ''); // Ders adını id'den çıkarıyoruz
-                const salonContainerId = `update-salon-container-${dersAdi}`; // Dinamik salon-container id'si
-                const salonContainer = document.getElementById(salonContainerId);
-                salonContainer.innerHTML = ''; // Eski salon seçimlerini temizle
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dinamik salon seçimleri için event listener ekliyoruz
+            document.querySelectorAll('[id^="updateDersParcasi"]').forEach(function (selectElement) {
+                selectElement.addEventListener('change', function () {
+                    const dersParcasi = parseInt(this.value);
+                    const dersAdi = this.id.replace('updateDersParcasi-', '');
+                    const salonContainerId = `update-salon-container-${dersAdi}`;
+                    const salonContainer = document.getElementById(salonContainerId);
+                    salonContainer.innerHTML = '';
 
-                console.log(`Seçilen ders parçası sayısı: ${dersParcasi}`); // Seçim sayısını kontrol et
+                    const dersSayisi = parseInt(document.getElementById(`updateDersSayisi-${dersAdi}`).value);
+                    const parcalar = Array(dersParcasi).fill(Math.floor(dersSayisi / dersParcasi));
+                    for (let i = 0; i < dersSayisi % dersParcasi; i++) {
+                        parcalar[i] += 1;
+                    }
 
-                // Salonlar verisini içeren bir JSON nesnesi (eğer sayfa zaten JSON kullanıyorsa, bu tanımı yapmanıza gerek yok)
-                const localSalonlar = @json($salonlar); // 'salonlar' yerine 'localSalonlar' adı kullanılıyor
+                    const salonlar = @json($salonlar);
 
-                if (dersParcasi > 0) {
-                    for (let i = 1; i <= dersParcasi; i++) {
+                    parcalar.forEach((parca, index) => {
                         const div = document.createElement('div');
                         div.classList.add('mb-3', 'px-1');
 
                         const label = document.createElement('label');
                         label.classList.add('form-label');
-                        label.textContent = `Dersin ${i}. Parçası için Salon Seçimi`;
+                        label.textContent = `${parca} saatlik Dersin ${index + 1}. Parçası için Salon Seçimi`;
 
                         const select = document.createElement('select');
                         select.classList.add('form-select');
-                        select.name = `salon_id[]`; // Array formatında göndermek için
+                        select.name = 'salon_id[]';
 
-                        // Varsayılan seçenek
                         const defaultOption = document.createElement('option');
                         defaultOption.value = '';
                         defaultOption.textContent = 'Salon Seçiniz';
                         select.appendChild(defaultOption);
 
-                        // Dinamik olarak salonları seçeneklere ekle
-                        localSalonlar.forEach(function (salon) {
+                        salonlar.forEach(salon => {
                             const option = document.createElement('option');
-                            option.value = salon.id;
+                            option.value = salon.id.toString();
                             option.textContent = salon.isim;
                             select.appendChild(option);
                         });
@@ -709,8 +719,24 @@
                         div.appendChild(label);
                         div.appendChild(select);
                         salonContainer.appendChild(div);
+                    });
+                });
+            });
+
+            // Form submit edilirken ders_sinif değerini güncelle
+            document.querySelectorAll('[id^="updateDersForm"]').forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    const dersParcasi = parseInt(document.getElementById(`updateDersParcasi-${form.id.split('-')[1]}`).value);
+                    const dersSayisi = parseInt(document.getElementById(`updateDersSayisi-${form.id.split('-')[1]}`).value);
+
+                    const parcalar = Array(dersParcasi).fill(Math.floor(dersSayisi / dersParcasi));
+                    for (let i = 0; i < dersSayisi % dersParcasi; i++) {
+                        parcalar[i] += 1;
                     }
-                }
+
+                    const dersSinifInput = document.getElementById(`updateDersSinif-${form.id.split('-')[1]}`);
+                    dersSinifInput.value = JSON.stringify(parcalar);
+                });
             });
         });
     </script>
