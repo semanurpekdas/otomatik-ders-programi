@@ -51,7 +51,7 @@ class DersProgramiController extends Controller
                     'id' => $ders->id,  // Dersin id'sini ekliyoruz
                     'ders_adi' => $ders->ders_adi,
                     'hoca_isim' => $akademisyen->isim,
-                    'hoca_soyisim' => $akademisyen->soyisim,
+                    'hoca_soyisim' => $akademisyen->soyisim, 
                     'ders_saati' => $ders->ders_sayisi // Dersin süresi
                 ];
             }

@@ -4,7 +4,6 @@
 
 @section('content')
 
-
     <div class="px-5 my-5 pt-4">
         <div class="bg-white border shadow p-3 pt-5">
             <div class="d-flex justify-content-center">
@@ -12,10 +11,60 @@
                     <h2>Ders Programı Oluştur</h2>
                 </div>
             </div>
+            <div class="d-flex justify-content-between my-3">
+                    <div>
+                        <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="modal" data-bs-target="#akademisyenayarımodal">Akademisyen Ayarı</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="akademisyenayarımodal" tabindex="-1" aria-labelledby="akademisyenayarımodal" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="akademisyenayarımodal">Modal title</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert alert-warning text-center" role="alert">
+                                            <h6><b>Seçtiğiniz Akademisyenin dilediğiniz gün'e dersi yerleştirilmez.</b></h6>
+                                        </div>
+                                        <form action="">
+                                            <div class="d-flex pe-3 my-4">
+                                                <div class="col-8">
+                                                    <label for="ders_akademisyen_1" class="form-label">Akademisyen</label>
+                                                    <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
+                                                        <select class="form-select" id="ders_akademisyen_1" name="ders_akademisyen[]">
+                                                            <option value="" select>Lütfen Akademisyeni Seçiniz</option>
+                                                            <option value="1">Akademisyen 1</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-4">
+                                                    <label for="gun_1" class="form-label">Gün</label>
+                                                    <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
+                                                        <select class="form-select" id="gun_1" name="gun[]">
+                                                            <option value="">Gün Seçiniz</option>
+                                                            <option value="Pazartesi">Pazartesi</option><option value="Salı">Salı</option><option value="Çarşamba">Çarşamba</option><option value="Perşembe">Perşembe</option><option value="Cuma">Cuma</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-success text-white success-active-overlay" data-bs-toggle="modal" data-bs-target="#dersEkleModal">Ders Ekle</button>
+                    </div>
+                </div>
 
             <div class="mt-3">
                 <div id="response-message" class="alert d-none text-center"></div>
-
                 <form id="dersProgramiForm">
                     <div class="mt-3">
                         <div class="d-flex pe-3 my-4">
@@ -469,6 +518,7 @@
         });
 
     </script>
+
 
        
 @endsection

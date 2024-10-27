@@ -373,13 +373,10 @@
                                                                 @endforeach
                                                             @else
                                                                 <!-- Eğer sinif_id ve ders_sinif yoksa, boş bir seçenek göster -->
-                                                                <label class="form-label">Dersin 1. Parçası için Salon</label>
+                                                                <label class="form-label">Bu ders için salon seçimi yapılmamıştır.</label>
                                                                 <div class="mb-3 px-1">
-                                                                    <select class="form-select" name="salon_id[]">
-                                                                        <option value="">Salon Seçmeyin (Boş)</option>
-                                                                        @foreach($salonlar as $salon)
-                                                                            <option value="{{ $salon->id }}">{{ $salon->isim }}</option>
-                                                                        @endforeach
+                                                                    <select class="form-select" name="salon_id[]" disable>
+                                                                        <option value="">Seçmek isterseniz ders kaça bolunsunu değiştirin.</option>
                                                                     </select>
                                                                 </div>
                                                             @endif
@@ -602,7 +599,7 @@
 
                         const label = document.createElement('label');
                         label.classList.add('form-label');
-                        label.textContent = `${parca} saatlik Dersin ${index + 1}. Parçası için Salon Seçimi`;
+                        label.textContent = `${parca} Saatlik Ders İçin Salon Seçimi`;
 
                         const select = document.createElement('select');
                         select.classList.add('form-select');
@@ -665,13 +662,6 @@
         });
     </script>
 
-
-
-
-
-
-
-
     <!-- Güncelleme işlemi için salon seçimlerini dinamik olarak oluşturduk -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -698,7 +688,7 @@
 
                         const label = document.createElement('label');
                         label.classList.add('form-label');
-                        label.textContent = `${parca} saatlik Dersin ${index + 1}. Parçası için Salon Seçimi`;
+                        label.textContent = `${parca} Saatlik Ders İçin Salon Seçimi`;
 
                         const select = document.createElement('select');
                         select.classList.add('form-select');
@@ -740,9 +730,6 @@
             });
         });
     </script>
-
-
-
 
 
 @endsection
