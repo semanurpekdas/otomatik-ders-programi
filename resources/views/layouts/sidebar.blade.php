@@ -57,7 +57,7 @@
     .secondary-active-overlay {
         box-shadow: 0 8px 15px rgba(156, 39, 176, 0.7); /* Işık efekti */
     }
-
+ 
     .success-active-overlay {
         box-shadow: 0 8px 15px rgba(76, 175, 80, 0.5); /* Işık efekti */
     }
