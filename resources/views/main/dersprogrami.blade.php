@@ -11,151 +11,158 @@
                     <h2>Ders Programı Oluştur</h2>
                 </div>
             </div>
-            <div class="d-flex justify-content-between my-3">
-                    <div>
-                        <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="modal" data-bs-target="#akademisyenayarımodal">Akademisyen Ayarı</button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="akademisyenayarımodal" tabindex="-1" aria-labelledby="akademisyenayarımodal" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="akademisyenayarımodal">Modal title</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="d-flex justify-content-between my-3"> 
+                <div>
+                    <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="modal" data-bs-target="#akademisyenayarımodal">Akademisyen Ayarı</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="akademisyenayarımodal" tabindex="-1" aria-labelledby="akademisyenayarımodal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="akademisyenayarımodal">Modal title</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-warning text-center" role="alert">
+                                        <h6><b>Seçtiğiniz Akademisyenin dilediğiniz gün'e dersi yerleştirilmez.</b></h6>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="alert alert-warning text-center" role="alert">
-                                            <h6><b>Seçtiğiniz Akademisyenin dilediğiniz gün'e dersi yerleştirilmez.</b></h6>
-                                        </div>
-                                        <form action="">
-                                            <div class="d-flex pe-3 my-4">
-                                                <div class="col-8">
-                                                    <label for="ders_akademisyen_1" class="form-label">Akademisyen</label>
-                                                    <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
-                                                        <select class="form-select" id="ders_akademisyen_1" name="ders_akademisyen[]">
-                                                            <option value="" select>Lütfen Akademisyeni Seçiniz</option>
-                                                            <option value="1">Akademisyen 1</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-    
-                                                <div class="col-4">
-                                                    <label for="gun_1" class="form-label">Gün</label>
-                                                    <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
-                                                        <select class="form-select" id="gun_1" name="gun[]">
-                                                            <option value="">Gün Seçiniz</option>
-                                                            <option value="Pazartesi">Pazartesi</option><option value="Salı">Salı</option><option value="Çarşamba">Çarşamba</option><option value="Perşembe">Perşembe</option><option value="Cuma">Cuma</option>
-                                                        </select>
-                                                    </div>
+                                    <form action="">
+                                        <div class="d-flex pe-3 my-4">
+                                            <div class="col-8">
+                                                <label for="ders_akademisyen_1" class="form-label">Akademisyen</label>
+                                                <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
+                                                    <select class="form-select" id="ders_akademisyen_1" name="ders_akademisyen[]">
+                                                        <option value="" select>Lütfen Akademisyeni Seçiniz</option>
+                                                        <option value="1">Akademisyen 1</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
+
+                                            <div class="col-4">
+                                                <label for="gun_1" class="form-label">Gün</label>
+                                                <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
+                                                    <select class="form-select" id="gun_1" name="gun[]">
+                                                        <option value="">Gün Seçiniz</option>
+                                                        <option value="Pazartesi">Pazartesi</option><option value="Salı">Salı</option><option value="Çarşamba">Çarşamba</option><option value="Perşembe">Perşembe</option><option value="Cuma">Cuma</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-success text-white success-active-overlay" data-bs-toggle="modal" data-bs-target="#dersEkleModal">Ders Ekle</button>
                     </div>
                 </div>
-
-            <div class="mt-3">
-                <div id="response-message" class="alert d-none text-center"></div>
-                <form id="dersProgramiForm">
-                    <div class="mt-3">
-                        <div class="d-flex pe-3 my-4">
-                            <!-- Sınıflar Çakışmasın -->
-                            <div class="col-4  d-flex align-items-center justify-content-center">
-                                <div class="mb-2">
-                                    <label for="sinifcakismasi" class="form-label">
-                                        <b>
-                                            Sınıflar Çakışmasın
-                                            <i class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Bir ders saatine aynı sınıfın dersini koymaz. (1.sınıf,2.sınıf..)"></i>
-                                        </b>
-                                    </label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="sinifcakismasi" id="sinifcakismasievet" value="1" {{ isset($dersProgramiSartlari) && $dersProgramiSartlari->sinif_cakismamasi == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="sinifcakismasievet">Evet</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="sinifcakismasi" id="sinifcakismasihayir" value="0" {{ isset($dersProgramiSartlari) && $dersProgramiSartlari->sinif_cakismamasi == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="sinifcakismasihayir">Hayır</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Akademisyenler Çakışmasın -->
-                            <div class="col-4  d-flex align-items-center justify-content-center">
-                                <div class="mb-2">
-                                    <label for="akademisyencakismasi" class="form-label">
-                                        <b>
-                                            Akademisyenler Çakışmasın
-                                            <i class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Bir ders saatine iki akademisyen yerleştirmez."></i>
-                                        </b>
-                                    </label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="akademisyencakismasi" id="akademisyencakismasievet" value="1" {{ isset($dersProgramiSartlari) && $dersProgramiSartlari->akademisyen_cakismamasi == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="akademisyencakismasievet">Evet</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="akademisyencakismasi" id="akademisyencakismasihayir" value="0" {{ isset($dersProgramiSartlari) && $dersProgramiSartlari->akademisyen_cakismamasi == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="akademisyencakismasihayir">Hayır</label>
+                <div>
+                    <button class="btn btn-success text-white success-active-overlay" data-bs-toggle="modal" data-bs-target="#dersEkleModal">Ders Ekle</button>
+                </div>
+            </div>
+            <div>
+                <h5 class="h4 text-center">Ders Atamaları</h5>
+            </div>
+            <div class="mt-3 px-5 py-3 border">
+                <form action="{{ route('ders_programi.store') }}" method="POST" class="repeater">
+                    @csrf
+                    <div data-repeater-list="dersler">
+                        @foreach ($kayitlar as $kayit)
+                            <div data-repeater-item class="row">
+                                <!-- Ders - Akademisyen -->
+                                <div class="col-lg-5 me-3">
+                                    <label for="ders_akademisyen" class="ps-2 mb-2">Ders - Akademisyen</label>
+                                    <div class="mb-3 p-1">
+                                        <select name="dersler[{{ $loop->index }}][ders_akademisyen]" class="form-select" required>
+                                            <option value="">Lütfen Ders ve Akademisyeni Seçiniz</option>
+                                            @foreach ($dersProgrami as $ders)
+                                                <option value="{{ $ders['id'] }}_{{ $ders['ders_saati'] }}"
+                                                    {{ isset($kayit[0], $kayit[3]) && $ders['id'] == $kayit[0] && $ders['ders_saati'] == $kayit[3] ? 'selected' : '' }}>
+                                                    {{ $ders['ders_adi'] }} ({{ $ders['hoca_isim'] }} {{ $ders['hoca_soyisim'] }}) ({{ $ders['ders_saati'] }} saat)
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Salonlar Çakışmasın -->
-                            <div class="col-4  d-flex align-items-center justify-content-center">
-                                <div class="mb-2">
-                                    <label for="salonlarcakismasi" class="form-label">
-                                        <b>
-                                            Salonlar Çakışmasın 
-                                            <i class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="2 dersi bir salona yerleştirmez."></i>
-                                        </b>
-                                    </label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="salonlarcakismasi" id="salonlarcakismasievet" value="1" {{ isset($dersProgramiSartlari) && $dersProgramiSartlari->salon_cakismamasi == 1 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="salonlarcakismasievet">Evet</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="salonlarcakismasi" id="salonlarcakismasihayir" value="0" {{ isset($dersProgramiSartlari) && $dersProgramiSartlari->salon_cakismamasi == 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="salonlarcakismasihayir">Hayır</label>
+                                <!-- Gün -->
+                                <div class="col-lg-3 me-3">
+                                    <label for="gun" class="ps-2 mb-2">Gün</label>
+                                    <div class="mb-3 p-1">
+                                        <select name="dersler[{{ $loop->index }}][gun]" class="form-select" required>
+                                            <option value="">Gün Seçiniz</option>
+                                            @foreach ($gunler as $gun)
+                                                <option value="{{ $gun }}" {{ isset($kayit[1]) && $gun == $kayit[1] ? 'selected' : '' }}>
+                                                    {{ $gun }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- Şart Sayısı -->
-                        <div class="card">
-                            <div class="card-header text-center">
-                                <h4 class="m-0 p-0 d-flex align-items-center justify-content-center">
-                                    <b>Ders Yerleştir</b>
-                                    <div class="mb-3 mt-3 ms-3 px-1" style="width:10vh;">
-                                        <input type="number" class="form-control" id="sartsayisi" name="sart_sayisi" min="1" max="30" value="{{ isset($dersProgramiSartlari) ? $dersProgramiSartlari->sart_sayisi : 1 }}" placeholder="Şart Sayısı Girin">
+                                <!-- Ders Saati -->
+                                <div class="col-lg-2 me-3">
+                                    <label for="ders_saati" class="ps-2 mb-2">Ders Saati</label>
+                                    <div class="mb-3 p-1">
+                                        <select name="dersler[{{ $loop->index }}][ders_saati]" class="form-select" required>
+                                            <option value="">Ders Saati Seçiniz</option>
+                                            @for ($i = 1; $i <= $ayarlar->gunluk_ders_saati; $i++)
+                                                <option value="{{ $i }}" {{ isset($kayit[2]) && $i == $kayit[2] ? 'selected' : '' }}>
+                                                    {{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
                                     </div>
-                                </h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="alert alert-primary text-center" role="alert">
-                                    Lütfen şartlar bölümünden kaç ders yerleştireceğinizi belirleyiniz.
                                 </div>
-                                <!-- Dinamik olarak eklenecek şartların görüneceği yer -->
-                                <div id="conditions-container" class="mt-3"></div>
-                            </div>
-                        </div>
 
-                        <!-- Submit Butonu -->
-                        <button type="button" class="btn btn-primary w-100 mt-3" id="submit-button">Kaydet</button>
+                                <!-- Sil Butonu -->
+                                <div class="col-lg-1 align-self-center text-center">
+                                    <button data-repeater-delete type="button" class="btn btn-danger text-white mt-3">Sil</button>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
+                    <button data-repeater-create type="button" class="btn btn-success text-white mt-2">Ders Ekle</button>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Kaydet</button>
                 </form>
             </div>
         </div>
     </div>
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <style>
         #sınıftab {
             margin-top: -80px; /* Yukarıya çekmek için negatif margin */
@@ -340,184 +347,40 @@
         });
     </script>
 
-    <script>
-        // Ders programı ve günler verilerini PHP'den alıp JavaScript değişkenlerine atıyoruz
-        const dersProgrami = @json($dersProgrami);
-        const gunler = @json($gunler);
-        const maxDersSaati = {{ $ayarlar->gunluk_ders_saati }};
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const sartsayisiInput = document.getElementById('sartsayisi');
-            const conditionsContainer = document.getElementById('conditions-container');
-            const submitButton = document.getElementById('submit-button');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const responseMessage = document.getElementById('response-message');
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-            // Sayfa yüklendiğinde localStorage'dan verileri al ve yükle
-            const storedConditions = JSON.parse(localStorage.getItem('conditions')) || {};
-            let currentSartsayisi = parseInt(sartsayisiInput.value) || 1;
+<!-- Repeater için gerekli JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js"></script>
+<script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
 
-            // Şartları oluştur
-            generateConditions(currentSartsayisi);
 
-            // Şart sayısı değiştiğinde verileri sakla ve yeni inputlar oluştur
-            sartsayisiInput.addEventListener('input', function() {
-                storeConditions(); // Mevcut verileri sakla
-                currentSartsayisi = parseInt(sartsayisiInput.value) || 1;
-                generateConditions(currentSartsayisi);
-            });
-
-            // Şartları oluşturma fonksiyonu
-            function generateConditions(count) {
-                conditionsContainer.innerHTML = ''; // Mevcut içerikleri temizle
-
-                for (let i = 1; i <= count; i++) {
-                    const conditionDiv = document.createElement('div');
-                    conditionDiv.classList.add('d-flex', 'pe-3', 'my-4');
-
-                    conditionDiv.innerHTML = `
-                        <div class="col-6">
-                            <label for="ders_akademisyen_${i}" class="form-label">Ders - Akademisyen</label>
-                            <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
-                                <select class="form-select" id="ders_akademisyen_${i}" name="ders_akademisyen[]">
-                                    <option value="">Lütfen Ders ve Akademisyeni Seçiniz</option>
-                                    ${dersProgrami.map(ders => `<option value="${ders.id}" data-ders-saati="${ders.ders_saati}">${ders.ders_adi} (${ders.hoca_isim} ${ders.hoca_soyisim})</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <label for="gun_${i}" class="form-label">Gün</label>
-                            <div class="mb-3 me-3 ps-3 pe-1 d-flex align-items-center">
-                                <select class="form-select" id="gun_${i}" name="gun[]">
-                                    <option value="">Gün Seçiniz</option>
-                                    ${gunler.map(gun => `<option value="${gun}">${gun}</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-2">
-                            <label for="ders_saati_${i}" class="form-label">Ders Saati</label>
-                            <div class="mb-3 d-flex ps-3 pe-1 col-12 align-items-center">
-                                <select class="form-select" id="ders_saati_${i}" name="ders_saati[]">
-                                    <option value="">Ders Saati Seçiniz</option>
-                                    ${Array.from({ length: maxDersSaati }, (_, j) => `<option value="${j + 1}">${j + 1}</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-                    `;
-
-                    // Şartlar container'a eklenir
-                    conditionsContainer.appendChild(conditionDiv);
-
-                    // Eğer storedConditions'da veri varsa, select'lere geri yükle
-                    if (storedConditions[`ders_akademisyen_${i}`]) {
-                        document.getElementById(`ders_akademisyen_${i}`).value = storedConditions[`ders_akademisyen_${i}`];
-                        document.getElementById(`gun_${i}`).value = storedConditions[`gun_${i}`];
-                        document.getElementById(`ders_saati_${i}`).value = storedConditions[`ders_saati_${i}`];
-                    }
-
-                    // Verileri sakla (Her select değişiminde)
-                    document.getElementById(`ders_akademisyen_${i}`).addEventListener('change', storeConditions);
-                    document.getElementById(`gun_${i}`).addEventListener('change', storeConditions);
-                    document.getElementById(`ders_saati_${i}`).addEventListener('change', storeConditions);
+<!-- Kendi JavaScript Kodlarınız -->
+<script>
+    $(document).ready(function () {
+        $('.repeater').repeater({
+            initEmpty: false,
+            defaultValues: {
+                'gun': '',
+                'ders_saati': '',
+                'ders_akademisyen': '',
+            },
+            show: function () {
+                $(this).slideDown();
+            },
+            hide: function (deleteElement) {
+                if (confirm('Bu dersi silmek istediğinizden emin misiniz?')) {
+                    $(this).slideUp(deleteElement);
                 }
-            }
-
-            // Verileri localStorage'a kaydetme fonksiyonu
-            function storeConditions() {
-                let conditionsData = {};
-                
-                for (let i = 1; i <= currentSartsayisi; i++) {
-                    conditionsData[`ders_akademisyen_${i}`] = document.getElementById(`ders_akademisyen_${i}`).value;
-                    conditionsData[`gun_${i}`] = document.getElementById(`gun_${i}`).value;
-                    conditionsData[`ders_saati_${i}`] = document.getElementById(`ders_saati_${i}`).value;
-                }
-
-                // Veriyi localStorage'a kaydet
-                localStorage.setItem('conditions', JSON.stringify(conditionsData));
-            }
-
-            // Formu gönderme fonksiyonu
-            function submitForm() {
-                const dersSartlari = [];
-                let hataVar = false;
-
-                for (let i = 1; i <= currentSartsayisi; i++) {
-                    const dersSelect = document.getElementById(`ders_akademisyen_${i}`);
-                    const dersSaati = parseInt(dersSelect.options[dersSelect.selectedIndex].dataset.dersSaati);
-                    const baslangicSaati = parseInt(document.getElementById(`ders_saati_${i}`).value);
-
-                    // Başlangıç saati + ders saati, günlük maksimum ders saatini aşıyor mu kontrol ediyoruz
-                    if ((baslangicSaati + dersSaati - 1) > maxDersSaati) {
-                        hataVar = true;
-                        alert(`Seçtiğiniz ders, ${baslangicSaati}. saatten başlayarak ${dersSaati} saat sürecektir ve maksimum günlük ders saati olan ${maxDersSaati} saati aşmaktadır.`);
-                        break;
-                    }
-
-                    const gunId = document.getElementById(`gun_${i}`).value;
-
-                    // Eğer hata yoksa ders şartlarını kaydediyoruz
-                    if (!hataVar && dersSelect.value && gunId && baslangicSaati) {
-                        dersSartlari.push([dersSelect.value, gunId, baslangicSaati]);
-                    }
-                }
-
-                if (!hataVar) {
-                    // Form verilerini toplama ve AJAX ile gönderme
-                    const formData = new FormData();
-                    formData.append('ders_sartlari', JSON.stringify(dersSartlari));
-
-                    // Diğer form verilerini ekleme
-                    formData.append('sinifcakismasi', document.querySelector('input[name="sinifcakismasi"]:checked').value);
-                    formData.append('akademisyencakismasi', document.querySelector('input[name="akademisyencakismasi"]:checked').value);
-                    formData.append('salonlarcakismasi', document.querySelector('input[name="salonlarcakismasi"]:checked').value);
-                    formData.append('sart_sayisi', document.getElementById('sartsayisi').value);
-
-                    // AJAX ile sunucuya veri gönderiyoruz
-                    fetch('{{ route('ders_programi.store') }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': csrfToken
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Mesajı gösteriyoruz
-                        if (data.success) {
-                            responseMessage.classList.remove('d-none', 'alert-danger');
-                            responseMessage.classList.add('alert-success');
-                            responseMessage.innerHTML = `<b>${data.message}</b>`;
-                        } else {
-                            responseMessage.classList.remove('d-none', 'alert-success');
-                            responseMessage.classList.add('alert-danger');
-                            responseMessage.innerHTML = `<b>${data.message}</b>`;
-                        }
-
-                        // 4 saniye sonra mesajı gizle
-                        setTimeout(() => {
-                            responseMessage.classList.add('d-none');
-                        }, 4000); // 4 saniye sonra gizle
-                    })
-                    .catch(error => {
-                        console.error('Hata:', error);
-                        responseMessage.classList.remove('d-none', 'alert-success');
-                        responseMessage.classList.add('alert-danger');
-                        responseMessage.innerHTML = `<b>Bir hata oluştu: ${error.message}</b>`;
-
-                        // 4 saniye sonra hata mesajını gizle
-                        setTimeout(() => {
-                            responseMessage.classList.add('d-none');
-                        }, 4000); // 4 saniye sonra gizle
-                    });
-                }
-            }
-
-            submitButton.addEventListener('click', submitForm);
+            },
         });
+    });
+</script>
 
-    </script>
 
 
        
