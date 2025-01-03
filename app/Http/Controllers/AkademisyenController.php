@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Akademisyen;
 use App\Models\Bolum;
+use App\Models\Ayar;
 use App\Models\Fakulte;
+use App\Models\Akademisyengun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
  
@@ -126,6 +128,82 @@ class AkademisyenController extends Controller
 
         return redirect()->back()->with('success', 'Akademisyen başarıyla silindi.');
     }
+
+    public function akademisyengun()
+    {
+        $bolum_id = Auth::user()->bolum_id; // Oturum açmış kullanıcının bölüm id'si
+
+        // İlgili bölümdeki akademisyenleri çek
+        $akademisyenler = Akademisyen::where('bolum_id', $bolum_id)->get();
+
+        // Ayarlar tablosundan haftanın günlerini çek
+        $ayar = Ayar::where('bolum_id', $bolum_id)->first();
+
+        // Haftanın günlerini kontrol et ve diziye dönüştür
+        $haftanin_gunleri = $ayar && $ayar->haftanin_gunleri
+            ? json_decode($ayar->haftanin_gunleri, true)
+            : ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma'];
+
+        // Kayıtlı akademisyen-gün ilişkilerini çek
+        $akademisyenGunKayitlari = AkademisyenGun::where('bolum_id', $bolum_id)->get();
+
+        // Blade dosyasına yönlendir ve verileri gönder
+        return view('main.akademisyen_gun', compact('akademisyenler', 'haftanin_gunleri', 'akademisyenGunKayitlari'));
+    }
+
+    public function storeAkademisyenGun(Request $request)
+    {
+        $bolum_id = Auth::user()->bolum_id; // Oturum açmış kullanıcının bölüm id'si
+
+        $validated = $request->validate([
+            'akademisyenler' => 'required|array',
+            'akademisyenler.*.akademisyen_id' => 'required|exists:akademisyenler,id',
+            'akademisyenler.*.gunler' => 'nullable|array',
+            'akademisyenler.*.gunler.*' => 'string',
+        ]);
+
+        // Formdan gelen akademisyen ID'lerini bir diziye al
+        $gelenAkademisyenler = collect($validated['akademisyenler'])->pluck('akademisyen_id')->toArray();
+
+        // Mevcut kayıtları getir
+        $mevcutKayitlar = AkademisyenGun::where('bolum_id', $bolum_id)->get();
+
+        // Mevcut ancak formdan gönderilmeyen kayıtları sil
+        foreach ($mevcutKayitlar as $kayit) {
+            if (!in_array($kayit->akademisyen_id, $gelenAkademisyenler)) {
+                $kayit->delete();
+            }
+        }
+
+        // Gelen verilerle kaydet veya güncelle
+        foreach ($validated['akademisyenler'] as $akademisyen) {
+            // Akademisyen için mevcut kaydı bul
+            $kayit = AkademisyenGun::where('akademisyen_id', $akademisyen['akademisyen_id'])
+                ->where('bolum_id', $bolum_id)
+                ->first();
+
+            if ($kayit) {
+                // Güncelleyerek mevcut kaydı güncelle
+                $kayit->update([
+                    'gunler' => $akademisyen['gunler'] ?? [],
+                ]);
+            } else {
+                // Yeni kayıt oluştur
+                AkademisyenGun::create([
+                    'bolum_id' => $bolum_id,
+                    'akademisyen_id' => $akademisyen['akademisyen_id'],
+                    'gunler' => $akademisyen['gunler'] ?? [],
+                ]);
+            }
+        }
+
+        return redirect()->route('akademisyenler.gun')->with('success', 'Akademisyen gün ayarları başarıyla kaydedildi.');
+    }
+
+
+
+
+
 
 
 }

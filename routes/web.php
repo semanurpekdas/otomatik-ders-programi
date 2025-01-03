@@ -38,6 +38,10 @@ Route::get('/akademisyenler', [AkademisyenController::class, 'index'])->middlewa
 Route::post('/akademisyenler/ekle', [AkademisyenController::class, 'createAkademisyen'])->middleware(['auth'])->name('akademisyenler.store');
 Route::put('/akademisyenler/update/{guid}', [AkademisyenController::class, 'updateAkademisyen'])->middleware(['auth'])->name('akademisyenler.update');
 Route::delete('/akademisyenler/delete/{guid}', [AkademisyenController::class, 'deleteAkademisyen'])->middleware(['auth'])->name('akademisyenler.delete');
+Route::get('/akademisyenler/akademisyen-gün', [AkademisyenController::class, 'akademisyengun'])->middleware(['auth'])->name('akademisyenler.gun');
+Route::post('/akademisyenler/akademisyen-gun', [AkademisyenController::class, 'storeAkademisyenGun'])->middleware(['auth'])->name('akademisyenler.gun.store');
+
+
 
 Route::get('/dersprogrami', [DersProgramiController::class, 'index'])->middleware(['auth'])->name('dersprogrami');
 Route::post('/ders-programi/store', [DersProgramiController::class, 'store'])->middleware(['auth'])->name('ders_programi.store');
@@ -112,8 +116,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users/edit/{guid}', [AdminController::class, 'editUser'])->name('admin.editUser');
     Route::post('/admin/users/update/{guid}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
     Route::delete('/admin/users/delete/{guid}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
-
-
 });
 
 

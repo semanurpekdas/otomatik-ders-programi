@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class=" mt-3">
-                <div class="d-flex justify-content-between my-3">
+                <div class="d-flex justify-content-between my-4">
                     <div>
                         <button class="btn btn-warning text-white warning-active-overlay" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filtre</button>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -46,6 +46,7 @@
                         </div>
                     </div>
                     <div>
+                        <a href="{{ route('akademisyenler.gun') }}" class="btn btn-primary text-white primary-active-overlay">Akademisyen Gün Ayarları</a>
                         <button class="btn btn-secondary text-white secondary-active-overlay" data-bs-toggle="modal" data-bs-target="#akademisyengetir">Akademisyen Getir</button>
                         <div class="modal fade" id="akademisyengetir" tabindex="-1" aria-labelledby="sınıfEkleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

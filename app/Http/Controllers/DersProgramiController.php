@@ -82,10 +82,6 @@ class DersProgramiController extends Controller
     }
     
     
-    
-    
-    
-    
     public function store(Request $request)
     {
         $validated = $request->validate([
