@@ -16,7 +16,7 @@
                     <a href="{{ route('akademisyenler.gun') }}" class="btn btn-warning text-white warning-active-overlay">Akademisyen Gün Ayarları</a>
                 </div>
                 <div>
-                    <a href="{{ route('dersprogrami') }}" class="btn btn-dark text-white dark-active-overlay">Ders Programı Oluştur</a>
+                    <a href="{{ route('dersprogramigoruntule') }}" class="btn btn-dark text-white dark-active-overlay">Ders Programı Oluştur</a>
                 </div>
             </div>
             <div>

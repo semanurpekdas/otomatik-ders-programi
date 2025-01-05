@@ -39,4 +39,10 @@ class Ders extends Model
     {
         return $this->belongsTo(Akademisyen::class, 'hoca_id');
     }
+
+    // Salon ilişkisi
+    public function salon()
+    {
+        return $this->belongsTo(Salon::class, 'salon_id');
+    }
 }

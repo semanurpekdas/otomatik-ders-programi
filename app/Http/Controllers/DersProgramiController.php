@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ayar;
 use App\Models\Ders;
+use App\Models\Salon;
 use App\Models\Akademisyen;
+use App\Models\AkademisyenGun;
 use App\Models\DersProgramiSartlari;
 
 class DersProgramiController extends Controller
@@ -114,6 +116,45 @@ class DersProgramiController extends Controller
     
         return redirect()->back()->with('success', 'Ders programı başarıyla kaydedildi.');
     }
+
+    public function dersprogramıgoruntule()
+    {
+        // Ayarlar tablosundan günler ve günlük ders saati
+        $ayarlar = Ayar::where('bolum_id', Auth::user()->bolum_id)->first();
+        $gunler = json_decode($ayarlar->haftanin_gunleri ?? '[]');
+        $gunlukDersSaati = $ayarlar->gunluk_ders_saati;
     
+        // Dersler tablosundan ilişkilerle birlikte dersleri al
+        $dersler = Ders::with('hoca', 'salon')->get();
     
+        // Akademisyen uygun günleri
+        $akademisyenGunleri = AkademisyenGun::where('bolum_id', Auth::user()->bolum_id)
+            ->get()
+            ->map(function ($gun) {
+                return [
+                    'akademisyen_id' => $gun->akademisyen_id,
+                    'gunler' => is_string($gun->gunler) ? json_decode($gun->gunler, true) : $gun->gunler,
+                ];
+            });
+    
+        // Salon bilgileri
+        $salonlar = Salon::all();
+    
+        // Ders programı şartları
+        $dersProgramiSartlari = DersProgramiSartlari::where('bolum_id', Auth::user()->bolum_id)
+        ->get()
+        ->map(function ($sart) {
+            return $sart->ders_sartlari; // JSON formatındaki alanı alın
+        });
+    
+        // Blade'e verileri gönder
+        return view('main.dersprogramisayfasi', [
+            'gunler' => $gunler,
+            'gunlukDersSaati' => $gunlukDersSaati,
+            'dersler' => $dersler,
+            'akademisyenGunleri' => $akademisyenGunleri,
+            'salonlar' => $salonlar,
+            'dersProgramiSartlari' => $dersProgramiSartlari,
+        ]);
+    }
 }

@@ -44,6 +44,7 @@ Route::post('/akademisyenler/akademisyen-gun', [AkademisyenController::class, 's
 
 
 Route::get('/dersprogrami', [DersProgramiController::class, 'index'])->middleware(['auth'])->name('dersprogrami');
+Route::get('/dersprogrami/goruntule', [DersProgramiController::class, 'dersprogramıgoruntule'])->middleware(['auth'])->name('dersprogramigoruntule');
 Route::post('/ders-programi/store', [DersProgramiController::class, 'store'])->middleware(['auth'])->name('ders_programi.store');
 
 
