@@ -211,12 +211,7 @@
             let salonlar = @json($salonlar);
             let dersProgramiSartlari = @json($dersProgramiSartlari);
             console.log("Dersler:", dersler);
-            console.log("gunlukDersSaati:", gunlukDersSaati);
-            console.log("gunler:", gunler);
-            console.log("dersler:", dersler);
-            console.log("akademisyenGunleri:", akademisyenGunleri);
             console.log("dersProgramiSartlari:", dersProgramiSartlari);
-            console.log("salonlar:", salonlar);
 
             // JSON Parse işlemi gereken alanlar
             dersler = dersler.map(ders => {
@@ -240,7 +235,6 @@
 
                 // Her sınıf için program oluşturuluyor
                 const programTablolari = Object.keys(siniflar).map(sinif => {
-                    console.log(`Sınıf: ${sinif} için tablo oluşturuluyor...`);
                     return {
                         sinif,
                         tablo: createProgramTable(
@@ -283,10 +277,11 @@
                     parcalar.forEach((sure, index) => {
                         parcaliDersler.push({
                             ...ders,
-                            ders_adi: `${ders.ders_adi} (Parça ${index + 1})`,
+                            ders_adi: `${ders.ders_adi}`,
                             ders_sayisi: sure,
                         });
                     });
+
                 });
 
                 // 2. Şartlara Göre Yerleştir
@@ -308,25 +303,26 @@
                         return;
                     }
 
+
                     let atanacakSalon = "Bilinmiyor"; // Varsayılan salon
                     try {
                         const dersSiniflar = Array.isArray(ders.sinif_id) ? ders.sinif_id : JSON.parse(ders.sinif_id || "[]");
                         const dersSaatler = Array.isArray(ders.ders_sinif) ? ders.ders_sinif : JSON.parse(ders.ders_sinif || "[]");
 
                         // Süreye göre index bul
-                        const normalizedSure = Number(sure); // `sure` değerini sayıya çevir
-                        const normalizedDersSaatler = dersSaatler.map(Number); // `dersSaatler` dizisini sayılara çevir
+                        const normalizedSure = Number(sure); // sure değerini sayıya çevir
+                        const normalizedDersSaatler = dersSaatler.map(Number); // dersSaatler dizisini sayılara çevir
                         const index = normalizedDersSaatler.indexOf(normalizedSure); // Eşleştirme yap
 
                         if (index !== -1 && dersSiniflar[index]) {
                             const salon = salonlar.find(salon => salon.id == dersSiniflar[index]);
                             atanacakSalon = salon ? salon.isim : "Bilinmiyor";
                         } else {
-                            console.warn(`Süreye göre eşleşen salon bulunamadı, rastgele atanacak.`);
+                            console.warn('Süreye göre eşleşen salon bulunamadı, rastgele atanacak.');
                             atanacakSalon = salonlar[Math.floor(Math.random() * salonlar.length)].isim; // Rastgele salon ata
                         }
                     } catch (error) {
-                        console.error(`sinif_id veya ders_sinif işleme alınamadı: ${error.message}, Rastgele salon atanacak.`);
+                        console.error(`sinif_id veya ders_sinif işleme alınamadı: ${error.message}. Rastgele salon atanacak.`);
                         atanacakSalon = salonlar[Math.floor(Math.random() * salonlar.length)].isim; // Rastgele salon ata
                     }
 
@@ -477,7 +473,7 @@
                     }
 
                     if (kalanDersler.includes(ders)) {
-                        console.warn(`Ders rastgele yerleştirilemedi: ${ders.ders_adi}`);
+                        `console.warn(Ders rastgele yerleştirilemedi: ${ders.ders_adi});`
                     }
                 });
 
@@ -498,14 +494,15 @@
                         <tr>
                             <th scope="col">#</th>
                             ${[...Array(gunlukDersSaati).keys()].map(i => `<th scope="col">${i + 1}</th>`).join("")}
-                        </tr>`;
+                        </tr>
+                    `;
                     table.appendChild(header);
 
                     const body = document.createElement("tbody");
                     Object.entries(tablo).forEach(([gun, saatler]) => {
                         const row = document.createElement("tr");
                         row.innerHTML = `<th scope="row">${gun}</th>`;
-                        saatler.forEach((ders, index) => {
+                        saatler.forEach((ders) => {
                             if (ders && typeof ders === "object" && ders !== "merged") {
                                 row.innerHTML += `<td colspan="${ders.colspan}" class="text-center">${ders.dersAdi} (${ders.salonAdi})</td>`;
                             } else if (!ders) {
@@ -525,6 +522,205 @@
         });
 
     </script>
+
+<script>
+
+    // Function to check conflicts based on rooms between tables only
+    function checkConflicts(tables) {
+        const conflicts = [];
+        const schedule = {}; // To store room usage per day and time slot
+
+        tables.forEach((table, tableIndex) => {
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach((row) => {
+                const day = row.querySelector('th')?.innerText.trim();
+                const cells = row.querySelectorAll('td');
+
+                cells.forEach((cell, timeIndex) => {
+                    const colSpan = parseInt(cell.getAttribute('colspan') || '1', 10);
+                    const content = cell.innerText.trim();
+
+                    // Extract room information from content (e.g., "(207)")
+                    const roomMatch = content.match(/\((\d+)\)/);
+                    if (roomMatch) {
+                        const room = roomMatch[1];
+
+                        for (let i = timeIndex; i < timeIndex + colSpan; i++) {
+                            const timeSlot = `${day}-${i}`;
+
+                            if (!schedule[timeSlot]) {
+                                schedule[timeSlot] = {};
+                            }
+
+                            if (schedule[timeSlot][room]) {
+                                const existing = schedule[timeSlot][room];
+
+                                // Ensure conflict is only between different tables
+                                if (existing.table !== tableIndex + 1) {
+                                    conflicts.push({
+                                        table1: existing.table,
+                                        table2: tableIndex + 1,
+                                        day,
+                                        timeSlot: i + 1,
+                                        room,
+                                        conflict1: existing.content,
+                                        conflict2: content,
+                                    });
+                                }
+                            } else {
+                                schedule[timeSlot][room] = { table: tableIndex + 1, content };
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        return conflicts;
+    }
+
+    // Function to resolve conflicts by changing rooms
+    function resolveConflicts(conflicts, tables, salonlar, button) {
+        let conflictResolved = false; // To track if a conflict is resolved
+        const maxAttempts = 20; // Prevent infinite loops by limiting attempts
+
+        conflicts.forEach(conflict => {
+            const tableToFix = tables[conflict.table2 - 1]; // Fixing the second table by default
+            const rows = tableToFix.querySelectorAll('tbody tr');
+            const dayRow = Array.from(rows).find(row => row.querySelector('th')?.innerText.trim() === conflict.day);
+
+            if (dayRow) {
+                const cells = dayRow.querySelectorAll('td');
+                const targetCell = cells[conflict.timeSlot - 1];
+                if (targetCell) {
+                    const currentRoom = conflict.room;
+
+                    let newRoom = null;
+                    let attempt = 0;
+
+                    // Try to find a suitable room that doesn't create a conflict
+                    while (attempt < maxAttempts) {
+                        newRoom = salonlar.find(salon => {
+                            if (salon.isim === currentRoom) return false;
+
+                            // Check if the new room causes a conflict in this timeslot
+                            return !conflicts.some(existingConflict =>
+                                existingConflict.day === conflict.day &&
+                                existingConflict.timeSlot === conflict.timeSlot &&
+                                existingConflict.room === salon.isim
+                            );
+                        });
+
+                        if (newRoom) {
+                            // Change the room in the target cell
+                            targetCell.innerText = targetCell.innerText.replace(`(${currentRoom})`, `(${newRoom.isim})`);
+                            console.log(`Changed room from ${currentRoom} to ${newRoom.isim} for table ${conflict.table2}, day ${conflict.day}, time slot ${conflict.timeSlot}`);
+
+                            // Recheck conflicts to ensure no new conflicts are created
+                            const newConflicts = checkConflicts(tables);
+                            if (!newConflicts.some(newConflict =>
+                                newConflict.day === conflict.day &&
+                                newConflict.timeSlot === conflict.timeSlot &&
+                                newConflict.room === newRoom.isim
+                            )) {
+                                conflictResolved = true;
+                                break; // Room change is successful with no new conflicts
+                            } else {
+                                console.warn(`New conflict detected with room ${newRoom.isim}. Retrying...`);
+                            }
+                        } else {
+                            console.warn(`No available rooms to resolve conflict for table ${conflict.table2}, day ${conflict.day}, time slot ${conflict.timeSlot}`);
+                            break;
+                        }
+
+                        attempt++;
+                    }
+
+                    if (attempt >= maxAttempts) {
+                        console.error(`Unable to resolve conflict for table ${conflict.table2}, day ${conflict.day}, time slot ${conflict.timeSlot} after ${maxAttempts} attempts.`);
+                    }
+                } else {
+                    console.warn(`Target cell not found for table ${conflict.table2}, day ${conflict.day}, time slot ${conflict.timeSlot}`);
+                }
+            } else {
+                console.warn(`Day row not found for table ${conflict.table2}, day ${conflict.day}`);
+            }
+        });
+
+        // If conflicts are still present, click the button to regenerate
+        if (conflicts.length > 0) {
+            console.log(`Conflicts still present: ${conflicts.length}. Clicking the button to regenerate schedule.`);
+            if (button) button.click();
+            setTimeout(() => analyzeScheduleConflicts(), 1000); // Re-analyze after 1 second
+        } else {
+            console.log('All conflicts resolved. No conflicts remain.');
+        }
+    }
+
+    // Function to display the conflicts
+    function displayConflicts(conflicts, container) {
+        if (conflicts.length === 0) {
+            console.log('No conflicts found.');
+            return;
+        }
+
+        console.log('Conflicts:', conflicts);
+
+        const conflictTable = document.createElement('table');
+        conflictTable.classList.add('table', 'table-bordered', 'my-3');
+
+        const header = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['Table 1', 'Table 2', 'Day', 'Time Slot', 'Room', 'Conflict 1', 'Conflict 2'].forEach((heading) => {
+            const th = document.createElement('th');
+            th.innerText = heading;
+            headerRow.appendChild(th);
+        });
+        header.appendChild(headerRow);
+        conflictTable.appendChild(header);
+
+        const body = document.createElement('tbody');
+        conflicts.forEach((conflict) => {
+            const row = document.createElement('tr');
+            Object.values(conflict).forEach((value) => {
+                const td = document.createElement('td');
+                td.innerText = value;
+                row.appendChild(td);
+            });
+            body.appendChild(row);
+        });
+        container.appendChild(conflictTable);
+    }
+
+    // Main function to check and resolve conflicts
+    function analyzeScheduleConflicts() {
+        const container = document.getElementById('dersprogramıcontainer');
+        const button = document.getElementById('programolusturbutton');
+        const salonlar = @json($salonlar); // Assuming this gets the list of rooms
+
+        if (!button || !container || !salonlar) {
+            console.error('Required elements not found.');
+            return;
+        }
+
+        function handleConflicts() {
+            const tables = container.querySelectorAll('table'); // Ensure tables are re-queried after updates
+            let conflicts = checkConflicts(tables);
+
+            if (conflicts.length > 0) {
+                console.log(`Conflicts found: ${conflicts.length}. Resolving conflicts or regenerating schedule.`);
+                displayConflicts(conflicts, container);
+                resolveConflicts(conflicts, tables, salonlar, button);
+            } else {
+                console.log('No conflicts remain. Schedule is conflict-free.');
+            }
+        }
+
+        handleConflicts();
+    }
+
+</script>
+
 
 
 
